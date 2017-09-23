@@ -572,37 +572,23 @@ next_thread_to_run (void)
   if (list_empty (&ready_list))
     return idle_thread;
 
-
-
-  // list_remove(&e_maxp);
-  // return &t_maxp;
-  //
-  // return list_entry (list_pop_front (&ready_list), struct thread, elem);
-
   struct list_elem *e;
   struct thread *t_maxp = NULL; // thread with max priority
   struct list_elem *e_maxp = NULL; // list_elem with max priority
   int maxp = PRI_MIN-1; // init with exceptional priority
-
   for (e = list_begin (&ready_list); e != list_end (&ready_list);
        e = list_next (e))
     {
       struct thread *t = list_entry (e, struct thread, elem);
-      if (maxp <= PRI_MIN-1)
+      if ((maxp <= PRI_MIN-1) || (maxp < t_maxp->priority))
         {
           t_maxp = t;
           e_maxp = e;
           maxp = t_maxp->priority;
         }
-      else
-        {
-          // if (maxp > t_maxp->priority) {
-          //   t_maxp = t;
-          // }
-        }
     }
-
   list_remove(e_maxp);
+
   return list_entry (e_maxp, struct thread, elem);
 }
 
