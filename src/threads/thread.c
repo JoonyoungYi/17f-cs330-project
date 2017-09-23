@@ -591,6 +591,7 @@ next_thread_to_run (void)
           // }
         }
     }
+  list_remove(&t_maxp);
   return &t_maxp;
   //
   // return list_entry (list_pop_front (&ready_list), struct thread, elem);
