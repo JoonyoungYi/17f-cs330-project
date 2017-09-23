@@ -69,6 +69,9 @@ static void kernel_thread (thread_func *, void *aux);
 
 static void idle (void *aux UNUSED);
 static struct thread *running_thread (void);
+static bool list_priority_less_func (const struct list_elem *a,
+                                     const struct list_elem *b,
+                                     void *aux);
 static struct thread *next_thread_to_run (void);
 static void init_thread (struct thread *, const char *name, int priority);
 static bool is_thread (struct thread *) UNUSED;
