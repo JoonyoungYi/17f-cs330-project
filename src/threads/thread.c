@@ -73,6 +73,9 @@ static struct thread *next_thread_to_run (void);
 static void init_thread (struct thread *, const char *name, int priority);
 static bool is_thread (struct thread *) UNUSED;
 static void *alloc_frame (struct thread *, size_t size);
+static bool list_priority_less_func (const struct list_elem *a,
+                                     const struct list_elem *b,
+                                     void *aux);
 static void schedule (void);
 void schedule_tail (struct thread *prev);
 static tid_t allocate_tid (void);
