@@ -579,15 +579,21 @@ next_thread_to_run (void)
        e = list_next (e))
     {
       struct thread *t = list_entry (e, struct thread, elem);
-      if (maxp <= PRI_MIN-1) {
-        t_maxp = t;
-        maxp = t_maxp->priority;
-      }
+      if (maxp <= PRI_MIN-1)
+        {
+          t_maxp = t;
+          maxp = t_maxp->priority;
+        }
+      else
+        {
+          // if (maxp > t_maxp->priority) {
+          //   t_maxp = t;
+          // }
+        }
     }
+  return &t_maxp;
   //
-  // return t_maxp;
-
-  return list_entry (list_pop_front (&ready_list), struct thread, elem);
+  // return list_entry (list_pop_front (&ready_list), struct thread, elem);
 }
 
 /* Completes a thread switch by activating the new thread's page
