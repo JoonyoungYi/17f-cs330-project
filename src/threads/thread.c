@@ -569,7 +569,7 @@ alloc_frame (struct thread *t, size_t size)
 }
 
 /* function of comparing priority of thread */
-static bool
+static inline bool
 list_priority_less_func (const struct list_elem *a,
                          const struct list_elem *b,
                          void *aux)
