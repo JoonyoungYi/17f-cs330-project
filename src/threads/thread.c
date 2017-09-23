@@ -598,6 +598,7 @@ next_thread_to_run (void)
   //
   // return list_entry (list_pop_front (&ready_list), struct thread, elem);
   struct list_elem *e = list_begin(&ready_list);
+  list_remove(e);
   return list_entry (e, struct thread, elem);
 }
 
