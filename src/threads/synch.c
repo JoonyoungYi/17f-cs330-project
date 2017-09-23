@@ -106,6 +106,19 @@ sema_try_down (struct semaphore *sema)
   return success;
 }
 
+/* function of comparing priority of thread */
+//TODO: merge with thread.c
+static bool
+list_priority_less_func (const struct list_elem *a,
+                         const struct list_elem *b,
+                         void *aux)
+{
+  const struct thread* t_a = list_entry(a, struct thread, elem);
+  const struct thread* t_b = list_entry(b, struct thread, elem);
+
+  return t_a->priority > t_b->priority;
+}
+
 /* Up or "V" operation on a semaphore.  Increments SEMA's value
    and wakes up one thread of those waiting for SEMA, if any.
 
