@@ -582,10 +582,10 @@ next_thread_to_run (void)
       if (maxp <= PRI_MIN-1) {
         t_maxp = t;
         maxp = t_maxp->priority;
-      } 
+      }
     }
 
-  return &t_maxp;
+  return t_maxp;
 }
 
 /* Completes a thread switch by activating the new thread's page
