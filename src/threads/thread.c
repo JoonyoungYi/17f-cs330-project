@@ -325,8 +325,8 @@ void thread_sleep (int64_t ticks){
     curr-> time_to_wake_up = ticks;
 
     // insert current thread into sleep list and block
-    list_insert_ordered (&ready_list, &curr->elem, list_priority_less_func, 0);
-    // list_push_back (&sleep_list, &curr->elem);
+    // list_insert_ordered (&ready_list, &curr->elem, list_priority_less_func, NULL);
+    list_push_back (&sleep_list, &curr->elem);
     thread_block();
 
     // update minimal_time_to_wake_up if needed
