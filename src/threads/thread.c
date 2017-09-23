@@ -571,7 +571,7 @@ alloc_frame (struct thread *t, size_t size)
 static bool
 list_priority_less_func (const struct list_elem *a,
                          const struct list_elem *b,
-                         void *aux);
+                         void *aux)
 {
   const struct thread* t_a = list_entry(a, struct thread, elem);
   const struct thread* t_b = list_entry(b, struct thread, elem);
