@@ -427,10 +427,6 @@ void
 thread_set_priority (int new_priority)
 {
   thread_current ()->priority = new_priority;
-
-  /* If added priority is bigger than current running process, yield. */
-  if (new_priority > thread_current ()->priority)
-    thread_yield ();
 }
 
 /* Returns the current thread's priority. */
@@ -571,6 +567,18 @@ alloc_frame (struct thread *t, size_t size)
   return t->stack;
 }
 
+/* function of comparing priority of thread */
+static bool
+list_priority_less_func (const struct list_elem *a,
+                         const struct list_elem *b,
+                         void *aux);
+{
+  const struct thread* t_a = list_entry(a, struct thread, elem);
+  const struct thread* t_b = list_entry(b, struct thread, elem);
+
+  return t_a->priority > t_b->priority;
+}
+
 /* Chooses and returns the next thread to be scheduled.  Should
    return a thread from the run queue, unless the run queue is
    empty.  (If the running thread can continue running, then it
@@ -581,25 +589,11 @@ next_thread_to_run (void)
 {
   if (list_empty (&ready_list))
     return idle_thread;
-
-  struct list_elem *e;
-  struct thread *t_maxp = NULL; // thread with max priority
-  struct list_elem *e_maxp = NULL; // list_elem with max priority
-  int maxp = PRI_MIN-1; // init with exceptional priority
-  for (e = list_begin (&ready_list); e != list_end (&ready_list);
-       e = list_next (e))
+  else
     {
-      struct thread *t = list_entry (e, struct thread, elem);
-      if ((maxp <= PRI_MIN-1) || (maxp < t_maxp->priority))
-        {
-          t_maxp = t;
-          e_maxp = e;
-          maxp = t_maxp->priority;
-        }
+      list_sort(&ready_list, list_priority_less_func, NULL);
+      return list_entry (list_pop_front (&ready_list), struct thread, elem);
     }
-  list_remove(e_maxp);
-
-  return list_entry (e_maxp, struct thread, elem);
 }
 
 /* Completes a thread switch by activating the new thread's page
