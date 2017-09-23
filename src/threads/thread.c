@@ -178,6 +178,8 @@ thread_create (const char *name, int priority,
   tid_t tid;
 
   ASSERT (function != NULL);
+  ASSERT (priority >= PRI_MIN); // For Defensive Coding
+  ASSERT (priority <= PRI_MAX); // For Defensive Coding
 
   /* Allocate thread. */
   t = palloc_get_page (PAL_ZERO);
@@ -204,6 +206,11 @@ thread_create (const char *name, int priority,
 
   /* Add to run queue. */
   thread_unblock (t);
+
+  /* If added priority is bigger than current running process, yield. */
+  if (priority > thread_current ()->priority) {
+    thread_yield ();
+  }
 
   return tid;
 }
