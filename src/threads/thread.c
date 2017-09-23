@@ -432,7 +432,7 @@ thread_set_priority (int new_priority)
   thread_current ()->priority = new_priority;
 
   /* If added priority is bigger than current running process, yield. */
-  if (priority > thread_current ()->priority)
+  if (new_priority > thread_current ()->priority)
     thread_yield ();
 }
 
