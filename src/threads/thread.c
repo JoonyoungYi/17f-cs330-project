@@ -571,21 +571,22 @@ next_thread_to_run (void)
 {
   if (list_empty (&ready_list))
     return idle_thread;
-
-  struct list_elem *e;
-  struct thread *t_maxp = NULL; // thread with max priority
-  int maxp = PRI_MIN-1; // init with exceptional priority
-  for (e = list_begin (&ready_list); e != list_end (&ready_list);
-       e = list_next (e))
-    {
-      struct thread *t = list_entry (e, struct thread, elem);
-      if (maxp <= PRI_MIN-1) {
-        t_maxp = t;
-        maxp = t_maxp->priority;
-      }
-    }
-
-  return t_maxp;
+  else
+    return list_entry (list_pop_front (&ready_list), struct thread, elem);
+  // struct list_elem *e;
+  // struct thread *t_maxp = NULL; // thread with max priority
+  // int maxp = PRI_MIN-1; // init with exceptional priority
+  // for (e = list_begin (&ready_list); e != list_end (&ready_list);
+  //      e = list_next (e))
+  //   {
+  //     struct thread *t = list_entry (e, struct thread, elem);
+  //     if (maxp <= PRI_MIN-1) {
+  //       t_maxp = t;
+  //       maxp = t_maxp->priority;
+  //     }
+  //   }
+  //
+  // return t_maxp;
 }
 
 /* Completes a thread switch by activating the new thread's page
