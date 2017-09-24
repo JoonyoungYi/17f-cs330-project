@@ -301,18 +301,21 @@ remove_unrelated_threads (struct lock *lock)
 void
 priority_refresh ()
 {
-  int max_priority = PRI_MIN;
   struct thread *curr = thread_current ();
-  struct list_elem *e;
-  for (e = list_begin (&curr->donated_threads);
-       e != list_end (&curr->donated_threads);
-       e = list_next (e))
+  if (!list_empty (&curr->donated_threads))
     {
-      struct thread *t = list_entry (e, struct thread, elem);
-      if (max_priority < t->priority)
-        max_priority = t->priority;
+      int max_priority = PRI_MIN;
+      struct list_elem *e;
+      for (e = list_begin (&curr->donated_threads);
+           e != list_end (&curr->donated_threads);
+           e = list_next (e))
+        {
+          struct thread *t = list_entry (e, struct thread, elem);
+          if (max_priority < t->priority)
+            max_priority = t->priority;
+        }
+      thread_current ()->priority = max_priority;
     }
-  thread_current ()->priority = max_priority;
 }
 
 /* Releases LOCK, which must be owned by the current thread.
