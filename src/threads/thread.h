@@ -92,8 +92,10 @@ struct thread
 
     struct lock *waiting_lock;          /* waiting lock to run properly:JY */
     int initial_priority;               /* initial priority:JY */
+    struct list donated_threads;        /* handling multiple donations:JY */
+    struct list_elem donated_elem;      /* handling multiple donations:JY */
 
-    int time_to_wake_up;                   /* To save what time is remained to wake*/
+    int time_to_wake_up;                /* To save what time is remained to wake*/
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */

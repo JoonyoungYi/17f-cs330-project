@@ -76,11 +76,7 @@ sema_down (struct semaphore *sema)
   old_level = intr_disable ();
   while (sema->value == 0)
     {
-      list_insert_ordered(&sema->waiters,
-                          &thread_current ()->elem,
-                          list_priority_less_func,
-                          NULL);
-      // list_push_back (&sema->waiters, &thread_current ()->elem);
+      list_push_back (&sema->waiters, &thread_current ()->elem);
       thread_block ();
     }
   sema->value--;
@@ -228,6 +224,7 @@ priority_donate (struct lock *lock)
   if (prev->initial_priority > prev->priority)
     prev->initial_priority = prev->priority;
   prev->priority = curr->priority;
+  list_push_back (&prev->donated_threads, &curr->donated_elem);
 
   if (prev->waiting_lock != NULL)
     priority_donate (prev->waiting_lock);
@@ -248,8 +245,8 @@ lock_acquire (struct lock *lock)
   ASSERT (!intr_context ());
   ASSERT (!lock_held_by_current_thread (lock));
 
-  struct thread *curr = thread_current ();
   curr->waiting_lock = lock;
+  struct thread *curr = thread_current ();
   priority_donate(lock);
 
   sema_down (&lock->semaphore);
@@ -285,6 +282,36 @@ priority_return (struct lock *lock)
   curr->priority = curr->initial_priority;
 }
 
+/* */
+void
+remove_unrelated_threads (struct lock *lock)
+{
+  struct thread *curr = thread_current ();
+  for (e = list_begin (&curr->donated_threads);
+       e != list_end (&curr->donated_threads);)
+    {
+      struct thread *t = list_entry (e, struct thread, elem);
+      e = list_next (e);
+      if (t->waiting_lock == lock)
+        list_remove(&t->elem);
+    }
+}
+
+void
+priority_refresh ()
+{
+  int max_priority = PRI_MIN;
+  for (e = list_begin (&curr->donated_threads);
+       e != list_end (&curr->donated_threads);
+       e = list_next (e))
+    {
+      struct thread *t = list_entry (e, struct thread, elem);
+      if (max_priority < t->priority)
+        max_priority = t->priority;
+    }
+  thread_current ()->priority = max_priority;
+}
+
 /* Releases LOCK, which must be owned by the current thread.
    This is lock_release function.
 
@@ -298,6 +325,8 @@ lock_release (struct lock *lock)
   ASSERT (lock_held_by_current_thread (lock));
 
   priority_return (lock);
+  remove_unrelated_threads (lock);
+  priority_refresh ();
 
   lock->holder = NULL;
   sema_up (&lock->semaphore);
