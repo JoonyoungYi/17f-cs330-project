@@ -243,9 +243,11 @@ lock_acquire (struct lock *lock)
   ASSERT (!intr_context ());
   ASSERT (!lock_held_by_current_thread (lock));
 
+  enum intr_level old_level = intr_disable ();
   struct thread *curr = thread_current ();
   curr->waiting_lock = lock;
-  priority_donate(lock);
+  priority_donate (lock);
+  intr_set_level (old_level);
 
   sema_down (&lock->semaphore);
   lock->holder = curr;
@@ -330,15 +332,15 @@ lock_release (struct lock *lock)
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
 
-  enum intr_level old_level = intr_disable();
+  enum intr_level old_level = intr_disable ();
   priority_return (lock);
   remove_unrelated_threads (lock);
   priority_refresh ();
-  intr_set_level(old_level);
+  intr_set_level (old_level);
 
   sema_up (&lock->semaphore);
   lock->holder = NULL;
-  thread_yield();
+  thread_yield ();
 }
 
 /* Returns true if the current thread holds LOCK, false
