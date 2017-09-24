@@ -294,7 +294,7 @@ remove_unrelated_threads (struct lock *lock)
   struct thread *curr = thread_current ();
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);
-       e = list_next (e);)
+       e = list_next (e))
     {
       struct thread *t = list_entry (e, struct thread, donated_elem);
       if (t->waiting_lock == lock)
