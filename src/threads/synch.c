@@ -222,15 +222,15 @@ priority_donate (struct lock *lock)
 
   struct thread *prev = lock->holder;
   struct thread *curr = thread_current ();
-  if (prev->priority >= curr->priority)
+  if (prev->priority > curr->priority)
     return;
   prev->priority = curr->priority;
 
-  list_insert_ordered(&prev->donated_threads,
-                      &curr->donated_elem,
-                      list_priority_less_func,
-                      NULL);
-  // list_push_back (&prev->donated_threads, &curr->donated_elem);
+  // list_insert_ordered(&prev->donated_threads,
+  //                     &curr->donated_elem,
+  //                     list_priority_less_func,
+  //                     NULL);
+  list_push_back (&prev->donated_threads, &curr->donated_elem);
 
   if (prev->waiting_lock != NULL)
     priority_donate (prev->waiting_lock);
