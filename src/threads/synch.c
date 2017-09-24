@@ -221,10 +221,8 @@ priority_donate (struct lock *lock)
   if (prev->priority >= curr->priority)
     return;
 
-  // if (prev->initial_priority > prev->priority)
-  //   prev->initial_priority = prev->priority;
   prev->priority = curr->priority;
-  list_push_back (&prev->donated_threads, &curr->donated_elem);
+  // list_push_back (&prev->donated_threads, &curr->donated_elem);
 
   if (prev->waiting_lock != NULL)
     priority_donate (prev->waiting_lock);
@@ -340,8 +338,8 @@ lock_release (struct lock *lock)
 
   enum intr_level old_level = intr_disable();
   priority_return (lock);
-  // remove_unrelated_threads (lock);
-  // priority_refresh ();
+  remove_unrelated_threads (lock);
+  priority_refresh ();
   intr_set_level(old_level);
 
   sema_up (&lock->semaphore);
