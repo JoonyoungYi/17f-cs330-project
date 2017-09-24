@@ -411,7 +411,7 @@ cond_wait (struct condition *cond, struct lock *lock)
   waiter.priority = thread_current ()->priority;
   list_insert_ordered (&cond->waiters,
                        &waiter.elem,
-                       list_priority_less_func,
+                       list_semaphore_less_func,
                        NULL);
   // list_push_back (&cond->waiters, &waiter.elem);
   lock_release (lock);
