@@ -341,7 +341,7 @@ lock_release (struct lock *lock)
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
 
-  printf('>> list_size : %d', list_size(&lock->holder->donated_threads));
+  msg('>> list_size : %u', list_size(&lock->holder->donated_threads));
   assert false;
   enum intr_level old_level = intr_disable ();
   priority_return ();
