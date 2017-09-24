@@ -298,13 +298,15 @@ priority_return ()
 void
 remove_unrelated_threads (struct lock *lock)
 {
-  struct list_elem *e;
   struct thread *curr = thread_current ();
-  struct thread *t;
+  if (list_empty (&curr->donated_threads))
+    return;
+
+  struct list_elem *e;
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);)
     {
-      t = list_entry (e, struct thread, donated_elem);
+      struct thread *t = list_entry (e, struct thread, donated_elem);
       e = list_next (e);
       if (t->waiting_lock == lock)
         list_remove(&t->donated_elem);
