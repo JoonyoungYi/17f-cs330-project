@@ -286,7 +286,8 @@ priority_return (struct lock *lock)
 void
 remove_unrelated_threads (struct lock *lock)
 {
-  struct thread *curr = thread_current ();
+  // struct thread *curr = thread_current ();
+  struct thread *curr = lock->holder;
   struct list_elem *e;
   // msg('TEST -> ASITE BISTE');
   for (e = list_begin (&curr->donated_threads);
@@ -334,11 +335,11 @@ lock_release (struct lock *lock)
   enum intr_level old_level = intr_disable();
   priority_return (lock);
   remove_unrelated_threads (lock);
-  // priority_refresh ();
+  priority_refresh ();
   intr_set_level(old_level);
 
-  lock->holder = NULL;
   sema_up (&lock->semaphore);
+  lock->holder = NULL;
   thread_yield();
 }
 
