@@ -288,6 +288,7 @@ remove_unrelated_threads (struct lock *lock)
 {
   struct thread *curr = thread_current ();
   struct list_elem *e;
+  msg('TEST -> ASITE BISTE');
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);)
     {
@@ -331,7 +332,7 @@ lock_release (struct lock *lock)
   ASSERT (lock_held_by_current_thread (lock));
 
   priority_return (lock);
-  // remove_unrelated_threads (lock);
+  remove_unrelated_threads (lock);
   // priority_refresh ();
 
   lock->holder = NULL;
