@@ -222,8 +222,8 @@ priority_donate (struct lock *lock)
     return;
 
   prev->priority = curr->priority;
-  // list_push_back (&prev->donated_threads, &curr->donated_elem);
-
+  list_push_back (&prev->donated_threads, &curr.donated_elem);
+  
   if (prev->waiting_lock != NULL)
     priority_donate (prev->waiting_lock);
 }
@@ -284,10 +284,8 @@ priority_return (struct lock *lock)
 void
 remove_unrelated_threads (struct lock *lock)
 {
-  // struct thread *curr = thread_current ();
   struct thread *curr = lock->holder;
   struct list_elem *e;
-  // msg('TEST -> ASITE BISTE');
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);)
     {
@@ -303,25 +301,21 @@ priority_refresh ()
 {
   struct thread *curr = thread_current ();
   if (list_empty (&curr->donated_threads))
-    {
-      curr->priority = curr->initial_priority;
-    }
-  else
-    {
-      int max_priority = PRI_MIN;
-      struct list_elem *e;
-      for (e = list_begin (&curr->donated_threads);
-           e != list_end (&curr->donated_threads);
-           e = list_next (e))
-        {
-          struct thread *t = list_entry (e, struct thread, elem);
-          if (max_priority < t->priority)
-            max_priority = t->priority;
-        }
+    return;
 
-      if (curr->initial_priority < max_priority)
-        curr->priority = max_priority;
+  int max_priority = PRI_MIN;
+  struct list_elem *e;
+  for (e = list_begin (&curr->donated_threads);
+       e != list_end (&curr->donated_threads);
+       e = list_next (e))
+    {
+      struct thread *t = list_entry (e, struct thread, elem);
+      if (max_priority < t->priority)
+        max_priority = t->priority;
     }
+
+  if (curr->initial_priority < max_priority)
+    curr->priority = max_priority;
 }
 
 /* Releases LOCK, which must be owned by the current thread.
