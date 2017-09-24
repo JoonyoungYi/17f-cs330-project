@@ -291,6 +291,10 @@ void
 remove_unrelated_threads (struct lock *lock)
 {
   struct thread *curr = lock->holder;
+  if (list_empty(&curr->donated_threads)){
+    return;
+  }
+
   struct list_elem *e;
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);)
