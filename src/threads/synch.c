@@ -218,7 +218,7 @@ priority_donate (struct lock *lock)
 
   if (lock->holder->priority >= thread_current ()->priority)
     return;
-  lock->holder->priority = curr->priority;
+  lock->holder->priority = thread_current ()->priority;
 
   if (lock->holder->waiting_lock != NULL)
     lock_donation (lock->holder->waiting_lock);
