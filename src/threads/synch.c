@@ -245,8 +245,8 @@ lock_acquire (struct lock *lock)
   ASSERT (!intr_context ());
   ASSERT (!lock_held_by_current_thread (lock));
 
-  curr->waiting_lock = lock;
   struct thread *curr = thread_current ();
+  curr->waiting_lock = lock;
   priority_donate(lock);
 
   sema_down (&lock->semaphore);
@@ -287,6 +287,7 @@ void
 remove_unrelated_threads (struct lock *lock)
 {
   struct thread *curr = thread_current ();
+  struct list_elem *e;
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);)
     {
@@ -301,6 +302,8 @@ void
 priority_refresh ()
 {
   int max_priority = PRI_MIN;
+  struct thread *curr = thread_current ();
+  struct list_elem *e;
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);
        e = list_next (e))
