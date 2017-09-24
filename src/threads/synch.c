@@ -328,7 +328,7 @@ lock_release (struct lock *lock)
   ASSERT (lock_held_by_current_thread (lock));
 
   priority_return (lock);
-  remove_unrelated_threads (lock);
+  // remove_unrelated_threads (lock);
   // priority_refresh ();
 
   lock->holder = NULL;
