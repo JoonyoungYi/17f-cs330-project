@@ -223,8 +223,8 @@ priority_donate (struct lock *lock)
   prev->initial_priority = prev->priority;
   prev->priority = curr->priority;
 
-  // if (lock->holder->waiting_lock != NULL)
-    // priority_donate (lock->holder->waiting_lock);
+  if (lock->holder->waiting_lock != NULL)
+    priority_donate (lock->holder->waiting_lock);
 }
 
 /* Acquires LOCK, sleeping until it becomes available if
@@ -276,7 +276,7 @@ void
 priority_return (struct lock *lock)
 {
   struct thread *curr = thread_current ();
-  curr->priority = curr->initial_priority;
+  curr->priority = curr->original_priority;
 }
 
 /* Releases LOCK, which must be owned by the current thread.
@@ -291,7 +291,7 @@ lock_release (struct lock *lock)
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
 
-  // priority_return (lock);
+  priority_return (lock);
 
   lock->holder = NULL;
   sema_up (&lock->semaphore);
