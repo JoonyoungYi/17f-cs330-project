@@ -38,6 +38,10 @@ static bool list_priority_less_func (const struct list_elem *a,
 static bool list_semaphore_less_func (const struct list_elem *a,
                                       const struct list_elem *b,
                                       void *aux);
+void priority_donate (struct lock *lock);
+void priority_return (void);
+void remove_unrelated_threads (struct lock *lock);
+void priority_refresh (void);
 
 /* Initializes semaphore SEMA to VALUE.  A semaphore is a
    nonnegative integer along with two atomic operators for
