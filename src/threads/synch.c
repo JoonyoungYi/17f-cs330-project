@@ -338,7 +338,7 @@ remove_unrelated_threads (struct lock *lock)
 }
 
 void
-priority_refresh (struct thread *curr)
+priority_refresh ()
 {
   struct thread *curr = thread_current ();
   if (list_empty (&curr->donated_threads))
