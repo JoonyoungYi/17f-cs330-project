@@ -288,7 +288,6 @@ lock_release (struct lock *lock)
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
 
-  list_remove (&lock->elem);
   priority_return (lock);
 
   lock->holder = NULL;
