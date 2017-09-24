@@ -276,7 +276,7 @@ void
 priority_return (struct lock *lock)
 {
   struct thread *curr = thread_current ();
-  curr->priority = curr->original_priority;
+  curr->priority = curr->initial_priority;
 }
 
 /* Releases LOCK, which must be owned by the current thread.
