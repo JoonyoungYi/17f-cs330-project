@@ -221,7 +221,7 @@ priority_donate (struct lock *lock)
   lock->holder->priority = thread_current ()->priority;
 
   if (lock->holder->waiting_lock != NULL)
-    lock_donation (lock->holder->waiting_lock);
+    priority_donate (lock->holder->waiting_lock);
 }
 
 /* Acquires LOCK, sleeping until it becomes available if
