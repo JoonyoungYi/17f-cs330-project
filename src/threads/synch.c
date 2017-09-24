@@ -221,8 +221,8 @@ priority_donate (struct lock *lock)
   if (prev->priority >= curr->priority)
     return;
 
-  if (prev->initial_priority > prev->priority)
-    prev->initial_priority = prev->priority;
+  // if (prev->initial_priority > prev->priority)
+  //   prev->initial_priority = prev->priority;
   prev->priority = curr->priority;
   list_push_back (&prev->donated_threads, &curr->donated_elem);
 
@@ -329,7 +329,7 @@ lock_release (struct lock *lock)
 
   priority_return (lock);
   remove_unrelated_threads (lock);
-  priority_refresh ();
+  // priority_refresh ();
 
   lock->holder = NULL;
   sema_up (&lock->semaphore);
