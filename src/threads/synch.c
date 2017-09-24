@@ -318,7 +318,8 @@ remove_unrelated_threads (struct lock *lock)
     return;
 
   struct list_elem *e;
-  struct thread *curr = lock->holder;
+  // struct thread *curr = lock->holder;
+  struct thread *curr = thread_current ();
   struct thread *t;
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads) && e != NULL;)
@@ -337,7 +338,7 @@ remove_unrelated_threads (struct lock *lock)
 }
 
 void
-priority_refresh ()
+priority_refresh (struct thread *curr)
 {
   struct thread *curr = thread_current ();
   if (list_empty (&curr->donated_threads))
