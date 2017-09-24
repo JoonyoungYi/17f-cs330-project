@@ -209,6 +209,21 @@ lock_init (struct lock *lock)
   sema_init (&lock->semaphore, 1);
 }
 
+/* */
+void
+priority_donate (struct lock *lock)
+{
+  if (lock->holder == NULL)
+    return;
+
+  if (lock->holder->priority >= thread_current ()->priority)
+    return;
+  lock->holder->priority = curr->priority;
+
+  if (lock->holder->waiting_lock != NULL)
+    lock_donation (lock_owner->trying_lock);
+}
+
 /* Acquires LOCK, sleeping until it becomes available if
    necessary.  The lock must not already be held by the current
    thread.
@@ -224,8 +239,13 @@ lock_acquire (struct lock *lock)
   ASSERT (!intr_context ());
   ASSERT (!lock_held_by_current_thread (lock));
 
+  struct thread *curr = thread_current ();
+  curr->waiting_lock = lock;
+  priority_donate(lock);
+
   sema_down (&lock->semaphore);
-  lock->holder = thread_current ();
+  lock->holder = curr;
+  curr->waiting_lock = NULL;
 }
 
 /* Tries to acquires LOCK and returns true if successful or false
@@ -248,6 +268,14 @@ lock_try_acquire (struct lock *lock)
   return success;
 }
 
+/* */
+void
+priority_return (struct lock *lock)
+{
+  struct thread *curr = thread_current ();
+  curr->priority = curr->initial_priority;
+}
+
 /* Releases LOCK, which must be owned by the current thread.
    This is lock_release function.
 
@@ -259,6 +287,9 @@ lock_release (struct lock *lock)
 {
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
+
+  list_remove (&lock->elem);
+  priority_return (lock);
 
   lock->holder = NULL;
   sema_up (&lock->semaphore);
