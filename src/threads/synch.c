@@ -324,12 +324,14 @@ remove_unrelated_threads (struct lock *lock)
        e != list_end (&curr->donated_threads) && e != NULL;)
     {
       t = list_entry (e, struct thread, donated_elem);
-      if (is_interior(e) && is_head(e))
+      if (is_interior(e) || is_head(e))
         {
           e = list_next (e);
           if (t->waiting_lock == lock)
             list_remove(&t->donated_elem);
         }
+      else
+        break;
 
     }
 }
