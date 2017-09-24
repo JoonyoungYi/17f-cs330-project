@@ -261,9 +261,9 @@ lock_acquire (struct lock *lock)
   priority_donate (lock);
   intr_set_level (old_level);
 
-  sema_down (&lock->semaphore);
-  lock->holder = curr;
   curr->waiting_lock = NULL;
+  lock->holder = curr;
+  sema_down (&lock->semaphore);
 }
 
 /* Tries to acquires LOCK and returns true if successful or false
@@ -421,11 +421,11 @@ cond_wait (struct condition *cond, struct lock *lock)
 
   sema_init (&waiter.semaphore, 0);
   waiter.priority = thread_current ()->priority;
-  list_insert_ordered (&cond->waiters,
-                       &waiter.elem,
-                       list_semaphore_less_func,
-                       NULL);
-  // list_push_back (&cond->waiters, &waiter.elem);
+  // list_insert_ordered (&cond->waiters,
+  //                      &waiter.elem,
+  //                      list_semaphore_less_func,
+  //                      NULL);
+  list_push_back (&cond->waiters, &waiter.elem);
   lock_release (lock);
   sema_down (&waiter.semaphore);
   lock_acquire (lock);
