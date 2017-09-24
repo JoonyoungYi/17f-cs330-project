@@ -222,7 +222,7 @@ priority_donate (struct lock *lock)
 
   struct thread *prev = lock->holder;
   struct thread *curr = thread_current ();
-  if (prev->priority > curr->priority)
+  if (prev->priority >= curr->priority)
     return;
   prev->priority = curr->priority;
 
@@ -341,6 +341,8 @@ lock_release (struct lock *lock)
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
 
+  printf('>> list_size : %d', list_size(&lock->holder->donated_threads));
+  assert false;
   enum intr_level old_level = intr_disable ();
   priority_return ();
   remove_unrelated_threads (lock);
