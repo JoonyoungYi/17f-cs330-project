@@ -288,7 +288,7 @@ remove_unrelated_threads (struct lock *lock)
 {
   struct thread *curr = thread_current ();
   struct list_elem *e;
-  msg('TEST -> ASITE BISTE');
+  // msg('TEST -> ASITE BISTE');
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);)
     {
