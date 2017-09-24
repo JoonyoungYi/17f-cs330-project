@@ -425,11 +425,36 @@ thread_yield (void)
   intr_set_level (old_level);
 }
 
+void
+priority_refresh ()
+{
+  struct thread *curr = thread_current ();
+  if (list_empty (&curr->donated_threads))
+    return;
+
+  int max_priority = PRI_MIN;
+  struct list_elem *e;
+  for (e = list_begin (&curr->donated_threads);
+       e != list_end (&curr->donated_threads);
+       e = list_next (e))
+    {
+      struct thread *t = list_entry (e, struct thread, donated_elem);
+      if (max_priority < t->priority)
+        max_priority = t->priority;
+    }
+
+  if (curr->initial_priority < max_priority)
+    curr->priority = max_priority;
+}
+
 /* Sets the current thread's priority to NEW_PRIORITY. */
 void
 thread_set_priority (int new_priority)
 {
-  thread_current ()->priority = new_priority;
+  struct thread *t = thread_current();
+  t->initial_priority = new_priority;
+  priority_refresh ();
+
   thread_yield ();
 }
 
