@@ -226,7 +226,7 @@ priority_donate (struct lock *lock)
     return;
 
   prev->priority = curr->priority;
-  list_push_back (&prev->donated_threads, &curr->donated_elem);
+  list_push_front (&prev->donated_threads, &curr->donated_elem);
 
   if (prev->waiting_lock != NULL)
     priority_donate (prev->waiting_lock);
@@ -296,9 +296,12 @@ remove_unrelated_threads (struct lock *lock)
        e != list_end (&curr->donated_threads);)
     {
       struct thread *t = list_entry (e, struct thread, donated_elem);
-      e = list_next (e);
-      if (t->waiting_lock == lock)
-        list_remove(&t->donated_elem);
+      if (e != list_end (&curr->donated_threads))
+        {
+          e = list_next (e);
+          if (t->waiting_lock == lock)
+            list_remove(&t->donated_elem);
+        }
     }
 }
 
@@ -335,8 +338,6 @@ lock_release (struct lock *lock)
 {
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
-
-  msg(">> TESTTESTTESTTESTTEST\n");
 
   enum intr_level old_level = intr_disable ();
   priority_return ();
