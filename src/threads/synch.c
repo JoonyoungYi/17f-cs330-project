@@ -294,6 +294,9 @@ priority_return ()
 void
 remove_unrelated_threads (struct lock *lock)
 {
+  if (lock->holder == NULL)
+    return;
+
   struct list_elem *e;
   struct thread *curr = lock->holder;
   struct thread *t;
@@ -341,8 +344,6 @@ lock_release (struct lock *lock)
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
 
-  msg('>> list_size : %u', list_size(&lock->holder->donated_threads));
-  ASSERT (false);
   enum intr_level old_level = intr_disable ();
   priority_return ();
   remove_unrelated_threads (lock);
