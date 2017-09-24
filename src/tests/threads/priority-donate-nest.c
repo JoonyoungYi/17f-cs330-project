@@ -54,17 +54,17 @@ test_priority_donate_nest (void)
        PRI_DEFAULT + 2, thread_get_priority ());
 
   // JY
-  msg ("priority=%d, target_lock=%s, donated_threads_size=%d",
-       thread_get_priority (),
-       thread_current()->waiting_lock,
-       list_size(&thread_current()->donated_threads));
+  // msg ("priority=%d, target_lock=%s, donated_threads_size=%d",
+  //      thread_get_priority (),
+  //      thread_current()->waiting_lock,
+  //      list_size(&thread_current()->donated_threads));
   // end JY
 
   // lock_release (&a);
   thread_yield ();
-  // msg ("Medium thread should just have finished.");
-  // msg ("Low thread should have priority %d.  Actual priority: %d.",
-  //      PRI_DEFAULT, thread_get_priority ());
+  msg ("Medium thread should just have finished.");
+  msg ("Low thread should have priority %d.  Actual priority: %d.",
+       PRI_DEFAULT, thread_get_priority ());
 }
 
 static void
