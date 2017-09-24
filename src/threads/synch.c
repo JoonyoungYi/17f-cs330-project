@@ -280,7 +280,7 @@ lock_try_acquire (struct lock *lock)
 
 /* */
 void
-priority_return (struct lock *lock)
+priority_return ()
 {
   struct thread *curr = thread_current ();
   curr->priority = curr->initial_priority;
@@ -337,7 +337,7 @@ lock_release (struct lock *lock)
   ASSERT (lock_held_by_current_thread (lock));
 
   enum intr_level old_level = intr_disable ();
-  priority_return (lock);
+  priority_return ();
   remove_unrelated_threads (lock);
   priority_refresh ();
   intr_set_level (old_level);

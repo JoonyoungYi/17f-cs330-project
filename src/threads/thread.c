@@ -431,6 +431,7 @@ thread_set_priority (int new_priority)
 {
   struct thread *t = thread_current();
   t->initial_priority = new_priority;
+  priority_return ();
   priority_refresh ();
 
   thread_yield ();
