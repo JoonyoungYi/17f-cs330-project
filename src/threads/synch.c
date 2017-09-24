@@ -304,7 +304,11 @@ void
 priority_refresh ()
 {
   struct thread *curr = thread_current ();
-  if (!list_empty (&curr->donated_threads))
+  if (list_empty (&curr->donated_threads))
+    {
+      curr->priority = curr->initial_priority;
+    }
+  else
     {
       int max_priority = PRI_MIN;
       struct list_elem *e;
@@ -316,7 +320,9 @@ priority_refresh ()
           if (max_priority < t->priority)
             max_priority = t->priority;
         }
-      thread_current ()->priority = max_priority;
+
+      if (curr->original_priority < max_priority)
+        curr->priority = max_priority;
     }
 }
 
@@ -334,8 +340,8 @@ lock_release (struct lock *lock)
 
   enum intr_level old_level = intr_disable();
   priority_return (lock);
-  remove_unrelated_threads (lock);
-  priority_refresh ();
+  // remove_unrelated_threads (lock);
+  // priority_refresh ();
   intr_set_level(old_level);
 
   sema_up (&lock->semaphore);
