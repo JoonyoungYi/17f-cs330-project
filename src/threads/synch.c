@@ -311,7 +311,7 @@ priority_refresh ()
        e != list_end (&curr->donated_threads);
        e = list_next (e))
     {
-      struct thread *t = list_entry (e, struct thread, elem);
+      struct thread *t = list_entry (e, struct thread, donated_elem);
       if (max_priority < t->priority)
         max_priority = t->priority;
     }
