@@ -298,6 +298,9 @@ priority_return ()
 void
 remove_unrelated_threads (struct lock *lock)
 {
+  if (lock->holder == NULL)
+    return;
+
   struct list_elem *e;
   struct thread *curr = lock->holder;
   struct thread *t;
