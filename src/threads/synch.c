@@ -244,7 +244,7 @@ lock_acquire (struct lock *lock)
 
   struct thread *curr = thread_current ();
   curr->waiting_lock = lock;
-  priority_donate(lock);
+  // priority_donate(lock);
 
   sema_down (&lock->semaphore);
   lock->holder = curr;
@@ -291,7 +291,7 @@ lock_release (struct lock *lock)
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
 
-  priority_return (lock);
+  // priority_return (lock);
 
   lock->holder = NULL;
   sema_up (&lock->semaphore);
