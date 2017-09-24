@@ -321,7 +321,7 @@ priority_refresh ()
             max_priority = t->priority;
         }
 
-      if (curr->original_priority < max_priority)
+      if (curr->initial_priority < max_priority)
         curr->priority = max_priority;
     }
 }
