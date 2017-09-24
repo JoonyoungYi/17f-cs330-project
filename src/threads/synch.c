@@ -296,7 +296,6 @@ remove_unrelated_threads (struct lock *lock)
        e != list_end (&curr->donated_threads);)
     {
       struct thread *t = list_entry (e, struct thread, donated_elem);
-      printf('>> current : %d', e);
       e = list_next (e);
       if (t->waiting_lock == lock)
         list_remove(&t->donated_elem);
@@ -337,11 +336,13 @@ lock_release (struct lock *lock)
   ASSERT (lock != NULL);
   ASSERT (lock_held_by_current_thread (lock));
 
-  // enum intr_level old_level = intr_disable ();
+  msg(">> TESTTESTTESTTESTTEST\n");
+
+  enum intr_level old_level = intr_disable ();
   priority_return ();
   remove_unrelated_threads (lock);
   priority_refresh ();
-  // intr_set_level (old_level);
+  intr_set_level (old_level);
 
   sema_up (&lock->semaphore);
   lock->holder = NULL;
