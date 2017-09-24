@@ -353,7 +353,7 @@ priority_refresh ()
         max_priority = t->priority;
 
       if (is_interior(e) || is_head(e))
-        e = list_next (e)
+        e = list_next (e);
       else
         break;
     }
