@@ -294,7 +294,7 @@ remove_unrelated_threads (struct lock *lock)
       struct thread *t = list_entry (e, struct thread, elem);
       e = list_next (e);
       if (t->waiting_lock == lock)
-        list_remove(&t->elem);
+        list_remove(&t->donated_elem);
     }
 }
 
@@ -328,7 +328,7 @@ lock_release (struct lock *lock)
   ASSERT (lock_held_by_current_thread (lock));
 
   priority_return (lock);
-  // remove_unrelated_threads (lock);
+  remove_unrelated_threads (lock);
   // priority_refresh ();
 
   lock->holder = NULL;
