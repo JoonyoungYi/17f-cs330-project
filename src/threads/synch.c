@@ -226,7 +226,7 @@ priority_donate (struct lock *lock)
     return;
 
   prev->priority = curr->priority;
-  // list_push_back (&prev->donated_threads, &curr->donated_elem);
+  list_push_back (&prev->donated_threads, &curr->donated_elem);
 
   if (prev->waiting_lock != NULL)
     priority_donate (prev->waiting_lock);
@@ -292,16 +292,14 @@ remove_unrelated_threads (struct lock *lock)
 {
   struct list_elem *e;
   struct thread *curr = lock->holder;
+  struct thread *t;
   for (e = list_begin (&curr->donated_threads);
        e != list_end (&curr->donated_threads);)
     {
-      struct thread *t = list_entry (e, struct thread, donated_elem);
-      if (e != list_end (&curr->donated_threads))
-        {
-          e = list_next (e);
-          if (t->waiting_lock == lock)
-            list_remove(&t->donated_elem);
-        }
+      t = list_entry (e, struct thread, donated_elem);
+      e = list_next (e);
+      if (t->waiting_lock == lock)
+        list_remove(&t->donated_elem);
     }
 }
 
