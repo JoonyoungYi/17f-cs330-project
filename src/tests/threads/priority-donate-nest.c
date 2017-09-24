@@ -43,7 +43,7 @@ test_priority_donate_nest (void)
 
   locks.a = &a;
   locks.b = &b;
-  // thread_create ("medium", PRI_DEFAULT + 1, medium_thread_func, &locks);
+  thread_create ("medium", PRI_DEFAULT + 1, medium_thread_func, &locks);
   // thread_yield ();
   // msg ("Low thread should have priority %d.  Actual priority: %d.",
   //      PRI_DEFAULT + 1, thread_get_priority ());
