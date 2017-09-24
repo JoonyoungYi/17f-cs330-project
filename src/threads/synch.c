@@ -296,7 +296,7 @@ remove_unrelated_threads (struct lock *lock)
        e != list_end (&curr->donated_threads);)
     {
       struct thread *t = list_entry (e, struct thread, donated_elem);
-      if (!is_head (e) && !is_interior (e))
+      if (e == NULL)
         break;
 
       e = list_next (e);
