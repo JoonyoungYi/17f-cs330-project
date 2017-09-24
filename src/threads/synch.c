@@ -226,7 +226,7 @@ priority_donate (struct lock *lock)
     return;
 
   prev->priority = curr->priority;
-  list_push_front (&prev->donated_threads, &curr->donated_elem);
+  // list_push_back (&prev->donated_threads, &curr->donated_elem);
 
   if (prev->waiting_lock != NULL)
     priority_donate (prev->waiting_lock);
