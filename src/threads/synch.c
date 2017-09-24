@@ -332,8 +332,7 @@ remove_unrelated_threads (struct lock *lock)
             list_remove(&t->donated_elem);
         }
       else
-        break;
-
+        return;
     }
 }
 
@@ -356,7 +355,7 @@ priority_refresh ()
       if (is_interior(e) || is_head(e))
         e = list_next (e);
       else
-        break;
+        return;
     }
 
   if (curr->initial_priority < max_priority)
