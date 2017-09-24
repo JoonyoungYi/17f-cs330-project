@@ -346,12 +346,16 @@ priority_refresh ()
   int max_priority = PRI_MIN;
   struct list_elem *e;
   for (e = list_begin (&curr->donated_threads);
-       e != list_end (&curr->donated_threads);
-       e = list_next (e))
+       e != list_end (&curr->donated_threads);)
     {
       struct thread *t = list_entry (e, struct thread, donated_elem);
       if (max_priority < t->priority)
         max_priority = t->priority;
+
+      if (is_interior(e) || is_head(e))
+        e = list_next (e)
+      else
+        break;
     }
 
   if (curr->initial_priority < max_priority)
