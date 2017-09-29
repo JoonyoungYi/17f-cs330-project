@@ -3,7 +3,7 @@
    High-priority thread H then blocks on acquiring lock B.  Thus,
    thread H donates its priority to M, which in turn donates it
    to thread L.
-   
+
    Based on a test originally submitted for Stanford's CS 140 in
    winter 1999 by Matt Franklin <startled@leland.stanford.edu>,
    Greg Hutchins <gmh@leland.stanford.edu>, Yu Ping Hu
@@ -15,7 +15,7 @@
 #include "threads/synch.h"
 #include "threads/thread.h"
 
-struct locks 
+struct locks
   {
     struct lock *a;
     struct lock *b;
@@ -25,7 +25,7 @@ static thread_func medium_thread_func;
 static thread_func high_thread_func;
 
 void
-test_priority_donate_nest (void) 
+test_priority_donate_nest (void)
 {
   struct lock a, b;
   struct locks locks;
@@ -53,6 +53,13 @@ test_priority_donate_nest (void)
   msg ("Low thread should have priority %d.  Actual priority: %d.",
        PRI_DEFAULT + 2, thread_get_priority ());
 
+  // JY
+  // msg ("priority=%d, target_lock=%s, donated_threads_size=%d",
+  //      thread_get_priority (),
+  //      thread_current()->waiting_lock,
+  //      list_size(&thread_current()->donated_threads));
+  // end JY
+
   lock_release (&a);
   thread_yield ();
   msg ("Medium thread should just have finished.");
@@ -61,7 +68,7 @@ test_priority_donate_nest (void)
 }
 
 static void
-medium_thread_func (void *locks_) 
+medium_thread_func (void *locks_)
 {
   struct locks *locks = locks_;
 
@@ -83,7 +90,7 @@ medium_thread_func (void *locks_)
 }
 
 static void
-high_thread_func (void *lock_) 
+high_thread_func (void *lock_)
 {
   struct lock *lock = lock_;
 

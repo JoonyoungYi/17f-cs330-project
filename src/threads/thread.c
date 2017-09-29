@@ -69,13 +69,13 @@ static void kernel_thread (thread_func *, void *aux);
 
 static void idle (void *aux UNUSED);
 static struct thread *running_thread (void);
-static bool list_priority_less_func (const struct list_elem *a,
-                                     const struct list_elem *b,
-                                     void *aux);
 static struct thread *next_thread_to_run (void);
 static void init_thread (struct thread *, const char *name, int priority);
 static bool is_thread (struct thread *) UNUSED;
 static void *alloc_frame (struct thread *, size_t size);
+static bool list_priority_less_func (const struct list_elem *a,
+                                     const struct list_elem *b,
+                                     void *aux);
 static void schedule (void);
 void schedule_tail (struct thread *prev);
 static tid_t allocate_tid (void);
@@ -429,7 +429,11 @@ thread_yield (void)
 void
 thread_set_priority (int new_priority)
 {
-  thread_current ()->priority = new_priority;
+  struct thread *t = thread_current();
+  t->initial_priority = new_priority;
+  priority_return ();
+  priority_refresh ();
+
   thread_yield ();
 }
 
@@ -556,6 +560,10 @@ init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
+
+  t->initial_priority = priority;
+  list_init (&t->donated_threads);
+  t->waiting_lock = NULL;
 }
 
 /* Allocates a SIZE-byte frame at the top of thread T's stack and
