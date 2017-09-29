@@ -171,7 +171,7 @@ tid_t
 thread_create (const char *name, int priority,
                thread_func *function, void *aux)
 {
-  printf("HI\n");
+  printf(">> thread_create () start.\n");
 
   struct thread *t;
   struct kernel_thread_frame *kf;
@@ -207,6 +207,7 @@ thread_create (const char *name, int priority,
   /* Add to run queue. */
   thread_unblock (t);
 
+  printf(">> thread_create () end.\n");
   return tid;
 }
 
