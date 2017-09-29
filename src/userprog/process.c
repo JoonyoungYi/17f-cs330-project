@@ -455,6 +455,8 @@ setup_stack (void **esp)
       else
         palloc_free_page (kpage);
     }
+
+  printf(">> setup_stack: success -> %d\n", success);
   return success;
 }
 
