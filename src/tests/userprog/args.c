@@ -10,7 +10,7 @@ main (int argc, char *argv[])
 {
   int i;
 
-  ASSERT 0;
+  ASSERT (0);
 
   test_name = "args";
 
