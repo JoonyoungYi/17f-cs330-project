@@ -74,6 +74,7 @@ start_process (void *f_name)
 
   /* If load failed, quit. */
   palloc_free_page (file_name);
+  printf(">> palloc_free_page success!");
   if (!success)
     thread_exit ();
 
@@ -85,6 +86,8 @@ start_process (void *f_name)
      and jump to it. */
   asm volatile ("movl %0, %%esp; jmp intr_exit" : : "g" (&if_) : "memory");
   NOT_REACHED ();
+
+  printf(">> start_process end.");
 }
 
 /* Waits for thread TID to die and returns its exit status.  If
