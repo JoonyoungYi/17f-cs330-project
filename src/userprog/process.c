@@ -41,7 +41,7 @@ process_execute (const char *file_name)
   /* */
   char *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
-  printf ("'%s'\n", file_name);
+  // printf ("'%s'\n", file_name);
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
@@ -58,6 +58,11 @@ start_process (void *f_name)
   char *file_name = f_name;
   struct intr_frame if_;
   bool success;
+
+  /* */
+  char *token, *save_ptr;
+  token = strtok_r (file_name, " ", &save_ptr);
+  printf("%s\n", token);
 
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
