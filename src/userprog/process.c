@@ -70,6 +70,7 @@ start_process (void *f_name)
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
   success = load (file_name, &if_.eip, &if_.esp);
+  printf(">> start_process: success -> %d.\n", success);
 
   /* If load failed, quit. */
   palloc_free_page (file_name);
