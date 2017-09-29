@@ -99,6 +99,9 @@ start_process (void *f_name)
 int
 process_wait (tid_t child_tid UNUSED)
 {
+  printf(">> process_wait () start.\n");
+  while(1);
+  printf(">> process_wait () end.\n");
   return -1;
 }
 
