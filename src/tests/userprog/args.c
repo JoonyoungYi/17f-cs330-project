@@ -6,9 +6,11 @@
 #include "tests/lib.h"
 
 int
-main (int argc, char *argv[]) 
+main (int argc, char *argv[])
 {
   int i;
+
+  ASSERT 0;
 
   test_name = "args";
 
