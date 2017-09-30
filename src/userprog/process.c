@@ -66,7 +66,6 @@ start_process (void *f_name)
   char *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
   // printf(">> start_process: save_ptr -> ");
-  // hex_dump (0, save_ptr, 4, false);
 
   printf(">> start_process: file_name -> %s\n", file_name);
 
@@ -83,6 +82,8 @@ start_process (void *f_name)
   printf(">> palloc_free_page success!\n");
   if (!success)
     thread_exit ();
+
+  hex_dump(if_.esp, if_.esp, PHYS_BASE – if_.esp, true);
 
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
