@@ -452,7 +452,7 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
 static bool
 init_stack (const char *file_name, char **save_ptr, void **esp)
 {
-  printf(">> init_stack: file_name -> %s\n", file_name);
+  printf (">> init_stack: file_name -> %s\n", file_name);
 
   // int argc = 0;
   // malloc()
@@ -464,10 +464,40 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   //     token = strtok_r (NULL, " ", save_ptr);
   //   }
   // printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
-  
-  size_t len = strlen (file_name);
-  printf(">> init_stack: len -> %d\n", len);
 
+  /* push stack with query data */
+  int argc = 0;
+  size_t query_len = strlen (file_name) + 1;
+  // printf(">> init_stack: len -> %d\n", len);
+  *esp -= query_len;
+  char *argv = *esp;
+  memcpy (*esp, file_name, query_len);
+
+  /* push padding: assume 4 bytes. */
+  int null = 0;
+  int padding_len = query_len % 4;
+  *esp -= padding_len;
+  if (padding_len)
+    memcpy (*esp, &null, padding_len);
+
+  /* push argv array */
+  *esp -= 4;
+  memcpy (*esp, &null, 4);
+  *esp -= 4;
+  memcpy (*esp, argv, 4);
+
+  /* push argv */
+  argv = *esp;
+  *esp -= 4;
+  memcpy (*esp, &argv, 4);
+
+  /* push argc */
+  *esp -= 4;
+  memcpy (*esp, &argc, 4);
+
+  /* push return address */
+  *esp -= 4;
+  memcpy(*esp, &null, 4);
 
   return false;
 }
