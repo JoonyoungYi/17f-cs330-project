@@ -74,7 +74,7 @@ start_process (void *f_name)
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
-  success = load (file_name, save_ptr, &if_.eip, &if_.esp);
+  success = load (file_name, &save_ptr, &if_.eip, &if_.esp);
   printf(">> start_process: success -> %d.\n", success);
 
   /* If load failed, quit. */
@@ -453,74 +453,72 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
 static bool
 init_stack (const char *file_name, char **save_ptr, void **esp)
 {
-  printf (">> init_stack: file_name -> %s\n", file_name);
-
   /* init common int */
   int null = 0;
 
   /* TEST */
-  printf (">> init_stack: file_name -> %s\n", file_name);
-  char *token = strtok_r (NULL, " ", save_ptr);
-  while (token != NULL)
-    {
-      printf (">> init_stack: token -> %s\n", token);
-      token = strtok_r (NULL, " ", save_ptr);
-    }
-  printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
-
-  // /* push stack with query data */
-  // int argc = 0;
-  // size_t query_len = 0;
-  // size_t len = 0;
-  // char *token;
-  // char *query = malloc (1 * sizeof(char));
-  // int *query_lens = malloc (1 * sizeof(int));
-  // printf (">> init_stack: for loop start\n");
-  // for (token = file_name; token != NULL;
-  //      token = strtok_r (NULL, " ", save_ptr))
+  // printf (">> init_stack: file_name -> %s\n", file_name);
+  // char *token = strtok_r (NULL, " ", save_ptr);
+  // while (token != NULL)
   //   {
   //     printf (">> init_stack: token -> %s\n", token);
-  //     len = strlen (file_name) + 1;
-  //     query = realloc (query, (query_len + len) * sizeof(char));
-  //     query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
-  //     memcpy (query + query_len, token, len);
-  //     query_lens[argc] = query_len;
-  //     query_len += len;
-  //     argc++;
+  //     token = strtok_r (NULL, " ", save_ptr);
   //   }
-  // // printf (">> init_stack: len -> %d\n", len);
-  // *esp -= query_len;
-  // char *argv = *esp;
-  // memcpy (*esp, query, query_len);
-  //
-  // /* push padding: assume 4 bytes. */
-  // int padding_len = query_len % 4;
-  // *esp -= padding_len;
-  // if (padding_len)
-  //   memcpy (*esp, &null, padding_len);
-  //
-  // /* push argv array */
-  // *esp -= 4;
-  // memcpy (*esp, &null, 4);
-  // *esp -= 4;
-  // memcpy (*esp, argv, 4);
-  //
-  // /* push argv */
-  // argv = *esp;
-  // *esp -= 4;
-  // memcpy (*esp, &argv, 4);
-  //
-  // /* free */
-  // free(query);
-  // free(query_lens);
-  //
-  // /* push argc */
-  // *esp -= 4;
-  // memcpy (*esp, &argc, 4);
-  //
-  // /* push fake return address */
-  // *esp -= 4;
-  // memcpy(*esp, &null, 4);
+  // printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
+
+  /* push stack with query data */
+  int argc = 0;
+  size_t query_len = 0;
+  size_t len = 0;
+  char *token;
+  char *query = malloc (1 * sizeof(char));
+  int *query_lens = malloc (1 * sizeof(int));
+  printf (">> init_stack: for loop start\n");
+  for (token = file_name; token != NULL;
+       token = strtok_r (NULL, " ", save_ptr))
+    {
+      printf (">> init_stack: token -> %s\n", token);
+      len = strlen (file_name) + 1;
+      query = realloc (query, (query_len + len) * sizeof(char));
+      query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
+      memcpy (query + query_len, token, len);
+      query_lens[argc] = query_len;
+      query_len += len;
+      argc++;
+    }
+  // printf (">> init_stack: len -> %d\n", len);
+  *esp -= query_len;
+  char *argv = *esp;
+  memcpy (*esp, query, query_len);
+
+  /* push padding: assume 4 bytes. */
+  int padding_len = query_len % 4;
+  *esp -= padding_len;
+  if (padding_len)
+    memcpy (*esp, &null, padding_len);
+
+  /* push argv array */
+  *esp -= 4;
+  memcpy (*esp, &null, 4);
+  *esp -= 4;
+  memcpy (*esp, argv, 4);
+
+  /* push argv */
+  argv = *esp;
+  *esp -= 4;
+  memcpy (*esp, &argv, 4);
+
+  /* free */
+  free(query);
+  free(query_lens);
+
+  /* push argc */
+  *esp -= 4;
+  memcpy (*esp, &argc, 4);
+
+  /* push fake return address */
+  *esp -= 4;
+  memcpy(*esp, &null, 4);
 
   return false;
 }
