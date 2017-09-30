@@ -109,13 +109,16 @@ int
 process_wait (tid_t child_tid UNUSED)
 {
   printf(">> process_wait () start.\n");
-  int i, j, k;
+  int i, j, k, l, m, n, o;
   for (i = 0; i < INT32_MAX; i++)
     for (j = 0; j < INT32_MAX; j++)
       for (k = 0; k < INT32_MAX; k++)
-        ;
+        for (l = 0; l < INT32_MAX; l++)
+          for (m = 0; m < INT32_MAX; m++)
+            for (n = 0; n < INT32_MAX; n++)
+              for (o = 0; o < INT32_MAX; o++)
+                ;
   printf(">> process_wait () end.\n");
-  while (1);
   return -1;
 }
 
