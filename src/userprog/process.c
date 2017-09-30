@@ -83,7 +83,8 @@ start_process (void *f_name)
   if (!success)
     thread_exit ();
 
-  hex_dump (if_.esp, if_.esp, PHYS_BASE – if_.esp, true);
+  hex_dump (if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
+  // hex_dump (uintptr_t ofs, const void *buf_, size_t size, bool ascii);
 
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
