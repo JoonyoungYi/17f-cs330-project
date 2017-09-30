@@ -458,6 +458,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
       printf(">> init_stack: token -> %s\n", token);
     }
 
+  printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
+
   return false;
 }
 
@@ -479,9 +481,9 @@ setup_stack (const char *file_name, char **save_ptr, void **esp)
         palloc_free_page (kpage);
     }
 
-  printf(">> setup_stack: success -> %d\n", success);
+  printf(">> setup_stack before: success -> %d\n", success);
   init_stack(file_name, save_ptr, esp);
-  printf(">> setup_stack: success -> %d\n", success);
+  printf(">> setup_stack after: success -> %d\n", success);
   return success;
 }
 
