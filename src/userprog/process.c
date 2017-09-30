@@ -65,10 +65,8 @@ start_process (void *f_name)
   /* */
   char *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
-
-  printf(">> start_process: save_ptr -> ");
-  hex_dump (0, save_ptr, 4, false);
-  printf("\n");
+  // printf(">> start_process: save_ptr -> ");
+  // hex_dump (0, save_ptr, 4, false);
 
   printf(">> start_process: file_name -> %s\n", file_name);
 
@@ -456,11 +454,11 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
 {
   printf(">> init_stack: file_name -> %s\n", file_name);
 
-  char *token = strtok_r (NULL, " ", &save_ptr);
+  char *token = strtok_r (NULL, " ", save_ptr);
   while (token != NULL)
     {
       printf(">> init_stack: token -> %s\n", token);
-      token = strtok_r (NULL, " ", &save_ptr);
+      token = strtok_r (NULL, " ", save_ptr);
     }
 
   printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
