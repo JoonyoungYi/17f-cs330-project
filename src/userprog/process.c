@@ -63,6 +63,7 @@ start_process (void *f_name)
   bool success;
 
   /* */
+  char *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
   printf(">> start_process: file_name -> %s\n", file_name);
 
