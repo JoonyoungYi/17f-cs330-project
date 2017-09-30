@@ -498,10 +498,15 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
     memcpy (*esp, &null, padding_len);
 
   /* push argv array */
-  *esp -= 4;
+  *esp -= 4; // final null argv
   memcpy (*esp, &null, 4);
-  *esp -= 4;
-  memcpy (*esp, argv, 4);
+
+  int i = 0; // prevs argvs
+  for (i = argc; i >= 0; i--)
+    {
+      *esp -= 4;
+      memcpy (*esp, argv + query_lens[i], 4);
+    }
 
   /* push argv */
   argv = *esp;
