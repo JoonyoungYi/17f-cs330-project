@@ -19,7 +19,10 @@
 #include "threads/vaddr.h"
 
 static thread_func start_process NO_RETURN;
-static bool load (const char *cmdline, void (**eip) (void), void **esp);
+static bool load (const char *cmdline,
+                  char **save_ptr,
+                  void (**eip) (void),
+                  void **esp);
 
 /* Starts a new thread running a user program loaded from
    FILENAME.  The new thread may be scheduled (and may even exit)
@@ -60,7 +63,6 @@ start_process (void *f_name)
   bool success;
 
   /* */
-  char *token, *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
   printf(">> start_process: file_name -> %s\n", file_name);
 
@@ -69,7 +71,7 @@ start_process (void *f_name)
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
-  success = load (file_name, &if_.eip, &if_.esp);
+  success = load (file_name, &save_ptr, &if_.eip, &if_.esp);
   printf(">> start_process: success -> %d.\n", success);
 
   /* If load failed, quit. */
@@ -223,7 +225,7 @@ static bool load_segment (struct file *file, off_t ofs, uint8_t *upage,
    and its initial stack pointer into *ESP.
    Returns true if successful, false otherwise. */
 bool
-load (const char *file_name, void (**eip) (void), void **esp)
+load (const char *file_name, char **save_ptr, void (**eip) (void), void **esp)
 {
   struct thread *t = thread_current ();
   struct Elf32_Ehdr ehdr;
@@ -441,10 +443,19 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
   return true;
 }
 
+/* Initialize stack with function parameters.
+    */
+static bool
+init_stack (const char *file_name, char **save_ptr, void **esp)
+{
+  printf(">> init_stack: file_name -> %s\n", file_name);
+  return false;
+}
+
 /* Create a minimal stack by mapping a zeroed page at the top of
    user virtual memory. */
 static bool
-setup_stack (void **esp)
+setup_stack (const char *file_name, char **save_ptr, void **esp)
 {
   uint8_t *kpage;
   bool success = false;
@@ -460,6 +471,7 @@ setup_stack (void **esp)
     }
 
   printf(">> setup_stack: success -> %d\n", success);
+  init_stack(file_name, save_ptr, esp);
   return success;
 }
 
