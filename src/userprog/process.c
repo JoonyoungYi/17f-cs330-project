@@ -109,8 +109,10 @@ int
 process_wait (tid_t child_tid UNUSED)
 {
   printf(">> process_wait () start.\n");
-  int i;
-  for (i = 0; i < INT32_MAX; i++);
+  int i, j;
+  for (i = 0; i < INT32_MAX; i++)
+    for (j = 0; j < INT32_MAX; j++)
+      ;
   printf(">> process_wait () end.\n");
   return -1;
 }
