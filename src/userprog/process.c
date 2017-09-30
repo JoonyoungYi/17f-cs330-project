@@ -455,6 +455,7 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   printf(">> init_stack: file_name -> %s\n", file_name);
 
   char *token = strtok_r (NULL, " ", save_ptr);
+  hex_dump (0, *esp, 4, false);
   while (token != NULL)
     {
       printf(">> init_stack: token -> %s\n", token);
