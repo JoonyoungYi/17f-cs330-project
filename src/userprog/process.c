@@ -77,7 +77,7 @@ start_process (void *f_name)
 
   /* If load failed, quit. */
   palloc_free_page (file_name);
-  printf(">> palloc_free_page success!");
+  printf(">> palloc_free_page success!\n");
   if (!success)
     thread_exit ();
 
@@ -480,7 +480,7 @@ setup_stack (const char *file_name, char **save_ptr, void **esp)
     }
 
   printf(">> setup_stack: success -> %d\n", success);
-  success &= init_stack(file_name, save_ptr, esp);
+  init_stack(file_name, save_ptr, esp);
   printf(">> setup_stack: success -> %d\n", success);
   return success;
 }
