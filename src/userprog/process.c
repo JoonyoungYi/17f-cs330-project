@@ -459,11 +459,11 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   int null = 0;
 
   /* TEST */
-  int argc = 0;
+  printf (">> init_stack: file_name -> %s\n", file_name);
   char *token = strtok_r (NULL, " ", save_ptr);
   while (token != NULL)
     {
-      printf(">> init_stack: token -> %s\n", token);
+      printf (">> init_stack: token -> %s\n", token);
       token = strtok_r (NULL, " ", save_ptr);
     }
   printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
