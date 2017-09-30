@@ -74,7 +74,7 @@ start_process (void *f_name)
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
-  success = load (file_name, &save_ptr, &if_.eip, &if_.esp);
+  success = load (file_name, save_ptr, &if_.eip, &if_.esp);
   printf(">> start_process: success -> %d.\n", success);
 
   /* If load failed, quit. */
@@ -83,7 +83,7 @@ start_process (void *f_name)
   if (!success)
     thread_exit ();
 
-  hex_dump(if_.esp, if_.esp, PHYS_BASE – if_.esp, true);
+  // hex_dump (if_.esp, if_.esp, PHYS_BASE – if_.esp, true);
 
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
