@@ -454,13 +454,18 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
 {
   printf(">> init_stack: file_name -> %s\n", file_name);
 
-  char *token = strtok_r (NULL, " ", save_ptr);
-  hex_dump (0, *esp, 4, false);
-  while (token != NULL)
-    {
-      printf(">> init_stack: token -> %s\n", token);
-      token = strtok_r (NULL, " ", save_ptr);
-    }
+  // int argc = 0;
+  // malloc()
+  // char *token = strtok_r (NULL, " ", save_ptr);
+  // hex_dump (0, *esp, 4, false);
+  // while (token != NULL)
+  //   {
+  //     printf(">> init_stack: token -> %s\n", token);
+  //     token = strtok_r (NULL, " ", save_ptr);
+  //   }
+
+  size_t len = strlen (file_name);
+  printf(">> init_stack: len -> %d\n", len);
 
   printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
   return false;
