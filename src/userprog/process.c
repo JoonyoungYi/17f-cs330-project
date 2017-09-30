@@ -114,6 +114,16 @@ process_wait (tid_t child_tid UNUSED)
     for (j = 0; j < INT32_MAX; j++)
       for (k = 0; k < INT32_MAX; k++)
         ;
+
+  for (i = 0; i < INT32_MAX; i++)
+    for (j = 0; j < INT32_MAX; j++)
+      for (k = 0; k < INT32_MAX; k++)
+        ;
+
+  for (i = 0; i < INT32_MAX; i++)
+    for (j = 0; j < INT32_MAX; j++)
+      for (k = 0; k < INT32_MAX; k++)
+        ;
   printf(">> process_wait () end.\n");
   return -1;
 }
