@@ -111,7 +111,7 @@ int
 process_wait (tid_t child_tid UNUSED)
 {
   printf(">> process_wait () start.\n");
-  while (1);
+  // while (1);
   printf(">> process_wait () end.\n");
   return -1;
 }
