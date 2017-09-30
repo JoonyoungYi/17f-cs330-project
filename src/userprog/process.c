@@ -450,6 +450,14 @@ static bool
 init_stack (const char *file_name, char **save_ptr, void **esp)
 {
   printf(">> init_stack: file_name -> %s\n", file_name);
+
+  char *token;
+  for (token = file_name; token != NULL;
+       token = strtok_r (NULL, " ", &save_ptr))
+    {
+      printf(">> init_stack: token -> %s\n", token);
+    }
+
   return false;
 }
 
@@ -472,7 +480,8 @@ setup_stack (const char *file_name, char **save_ptr, void **esp)
     }
 
   printf(">> setup_stack: success -> %d\n", success);
-  init_stack(file_name, save_ptr, esp);
+  success &= init_stack(file_name, save_ptr, esp);
+  printf(">> setup_stack: success -> %d\n", success);
   return success;
 }
 
