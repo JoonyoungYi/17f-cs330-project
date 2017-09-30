@@ -469,6 +469,7 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   for (token = file_name; token != NULL;
        token = strtok_r (NULL, " ", save_ptr))
     {
+      printf (">> init_stack: token -> %s\n", token);
       len = strlen (file_name) + 1;
       query = realloc (query, (query_len + len) * sizeof(char));
       query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
