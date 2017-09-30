@@ -465,6 +465,7 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   char *token;
   char *query = malloc (1 * sizeof(char));
   int *query_lens = malloc (1 * sizeof(int));
+  printf (">> init_stack: for loop start\n");
   for (token = file_name; token != NULL;
        token = strtok_r (NULL, " ", save_ptr))
     {
