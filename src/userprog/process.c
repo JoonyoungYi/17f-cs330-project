@@ -452,14 +452,12 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   printf(">> init_stack: file_name -> %s\n", file_name);
 
   char *token;
-  for (token = file_name; token != NULL;
-       token = strtok_r (NULL, " ", &save_ptr))
-    {
-      printf(">> init_stack: token -> %s\n", token);
-    }
+  do {
+    token = strtok_r (NULL, " ", &save_ptr);
+    printf(">> init_stack: token -> %s\n", token);
+  } while (token != NULL);
 
   printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
-
   return false;
 }
 
