@@ -463,11 +463,12 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   //     printf(">> init_stack: token -> %s\n", token);
   //     token = strtok_r (NULL, " ", save_ptr);
   //   }
-
+  // printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
+  
   size_t len = strlen (file_name);
   printf(">> init_stack: len -> %d\n", len);
 
-  printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
+
   return false;
 }
 
