@@ -65,6 +65,11 @@ start_process (void *f_name)
   /* */
   char *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
+
+  printf(">> start_process: save_ptr -> ");
+  hex_dump (0, save_ptr, 4, false);
+  printf("\n");
+
   printf(">> start_process: file_name -> %s\n", file_name);
 
   /* Initialize interrupt frame and load executable. */
