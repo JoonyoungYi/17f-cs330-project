@@ -502,10 +502,12 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   memcpy (*esp, &null, 4);
 
   int i = 0; // prevs argvs
+  char *argv_curr;
   for (i = argc - 1; i >= 0; i--)
     {
       *esp -= 4;
-      memcpy (*esp, argv + query_lens[i], 4);
+      argv_curr = argv + query_lens[i];
+      memcpy (*esp, &argv_curr, 4);
     }
 
   /* push argv */
