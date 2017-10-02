@@ -37,9 +37,11 @@ check_user_ptr_validation (void *ptr)
 {
   check_ptr_validation(ptr);
   printf(">> check_user_ptr_validation: start\n");
+  printf(">> check_user_ptr_validation: ptr -> %d\n", ptr);
+  printf(">> check_user_ptr_validation: pagedir -> %d\n", thread_current()->pagedir);
   if (pagedir_get_page (thread_current()->pagedir, ptr) == NULL);
     {
-      printf(">> check_user_ptr_validation exit\n");
+      printf(">> check_user_ptr_validation: exit\n");
       exit (-1);
     }
 }
