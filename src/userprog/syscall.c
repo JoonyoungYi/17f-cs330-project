@@ -40,7 +40,7 @@ syscall_handler (struct intr_frame *f)
   printf (">> syscall_handler: *esp -> %d\n", *esp);
 
 	/* Check if the address in esp is right address to prevent the page falut*/
-	if (is_valid_ptr(esp))
+	if (!is_valid_ptr(esp))
 		exit(-1);
 
   printf (">> syscall_handler: start switch\n");
