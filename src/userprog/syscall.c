@@ -44,6 +44,7 @@ syscall_handler (struct intr_frame *f)
 		exit(-1);
 
   printf (">> syscall_handler: start switch\n");
+  printf (">> syscall_handler: syscall_number -> %d\n", syscall_number);
 	/* connect each system call by its number
 		number is defined in syscall-nr.h */
 	switch (syscall_number)
@@ -92,7 +93,6 @@ syscall_handler (struct intr_frame *f)
 
   // printf (">> system call! : syscall_number(SYS_EXIT) -> %d\n", SYS_EXIT);
   // printf (">> system call! : syscall_number(SYS_WRITE) -> %d\n", SYS_WRITE);
-  printf (">> system call! : syscall_number -> %d\n", syscall_number);
   // thread_exit ();
 }
 
