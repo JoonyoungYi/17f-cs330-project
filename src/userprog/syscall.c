@@ -19,6 +19,13 @@ syscall_init (void)
   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
 }
 
+bool
+is_valid_ptr(void* ptr)
+{
+  return (((unsigned int*) ptr) > 0x8048000 &&
+          ((unsigned int*) ptr) < 0xc0000000);
+}
+
 static void
 syscall_handler (struct intr_frame *f)
 {
@@ -33,7 +40,7 @@ syscall_handler (struct intr_frame *f)
   printf (">> syscall_handler: *esp -> %d\n", *esp);
 
 	/* Check if the address in esp is right address to prevent the page falut*/
-	if (*esp >= 0x8048000 && *esp <= 0xc0000000)
+	if (is_valid_ptr(esp))
 		exit(-1);
 
   printf (">> syscall_handler: start switch\n");
@@ -91,14 +98,13 @@ read_argument (const unsigned int *esp)
 {
 	/* To execute a system call, we need argument in the stack,
 	Read that arguments in the esp */
-	if ((*esp >= 0x8048000) && (*esp <= 0xc0000000))
-    return (int) esp;
+	if (is_valid_ptr(esp))
+    return (int) *esp;
 	else
     {
       printf(">> read_argument: else\n");
       exit(-1);
     }
-
 }
 
 /* */
