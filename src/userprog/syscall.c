@@ -23,7 +23,7 @@ syscall_init (void)
 void
 check_ptr_validation (void *ptr)
 {
-  printf(">> check_ptr_validation: start\n");
+  // printf(">> check_ptr_validation: start\n");
   if (((unsigned int) ptr) <= 0x08048000 ||
       ((unsigned int) ptr) >= 0xc0000000)
     exit (-1);
@@ -149,7 +149,7 @@ create (const char *file, unsigned initial_size)
   printf (">> create: start\n");
   printf (">> create: file -> 0x%x\n", file);
   check_ptr_validation (file);
-  check_user_ptr_validation (*file);
+  // check_user_ptr_validation (*file);
   return filesys_create (file, initial_size);
 }
 
