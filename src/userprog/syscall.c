@@ -24,7 +24,8 @@ void
 check_ptr_validation (void *ptr)
 {
   printf(">> check_ptr_validation\n");
-  printf ('>> check_ptr_validation: ptr -> %d', ptr == NULL);
+  void *ptr_curr = ptr;
+  printf ('>> check_ptr_validation: ptr_curr -> %d', ptr_curr == NULL);
   // if (((unsigned int) ptr) <= 0x8048000 ||
   //       ((unsigned int) ptr) >= 0xc0000000)
   //   exit(-1);
