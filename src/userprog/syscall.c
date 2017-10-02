@@ -1,6 +1,7 @@
 #include "userprog/syscall.h"
 #include <stdio.h>
 #include <syscall-nr.h>
+#include "threads/init.h"
 #include "threads/interrupt.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
@@ -125,7 +126,6 @@ void
 halt (void)
 {
   power_off ();
-  NOT_REACHED ();
 }
 
 /* */
