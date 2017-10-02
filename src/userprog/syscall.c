@@ -23,10 +23,8 @@ syscall_init (void)
 void
 check_ptr_validation (void *ptr)
 {
-  printf('>> check_ptr_validation: start');
-  fflush(1);
-  printf('>> check_ptr_validation: ptr -> 0x%x', ptr);
-  fflush(1);
+  msg('>> check_ptr_validation: start');
+  msg('>> check_ptr_validation: ptr -> 0x%x', ptr);
   if (((unsigned int) ptr) <= 0x8048000 ||
         ((unsigned int) ptr) > 0xc0000000)
     exit(-1);
