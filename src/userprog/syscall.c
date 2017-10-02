@@ -9,7 +9,7 @@
 
 static void syscall_handler (struct intr_frame *);
 /* Projects 2 and later. */
-void test1234_halt (void);
+void halt (void);
 void exit (int status);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
@@ -65,7 +65,7 @@ syscall_handler (struct intr_frame *f)
 	switch (syscall_number)
     {
   		case SYS_HALT:                   /* Halt the operating system. */
-  			test1234_halt ();
+  			halt ();
   			break;
       case SYS_EXIT:					         /* Terminate this process. */
         exit ((int) read_argument (esp + 1));
@@ -123,8 +123,9 @@ read_argument (const unsigned int *esp)
 
 /* */
 void
-test1234_halt (void)
+halt (void)
 {
+  printf(">> halt: started\n");
   power_off ();
 }
 
