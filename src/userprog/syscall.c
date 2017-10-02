@@ -23,13 +23,11 @@ syscall_init (void)
 void
 check_ptr_validation (void *ptr)
 {
-  int i = 0;
-  for (i = 0; i < 1000; i++)
-    printf ('>> check_ptr_validation: start');
-  printf ('>> check_ptr_validation: ptr -> 0x%x', ptr);
-  if (((unsigned int) ptr) <= 0x8048000 ||
-        ((unsigned int) ptr) >= 0xc0000000)
-    exit(-1);
+  printf(">> check_ptr_validation\n");
+  // printf ('>> check_ptr_validation: ptr -> 0x%x', ptr);
+  // if (((unsigned int) ptr) <= 0x8048000 ||
+  //       ((unsigned int) ptr) >= 0xc0000000)
+  //   exit(-1);
 }
 
 /* */
@@ -44,7 +42,7 @@ syscall_handler (struct intr_frame *f)
 
   printf (">> syscall_handler: 0x%x\n", f);
   printf (">> syscall_handler: 0x%x\n", f->esp);
-	// check_ptr_validation(esp);
+	check_ptr_validation (esp);
 
   printf (">> syscall_handler: syscall_number get\n");
 	unsigned int syscall_number = *esp;
@@ -111,7 +109,7 @@ read_argument (const unsigned int *esp)
 {
 	/* To execute a system call, we need argument in the stack,
 	Read that arguments in the esp */
-	check_ptr_validation(esp);
+	check_ptr_validation (esp);
   return (int) *esp;
 }
 
@@ -161,7 +159,7 @@ int
 write (int fd, const void *buffer, unsigned length)
 {
   ASSERT (fd == 1);
-  check_ptr_validation(buffer);
+  check_ptr_validation (buffer);
 
   printf (">> write: fd -> %d\n", fd);
   putbuf (buffer, length);
