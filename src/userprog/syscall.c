@@ -23,8 +23,10 @@ syscall_init (void)
 void
 check_ptr_validation (void *ptr)
 {
-  msg('>> check_ptr_validation: start');
-  msg('>> check_ptr_validation: ptr -> 0x%x', ptr);
+  int i = 0;
+  for (i = 0; i < 1000; i++)
+    printf ('>> check_ptr_validation: start');
+  printf ('>> check_ptr_validation: ptr -> 0x%x', ptr);
   if (((unsigned int) ptr) <= 0x8048000 ||
         ((unsigned int) ptr) > 0xc0000000)
     exit(-1);
@@ -34,13 +36,13 @@ check_ptr_validation (void *ptr)
 static void
 syscall_handler (struct intr_frame *f)
 {
-  printf(">> syscall_handler: start\n");
+  printf (">> syscall_handler: start\n");
 	/* get stack pointer from interrupt */
 	unsigned int *esp = (unsigned int*) (f->esp);
 	/* get system call number from stack */
 	/* Current, esp indicates to system call numer */
 
-  printf(">> syscall_handler: 0x%x\n", f);
+  printf (">> syscall_handler: 0x%x\n", f);
 	check_ptr_validation(esp);
 
 	unsigned int syscall_number = *esp;
@@ -79,13 +81,13 @@ syscall_handler (struct intr_frame *f)
       case SYS_READ:                   /* Read from a file. */
       	break;
       case SYS_WRITE:                  /* Write to a file. */
-        printf(">> syscall_handler: case SYS_WRITE\n");
+        printf (">> syscall_handler: case SYS_WRITE\n");
         int fd = (int) read_argument (esp + 1);
-        printf(">> syscall_handler: case SYS_WRITE fd -> %d\n", fd);
+        printf (">> syscall_handler: case SYS_WRITE fd -> %d\n", fd);
         void *buffer = (void*) read_argument (esp + 2);
-        printf(">> syscall_handler: case SYS_WRITE buffer\n");
+        printf (">> syscall_handler: case SYS_WRITE buffer\n");
         unsigned length = (unsigned) read_argument (esp + 3);
-        printf(">> syscall_handler: case SYS_WRITE length -> %d\n", length);
+        printf (">> syscall_handler: case SYS_WRITE length -> %d\n", length);
         f->eax = write (fd, buffer, length);
         break;
       case SYS_SEEK:                   /* Change position in a file. */
@@ -123,7 +125,7 @@ void
 exit (int status)
 {
 	struct thread *t = thread_current ();
-	printf("%s: exit(%d)\n", t->name, status);
+	printf ("%s: exit(%d)\n", t->name, status);
 	// Should we change any struct's component here?
 	thread_exit();
 }
@@ -132,7 +134,7 @@ exit (int status)
 bool
 create (const char *file, unsigned initial_size)
 {
-  printf(">> create start\n");
+  printf (">> create start\n");
   check_ptr_validation (file);
   return filesys_create (file, initial_size);
 }
@@ -159,7 +161,7 @@ write (int fd, const void *buffer, unsigned length)
   ASSERT (fd == 1);
   check_ptr_validation(buffer);
 
-  printf(">> write: fd -> %d\n", fd);
-  putbuf(buffer, length);
+  printf (">> write: fd -> %d\n", fd);
+  putbuf (buffer, length);
   return length;
 }
