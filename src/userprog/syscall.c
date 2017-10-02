@@ -81,7 +81,8 @@ syscall_handler (struct intr_frame *f)
 }
 
 /* */
-int read_argument (const unsigned int *esp)
+int
+read_argument (const unsigned int *esp)
 {
 	/* To execute a system call, we need argument in the stack,
 	Read that arguments in the esp */
@@ -92,13 +93,15 @@ int read_argument (const unsigned int *esp)
 }
 
 /* */
-void halt (void)
+void
+halt (void)
 {
 	power_off();
 }
 
 /* */
-void exit (int status)
+void
+exit (int status)
 {
 	struct thread *t = thread_current ();
 	printf(">> %s: exit(%d)\n", t->name, status);
@@ -107,19 +110,32 @@ void exit (int status)
 }
 
 /* */
-bool create (const char *file, unsigned initial_size)
+bool
+create (const char *file, unsigned initial_size)
 {
 	return filesys_create (file, initial_size);
 }
 
 /* */
-bool remove (const char *file)
+bool
+remove (const char *file)
 {
 	return filesys_remove (file);
 }
 
 /* */
-pid_t exec (const char *file)
+pid_t
+exec (const char *file)
 {
+  return NULL;
+}
 
+
+/* */
+int
+write (int fd, const void *buffer, unsigned length)
+{
+  ASSERT (fd == 1);
+  putbuf(buffer, size);
+  return size;
 }
