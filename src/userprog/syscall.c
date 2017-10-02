@@ -43,8 +43,10 @@ syscall_handler (struct intr_frame *f)
 	/* Current, esp indicates to system call numer */
 
   printf (">> syscall_handler: 0x%x\n", f);
+  printf (">> syscall_handler: 0x%x\n", f->esp);
 	check_ptr_validation(esp);
 
+  printf (">> syscall_handler: syscall_number get\n");
 	unsigned int syscall_number = *esp;
 	/* check if the address in the esp refer to right location */
   // printf (">> syscall_handler: esp -> %d\n", esp);
