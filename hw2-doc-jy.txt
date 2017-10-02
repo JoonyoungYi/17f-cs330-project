@@ -25,6 +25,18 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-dbl-space -a args-d
 
 # PART 2
 
+## normal
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-normal -a create-normal -- -q   -f run create-normal
+
+## exists
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-exists -a create-exists -- -q   -f run create-exists
+
+## long
+pintos -v -k -T 4 --qemu  --fs-disk=2 -p tests/userprog/create-long -a create-long -- -q   -f run create-long
+
+## bound
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-bound -a create-bound -- -q   -f run create-bound
+
 ## empty
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-empty -a create-empty -- -q   -f run create-empty
 
