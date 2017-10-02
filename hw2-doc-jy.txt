@@ -8,19 +8,19 @@ https://web.stanford.edu/class/cs140/projects/pintos/pintos_10.html
 
 git pull && make clean && make
 
-# tests/userprog/args-none
+## tests/userprog/args-none
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-none -a args-none -- -q   -f run args-none
 
-# tests/userprog/args-single
+## tests/userprog/args-single
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-single -a args-single -- -q   -f run 'args-single onearg'
 
-# tests/userprog/args-multiple
+## tests/userprog/args-multiple
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-multiple -a args-multiple -- -q   -f run 'args-multiple some arguments for you!'
 
-# tests/userprog/args-many
+## tests/userprog/args-many
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-many -a args-many -- -q   -f run 'args-many a b c d e f g h i j k l m n o p q r s t u v'
 
-# tests/userprog/args-dbl-space
+## tests/userprog/args-dbl-space
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-dbl-space -a args-dbl-space -- -q   -f run 'args-dbl-space two  spaces!'
 
 # PART 2
