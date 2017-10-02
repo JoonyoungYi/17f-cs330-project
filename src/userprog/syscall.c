@@ -23,9 +23,8 @@ bool
 is_valid_ptr (void *ptr)
 {
   printf('>> is_valid_ptr start');
-  return (ptr != NULL &&
-          ptr > 0x8048000 &&
-          ptr < 0xc0000000);
+  return (((unsigned int*) ptr) > 0x8048000 &&
+          ((unsigned int*) ptr) < 0xc0000000);
 }
 
 static void
