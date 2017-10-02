@@ -148,7 +148,8 @@ create (const char *file, unsigned initial_size)
 {
   printf (">> create: start\n");
   printf (">> create: file -> 0x%x\n", file);
-  check_user_ptr_validation (file);
+  check_ptr_validation (file);
+  check_user_ptr_validation (*file);
   return filesys_create (file, initial_size);
 }
 
@@ -156,7 +157,7 @@ create (const char *file, unsigned initial_size)
 bool
 remove (const char *file)
 {
-  check_user_ptr_validation (file);
+  check_ptr_validation (file);
   return filesys_remove (file);
 }
 
