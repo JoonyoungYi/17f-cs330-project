@@ -36,6 +36,7 @@ syscall_handler (struct intr_frame *f)
 	if (*esp >= 0x8048000 && *esp <= 0xc0000000)
 		exit(-1);
 
+  printf (">> syscall_handler: start switch\n");
 	/* connect each system call by its number
 		number is defined in syscall-nr.h */
 	switch (syscall_number)
@@ -65,6 +66,7 @@ syscall_handler (struct intr_frame *f)
       case SYS_READ:                   /* Read from a file. */
       	break;
       case SYS_WRITE:                  /* Write to a file. */
+        printf(">> syscall_handler: case SYS_WRITE\n");
         f->eax = write (*(int*) read_argument (esp + 1),
                         *(void**) read_argument (esp + 2),
                         *(unsigned*) read_argument (esp + 3));
