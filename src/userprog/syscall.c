@@ -103,7 +103,10 @@ read_argument (const unsigned int *esp)
 	/* To execute a system call, we need argument in the stack,
 	Read that arguments in the esp */
 	if (is_valid_ptr(esp))
-    return (int) *esp;
+    {
+      printf(">> read_argument: if esp -> %d\n", esp);
+      return (int) *esp;
+    }
 	else
     {
       printf(">> read_argument: else\n");
