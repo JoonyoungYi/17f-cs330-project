@@ -24,12 +24,19 @@ void
 check_ptr_validation (void *ptr)
 {
   printf(">> check_ptr_validation: start\n");
-  if (ptr == NULL)
-    exit (-1);
   if (((unsigned int) ptr) <= 0x08048000 ||
-      ((unsigned int) ptr) >= 0xc0000000)
+      (is_kernel_vaddr (ptr))
     exit (-1);
   printf(">> check_ptr_validation: end\n");
+}
+
+/* */
+void
+check_user_ptr_validation (void *ptr)
+{
+  check_ptr_validation (ptr);
+  if (!pagedir_get_page (thread_current()->pagedir, ptr));
+    exit (-1);
 }
 
 /* */
@@ -138,7 +145,7 @@ create (const char *file, unsigned initial_size)
 {
   printf (">> create: start\n");
   printf (">> create: file -> 0x%x\n", file);
-  check_ptr_validation (file);
+  check_user_ptr_validation (file);
   return filesys_create (file, initial_size);
 }
 
@@ -146,7 +153,7 @@ create (const char *file, unsigned initial_size)
 bool
 remove (const char *file)
 {
-  check_ptr_validation (file);
+  check_user_ptr_validation (file);
   return filesys_remove (file);
 }
 
