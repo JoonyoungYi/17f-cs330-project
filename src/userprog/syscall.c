@@ -22,7 +22,8 @@ syscall_init (void)
 bool
 is_valid_ptr(void* ptr)
 {
-  return (((unsigned int*) ptr) > 0x8048000 &&
+  return (ptr != NULL &&
+          ((unsigned int*) ptr) > 0x8048000 &&
           ((unsigned int*) ptr) < 0xc0000000);
 }
 
@@ -135,13 +136,19 @@ exit (int status)
 bool
 create (const char *file, unsigned initial_size)
 {
-	return filesys_create (file, initial_size);
+  if (!is_valid_ptr(file))
+    return false;
+
+  return filesys_create (file, initial_size);
 }
 
 /* */
 bool
 remove (const char *file)
 {
+  if (!is_valid_ptr(file))
+    return false;
+
 	return filesys_remove (file);
 }
 
@@ -152,11 +159,13 @@ remove (const char *file)
 //   return NULL;
 // }
 
-
 /* */
 int
 write (int fd, const void *buffer, unsigned length)
 {
+  if (!is_valid_ptr(buffer))
+    return false;
+
   printf(">> write: fd -> %d\n", fd);
   ASSERT (fd == 1);
   putbuf(buffer, length);
