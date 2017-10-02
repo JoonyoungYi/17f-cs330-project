@@ -22,19 +22,21 @@ syscall_init (void)
 static void
 syscall_handler (struct intr_frame *f)
 {
-	/*get stack pointer from interrupt*/
-	unsigned int *esp = (unsigned int*) (f->esp);
-	/*get system call number from stack*/
-	/*Current, esp indicates to system call numer */
+	/* get stack pointer from interrupt */
+	int *esp = (int*) (f->esp);
+	/* get system call number from stack */
+	/* Current, esp indicates to system call numer */
 
-	unsigned int syscall_number = (*esp);
+	int syscall_number = (*esp);
 	/* check if the address in the esp refer to right location */
+  // printf (">> syscall_handler: esp -> %d\n", esp);
+  printf (">> syscall_handler: *esp -> %d\n", *esp);
 
 	/* Check if the address in esp is right address to prevent the page falut*/
 	if (*esp >= 0x8048000 && *esp <= 0xc0000000)
 		exit(-1);
 
-	/* 	connect each system call by its number
+	/* connect each system call by its number
 		number is defined in syscall-nr.h */
 	switch (syscall_number)
     {
