@@ -124,11 +124,11 @@ remove (const char *file)
 }
 
 /* */
-pid_t
-exec (const char *file)
-{
-  return NULL;
-}
+// pid_t
+// exec (const char *file)
+// {
+//   return NULL;
+// }
 
 
 /* */
