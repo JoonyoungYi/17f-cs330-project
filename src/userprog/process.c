@@ -44,10 +44,11 @@ process_execute (const char *file_name)
 
   /* */
   file_name = strtok_r (file_name, " ", &save_ptr);
-  // printf ("'%s'\n", file_name);
+  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
+  printf (">> process_execute: tid -> %d\n", tid);
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
   return tid;

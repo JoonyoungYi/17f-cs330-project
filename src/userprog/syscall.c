@@ -47,6 +47,7 @@ syscall_handler (struct intr_frame *f)
         exit ((int) read_argument (esp + 1));
       	break;
       case SYS_EXEC:                   /* Start another process. */
+
       	break;
       case SYS_WAIT:                   /* Wait for a child process to die. */
       	break;
@@ -115,4 +116,10 @@ bool create (const char *file, unsigned initial_size)
 bool remove (const char *file)
 {
 	return filesys_remove (file);
+}
+
+/* */
+pid_t exec (const char *file)
+{
+
 }
