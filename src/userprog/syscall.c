@@ -65,6 +65,9 @@ syscall_handler (struct intr_frame *f)
       case SYS_READ:                   /* Read from a file. */
       	break;
       case SYS_WRITE:                  /* Write to a file. */
+        f->eax = write (*(int*) read_argument (esp),
+                        *(void**) read_argument (esp + 1),
+                        *(unsigned*) read_argument (esp + 1));
         break;
       case SYS_SEEK:                   /* Change position in a file. */
       	break;
