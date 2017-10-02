@@ -125,8 +125,9 @@ read_argument (const unsigned int *esp)
 void
 halt (void)
 {
-  printf(">> halt: started\n");
+  printf(">> halt: start\n");
   power_off ();
+  printf(">> halt: end\n");
 }
 
 /* */
