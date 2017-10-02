@@ -118,7 +118,7 @@ read_argument (const unsigned int *esp)
 void
 halt (void)
 {
-	power_off();
+  power_off();
 }
 
 /* */
