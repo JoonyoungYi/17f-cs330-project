@@ -136,6 +136,6 @@ int
 write (int fd, const void *buffer, unsigned length)
 {
   ASSERT (fd == 1);
-  putbuf(buffer, size);
-  return size;
+  putbuf(buffer, length);
+  return length;
 }
