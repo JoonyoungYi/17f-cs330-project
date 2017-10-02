@@ -139,7 +139,7 @@ create (const char *file, unsigned initial_size)
   printf(">> create start\n");
   if (is_valid_ptr(file))
     {
-      printf(">> create: is_valid_ptr true, file -> 0x\x\n", file);
+      printf(">> create: is_valid_ptr true, file -> %x\n", file);
       return filesys_create (file, initial_size);
     }
 
