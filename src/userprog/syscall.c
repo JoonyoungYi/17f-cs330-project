@@ -138,6 +138,7 @@ remove (const char *file)
 int
 write (int fd, const void *buffer, unsigned length)
 {
+  printf(">> write: fd -> %d\n", fd);
   ASSERT (fd == 1);
   putbuf(buffer, length);
   return length;
