@@ -47,7 +47,7 @@ process_execute (const char *file_name)
   // printf ("'%s'\n", file_name);
 
   /* Create a new thread to execute FILE_NAME. */
-  tid = thread_create (function_name, PRI_DEFAULT, start_process, fn_copy);
+  tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
   return tid;
