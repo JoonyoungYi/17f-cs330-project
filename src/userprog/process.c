@@ -547,7 +547,7 @@ setup_stack (const char *file_name, char **save_ptr, void **esp)
     }
 
   printf(">> setup_stack before: success -> %d\n", success);
-  // init_stack(file_name, save_ptr, esp);
+  init_stack(file_name, save_ptr, esp);
   printf(">> setup_stack after: success -> %d\n", success);
   return success;
 }
