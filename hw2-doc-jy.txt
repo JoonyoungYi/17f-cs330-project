@@ -23,9 +23,13 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-many -a args-many -
 # tests/userprog/args-dbl-space
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-dbl-space -a args-dbl-space -- -q   -f run 'args-dbl-space two  spaces!'
 
+# PART 2
 
-# PART 2 null 처리
+## empty
+pintos -v -k -T 10 --qemu  --fs-disk=2 -p tests/userprog/create-empty -a create-empty -- -q   -f run create-empty
+
+## null 처리
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-null -a create-null -- -q   -f run create-null
 
-# PART 2 bad ptr
+## bad ptr
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-bad-ptr -a create-bad-ptr -- -q   -f run create-bad-ptr
