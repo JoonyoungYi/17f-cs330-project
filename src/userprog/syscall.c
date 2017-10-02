@@ -31,11 +31,13 @@ is_valid_ptr (void *ptr)
 static void
 syscall_handler (struct intr_frame *f)
 {
+  printf(">> syscall_handler: start\n");
 	/* get stack pointer from interrupt */
 	unsigned int *esp = (unsigned int*) (f->esp);
 	/* get system call number from stack */
 	/* Current, esp indicates to system call numer */
 
+  printf(">> syscall_handler: 0x%x\n", f);
   /* Check if the address in esp is right address to prevent the page falut */
 	if (!is_valid_ptr(esp))
 		exit(-1);
