@@ -25,7 +25,7 @@ check_ptr_validation (void *ptr)
 {
   printf(">> check_ptr_validation: start\n");
   if (((unsigned int) ptr) <= 0x08048000 ||
-      is_kernel_vaddr (ptr))
+      ((unsigned int) ptr) >= 0xc0000000)
     exit (-1);
   printf(">> check_ptr_validation: end\n");
 }
