@@ -64,6 +64,7 @@ syscall_handler (struct intr_frame *f)
       case SYS_READ:                   /* Read from a file. */
       	break;
       case SYS_WRITE:                  /* Write to a file. */
+        exit (-1);
       	break;
       case SYS_SEEK:                   /* Change position in a file. */
       	break;
@@ -73,7 +74,7 @@ syscall_handler (struct intr_frame *f)
       	break;
   	}
 
-  printf (">> system call! : syscall_number(EXIT) -> %d\n", SYS_EXIT);
+  printf (">> system call! : syscall_number(SYS_EXIT) -> %d\n", SYS_EXIT);
   printf (">> system call! : syscall_number(SYS_WRITE) -> %d\n", SYS_WRITE);
   printf (">> system call! : syscall_number -> %d\n", syscall_number);
   thread_exit ();
