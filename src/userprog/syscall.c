@@ -20,11 +20,12 @@ syscall_init (void)
 }
 
 bool
-is_valid_ptr(void* ptr)
+is_valid_ptr (void *ptr)
 {
+  print('>> is_valid_ptr start');
   return (ptr != NULL &&
-          ((unsigned int*) ptr) > 0x8048000 &&
-          ((unsigned int*) ptr) < 0xc0000000);
+          (ptr > 0x8048000 &&
+          (ptr < 0xc0000000);
 }
 
 static void
@@ -137,7 +138,7 @@ bool
 create (const char *file, unsigned initial_size)
 {
   printf(">> create start\n");
-  if (is_valid_ptr(file))
+  if (is_valid_ptr (file))
     {
       printf(">> create: is_valid_ptr true, file -> %x\n", file);
       return filesys_create (file, initial_size);
@@ -151,7 +152,7 @@ create (const char *file, unsigned initial_size)
 bool
 remove (const char *file)
 {
-  if (is_valid_ptr(file))
+  if (is_valid_ptr (file))
     return filesys_remove (file);
   return false;
 }
