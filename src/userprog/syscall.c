@@ -22,7 +22,8 @@ syscall_init (void)
 bool
 is_valid_ptr (void *ptr)
 {
-  printf('>> is_valid_ptr start');
+  printf('>> is_valid_ptr: start');
+  printf('>> is_valid_ptr: ptr -> 0x%x', ptr);
   return (((unsigned int*) ptr) > 0x8048000 &&
           ((unsigned int*) ptr) < 0xc0000000);
 }
