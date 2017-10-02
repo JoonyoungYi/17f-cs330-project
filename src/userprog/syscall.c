@@ -136,20 +136,20 @@ exit (int status)
 bool
 create (const char *file, unsigned initial_size)
 {
-  if (!is_valid_ptr(file))
-    return false;
+  if (is_valid_ptr(file))
+    return filesys_create (file, initial_size);
 
-  return filesys_create (file, initial_size);
+  print('>> create: false'):
+  return false;
 }
 
 /* */
 bool
 remove (const char *file)
 {
-  if (!is_valid_ptr(file))
-    return false;
-
-	return filesys_remove (file);
+  if (is_valid_ptr(file))
+    return filesys_remove (file);
+  return false;
 }
 
 /* */
@@ -163,11 +163,10 @@ remove (const char *file)
 int
 write (int fd, const void *buffer, unsigned length)
 {
-  if (!is_valid_ptr(buffer))
-    return false;
+  ASSERT (fd == 1);
+  ASSERT (!is_valid_ptr(buffer));
 
   printf(">> write: fd -> %d\n", fd);
-  ASSERT (fd == 1);
   putbuf(buffer, length);
   return length;
 }
