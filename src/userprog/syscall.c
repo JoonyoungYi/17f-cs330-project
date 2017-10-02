@@ -90,10 +90,10 @@ syscall_handler (struct intr_frame *f)
       	break;
   	}
 
-  printf (">> system call! : syscall_number(SYS_EXIT) -> %d\n", SYS_EXIT);
-  printf (">> system call! : syscall_number(SYS_WRITE) -> %d\n", SYS_WRITE);
+  // printf (">> system call! : syscall_number(SYS_EXIT) -> %d\n", SYS_EXIT);
+  // printf (">> system call! : syscall_number(SYS_WRITE) -> %d\n", SYS_WRITE);
   printf (">> system call! : syscall_number -> %d\n", syscall_number);
-  thread_exit ();
+  // thread_exit ();
 }
 
 /* */
