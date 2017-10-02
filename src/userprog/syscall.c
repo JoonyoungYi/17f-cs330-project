@@ -12,22 +12,25 @@ bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
 int read_argument(const unsigned int *esp);
 
-
+/* */
 void
 syscall_init (void)
 {
   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
 }
 
-bool
-is_valid_ptr (void *ptr)
+/* Check if the ptr(address) is right address to prevent the page falut. */
+void
+check_ptr_validation (void *ptr)
 {
-  printf('>> is_valid_ptr: start');
-  printf('>> is_valid_ptr: ptr -> 0x%x', ptr);
-  return (((unsigned int*) ptr) > 0x8048000 &&
-          ((unsigned int*) ptr) < 0xc0000000);
+  printf('>> check_ptr_validation: start');
+  printf('>> check_ptr_validation: ptr -> 0x%x', ptr);
+  if (((unsigned int) ptr) <= 0x8048000 ||
+        ((unsigned int) ptr) > 0xc0000000)
+    exit(-1);
 }
 
+/* */
 static void
 syscall_handler (struct intr_frame *f)
 {
@@ -37,10 +40,8 @@ syscall_handler (struct intr_frame *f)
 	/* get system call number from stack */
 	/* Current, esp indicates to system call numer */
 
-  printf(">> syscall_handler: 0x%x\n", f);
-  /* Check if the address in esp is right address to prevent the page falut */
-	if (!is_valid_ptr(esp))
-		exit(-1);
+  // printf(">> syscall_handler: 0x%x\n", f);
+	check_ptr_validation(esp);
 
 	unsigned int syscall_number = *esp;
 	/* check if the address in the esp refer to right location */
@@ -106,16 +107,8 @@ read_argument (const unsigned int *esp)
 {
 	/* To execute a system call, we need argument in the stack,
 	Read that arguments in the esp */
-	if (is_valid_ptr(esp))
-    {
-      printf(">> read_argument: if esp -> 0x%x\n", esp);
-      return (int) *esp;
-    }
-	else
-    {
-      printf(">> read_argument: else\n");
-      exit(-1);
-    }
+	check_ptr_validation(esp);
+  return (int) *esp;
 }
 
 /* */
@@ -140,23 +133,16 @@ bool
 create (const char *file, unsigned initial_size)
 {
   printf(">> create start\n");
-  if (is_valid_ptr (file))
-    {
-      printf(">> create: is_valid_ptr true, file -> %x\n", file);
-      return filesys_create (file, initial_size);
-    }
-
-  printf('>> create: false');
-  return false;
+  check_ptr_validation (file);
+  return filesys_create (file, initial_size);
 }
 
 /* */
 bool
 remove (const char *file)
 {
-  if (is_valid_ptr (file))
-    return filesys_remove (file);
-  return false;
+  check_ptr_validation (file);
+  return filesys_remove (file);
 }
 
 /* */
@@ -171,7 +157,7 @@ int
 write (int fd, const void *buffer, unsigned length)
 {
   ASSERT (fd == 1);
-  ASSERT (is_valid_ptr(buffer));
+  check_ptr_validation(buffer);
 
   printf(">> write: fd -> %d\n", fd);
   putbuf(buffer, length);
