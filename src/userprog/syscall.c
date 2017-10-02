@@ -27,7 +27,7 @@ syscall_handler (struct intr_frame *f)
 	/* get system call number from stack */
 	/* Current, esp indicates to system call numer */
 
-	int syscall_number = *(int*) esp;
+	unsigned int syscall_number = *esp;
 	/* check if the address in the esp refer to right location */
   // printf (">> syscall_handler: esp -> %d\n", esp);
   printf (">> syscall_handler: *esp -> %d\n", *esp);
@@ -44,7 +44,7 @@ syscall_handler (struct intr_frame *f)
   			halt ();
   			break;
       case SYS_EXIT:					         /* Terminate this process. */
-      	exit (-1);
+        exit ((int) read_argument (esp + 1)));
       	break;
       case SYS_EXEC:                   /* Start another process. */
       	break;
@@ -64,8 +64,7 @@ syscall_handler (struct intr_frame *f)
       case SYS_READ:                   /* Read from a file. */
       	break;
       case SYS_WRITE:                  /* Write to a file. */
-        exit (-1);
-      	break;
+        break;
       case SYS_SEEK:                   /* Change position in a file. */
       	break;
       case SYS_TELL:                   /* Report current position in a file. */
