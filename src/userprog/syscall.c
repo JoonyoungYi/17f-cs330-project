@@ -126,7 +126,7 @@ void
 exit (int status)
 {
 	struct thread *t = thread_current ();
-	printf(">> %s: exit(%d)\n", t->name, status);
+	printf("%s: exit(%d)\n", t->name, status);
 	// Should we change any struct's component here?
 	thread_exit();
 }
