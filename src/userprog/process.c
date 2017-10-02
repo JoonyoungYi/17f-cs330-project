@@ -33,6 +33,9 @@ process_execute (const char *file_name)
 {
   char *fn_copy;
   tid_t tid;
+  char *token, *save_ptr;
+
+  char function_name;
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
@@ -41,13 +44,21 @@ process_execute (const char *file_name)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
 
+<<<<<<< HEAD
   /* */
   char *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
   // printf ("'%s'\n", file_name);
+=======
+
+
+  // Parsing the file_name and only put the name of the process
+  
+  function_name = strtok_r (file_name, " ", &save_ptr);
+>>>>>>> origin/pj2_part2
 
   /* Create a new thread to execute FILE_NAME. */
-  tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
+  tid = thread_create (function_name, PRI_DEFAULT, start_process, fn_copy);
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
   return tid;
@@ -74,8 +85,26 @@ start_process (void *f_name)
   if_.gs = if_.fs = if_.es = if_.ds = if_.ss = SEL_UDSEG;
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
+<<<<<<< HEAD
   success = load (file_name, &save_ptr, &if_.eip, &if_.esp);
   printf(">> start_process: success -> %d.\n", success);
+=======
+
+
+
+
+  // Tokenize
+  
+  
+  char *token, *save_ptr;
+   for (token = strtok_r (file_name, " ", &save_ptr); token != NULL;
+        token = strtok_r (NULL, " ", &save_ptr))
+
+   
+  // Save the token in argument_stack() 
+  
+  success = load (file_name, &if_.eip, &if_.esp);
+>>>>>>> origin/pj2_part2
 
   /* If load failed, quit. */
   palloc_free_page (file_name);
