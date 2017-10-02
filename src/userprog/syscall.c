@@ -3,6 +3,8 @@
 #include <syscall-nr.h>
 #include "threads/interrupt.h"
 #include "threads/thread.h"
+#include "threads/vaddr.h"
+#include "userprog/pagedir.h"
 
 static void syscall_handler (struct intr_frame *);
 /* Projects 2 and later. */
@@ -24,8 +26,7 @@ void
 check_ptr_validation (void *ptr)
 {
   // printf(">> check_ptr_validation: start\n");
-  if (((unsigned int) ptr) <= 0x08048000 ||
-      ((unsigned int) ptr) >= 0xc0000000)
+  if (((unsigned int) ptr) <= 0x08048000 || is_kernel_vaddr(ptr))
     exit (-1);
   printf(">> check_ptr_validation: end\n");
 }
@@ -34,6 +35,7 @@ check_ptr_validation (void *ptr)
 void
 check_user_ptr_validation (void *ptr)
 {
+  check_ptr_validation(ptr);
   printf(">> check_user_ptr_validation: start\n");
   if (pagedir_get_page (thread_current()->pagedir, ptr) == NULL);
     {
@@ -147,8 +149,7 @@ bool
 create (const char *file, unsigned initial_size)
 {
   printf (">> create: start\n");
-  printf (">> create: file -> 0x%x\n", file);
-  check_ptr_validation (file);
+  // printf (">> create: file -> 0x%x\n", file);
   check_user_ptr_validation (file);
   return filesys_create (file, initial_size);
 }
