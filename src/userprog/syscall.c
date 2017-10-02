@@ -29,6 +29,7 @@ check_ptr_validation (void *ptr)
   if (((unsigned int) ptr) <= 0x08048000 || is_kernel_vaddr(ptr))
     exit (-1);
   printf(">> check_ptr_validation: end\n");
+
 }
 
 /* */
@@ -39,7 +40,8 @@ check_user_ptr_validation (void *ptr)
   printf(">> check_user_ptr_validation: start\n");
   printf(">> check_user_ptr_validation: ptr -> 0x%x\n", ptr);
   printf(">> check_user_ptr_validation: pagedir -> 0x%x\n", thread_current()->pagedir);
-  if (pagedir_get_page (thread_current()->pagedir, ptr) == NULL);
+
+  if (pagedir_get_page (thread_current()->pagedir, ptr) == NULL)
     {
       printf(">> check_user_ptr_validation: exit\n");
       exit (-1);
