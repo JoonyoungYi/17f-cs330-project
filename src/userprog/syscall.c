@@ -104,7 +104,7 @@ read_argument (const unsigned int *esp)
 	Read that arguments in the esp */
 	if (is_valid_ptr(esp))
     {
-      printf(">> read_argument: if esp -> %d\n", esp);
+      printf(">> read_argument: if esp -> 0x%x\n", esp);
       return (int) *esp;
     }
 	else
