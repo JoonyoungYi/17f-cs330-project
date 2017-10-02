@@ -38,22 +38,6 @@ check_ptr_validation (void *ptr)
 }
 
 /* */
-void
-check_user_ptr_validation (void *ptr)
-{
-  check_ptr_validation(ptr);
-  printf(">> check_user_ptr_validation: start\n");
-  printf(">> check_user_ptr_validation: ptr -> 0x%x\n", ptr);
-  printf(">> check_user_ptr_validation: pagedir -> 0x%x\n", thread_current()->pagedir);
-
-  if (pagedir_get_page (thread_current()->pagedir, ptr) == NULL)
-    {
-      printf(">> check_user_ptr_validation: exit\n");
-      exit (-1);
-    }
-}
-
-/* */
 static void
 syscall_handler (struct intr_frame *f)
 {
@@ -140,7 +124,8 @@ read_argument (const unsigned int *esp)
 void
 halt (void)
 {
-  power_off();
+  power_off ();
+  NOT_REACHED ();
 }
 
 /* */

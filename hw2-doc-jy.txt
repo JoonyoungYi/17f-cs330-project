@@ -28,6 +28,12 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-dbl-space -a args-d
 
 # PART 2
 
+## halt
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/halt -a halt -- -q   -f run halt
+
+## exit
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/exit -a exit -- -q   -f run exit
+
 ## normal
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-normal -a create-normal -- -q   -f run create-normal
 
