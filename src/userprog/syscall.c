@@ -136,6 +136,7 @@ exit (int status)
 bool
 create (const char *file, unsigned initial_size)
 {
+  printf(">> create start\n");
   if (is_valid_ptr(file))
     return filesys_create (file, initial_size);
 
