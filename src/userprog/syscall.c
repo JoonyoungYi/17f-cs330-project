@@ -44,7 +44,7 @@ syscall_handler (struct intr_frame *f)
   			halt ();
   			break;
       case SYS_EXIT:					         /* Terminate this process. */
-        exit ((int) read_argument (esp + 1)));
+        exit ((int) read_argument (esp + 1));
       	break;
       case SYS_EXEC:                   /* Start another process. */
       	break;
