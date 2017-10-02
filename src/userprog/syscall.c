@@ -24,6 +24,8 @@ void
 check_ptr_validation (void *ptr)
 {
   printf(">> check_ptr_validation: start\n");
+  if (ptr == NULL)
+    exit (-1);
   if (((unsigned int) ptr) <= 0x08048000 ||
       ((unsigned int) ptr) >= 0xc0000000)
     exit (-1);
