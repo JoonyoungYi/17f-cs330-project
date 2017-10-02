@@ -1,5 +1,11 @@
 http://egloos.zum.com/YSocks/v/501670
 
+처음 테스팅 참고
+http://dcclab.sogang.ac.kr/index.php?document_srl=3124&mid=os2014
+
+디버깅참고
+https://web.stanford.edu/class/cs140/projects/pintos/pintos_10.html
+
 git pull && make clean && make
 
 # tests/userprog/args-none

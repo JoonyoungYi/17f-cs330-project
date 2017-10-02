@@ -525,7 +525,7 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   *esp -= 4;
   memcpy(*esp, &null, 4);
 
-  return false;
+  return true;
 }
 
 /* Create a minimal stack by mapping a zeroed page at the top of
@@ -547,7 +547,7 @@ setup_stack (const char *file_name, char **save_ptr, void **esp)
     }
 
   printf(">> setup_stack before: success -> %d\n", success);
-  init_stack(file_name, save_ptr, esp);
+  success &&= init_stack(file_name, save_ptr, esp);
   printf(">> setup_stack after: success -> %d\n", success);
   return success;
 }
