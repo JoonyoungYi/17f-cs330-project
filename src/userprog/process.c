@@ -35,8 +35,6 @@ process_execute (const char *file_name)
   tid_t tid;
   char *token, *save_ptr;
 
-  char function_name;
-
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
   fn_copy = palloc_get_page (0);
@@ -45,7 +43,6 @@ process_execute (const char *file_name)
   strlcpy (fn_copy, file_name, PGSIZE);
 
   /* */
-  char *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
   // printf ("'%s'\n", file_name);
 
