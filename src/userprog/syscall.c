@@ -34,7 +34,7 @@ check_ptr_validation (void *ptr)
 void
 check_user_ptr_validation (void *ptr)
 {
-  check_ptr_validation (ptr);
+  printf(">> check_user_ptr_validation: start\n");
   if (pagedir_get_page (thread_current()->pagedir, ptr) == NULL);
     {
       printf(">> check_user_ptr_validation exit\n");
@@ -149,7 +149,7 @@ create (const char *file, unsigned initial_size)
   printf (">> create: start\n");
   printf (">> create: file -> 0x%x\n", file);
   check_ptr_validation (file);
-  // check_user_ptr_validation (*file);
+  check_user_ptr_validation (file);
   return filesys_create (file, initial_size);
 }
 
