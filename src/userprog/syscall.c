@@ -94,7 +94,11 @@ read_argument (const unsigned int *esp)
 	if ((*esp >= 0x8048000) && (*esp <= 0xc0000000))
     return (int) esp;
 	else
-	  exit(-1);
+    {
+      printf(">> read_argument: else\n");
+      exit(-1);
+    }
+
 }
 
 /* */
