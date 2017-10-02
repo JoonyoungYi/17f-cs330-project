@@ -164,7 +164,7 @@ int
 write (int fd, const void *buffer, unsigned length)
 {
   ASSERT (fd == 1);
-  ASSERT (!is_valid_ptr(buffer));
+  ASSERT (is_valid_ptr(buffer));
 
   printf(">> write: fd -> %d\n", fd);
   putbuf(buffer, length);
