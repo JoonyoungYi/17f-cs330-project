@@ -74,9 +74,13 @@ syscall_handler (struct intr_frame *f)
       	break;
       case SYS_WRITE:                  /* Write to a file. */
         printf(">> syscall_handler: case SYS_WRITE\n");
-        f->eax = write (*(int*) read_argument (esp + 1),
-                        *(void**) read_argument (esp + 2),
-                        *(unsigned*) read_argument (esp + 3));
+        int fd = *(int*) read_argument (esp + 1);
+        printf(">> syscall_handler: case SYS_WRITE fd -> %d\n", fd);
+        void *buffer = *(void**) read_argument (esp + 2);
+        printf(">> syscall_handler: case SYS_WRITE buffer\n");
+        unsigned length = *(unsigned*) read_argument (esp + 3);
+        printf(">> syscall_handler: case SYS_WRITE length -> %d\n", length);
+        f->eax = write (fd, buffer, length);
         break;
       case SYS_SEEK:                   /* Change position in a file. */
       	break;
