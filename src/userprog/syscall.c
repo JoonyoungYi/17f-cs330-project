@@ -23,11 +23,11 @@ static void
 syscall_handler (struct intr_frame *f)
 {
 	/* get stack pointer from interrupt */
-	int *esp = (int*) (f->esp);
+	unsigned int *esp = (unsigned int*) (f->esp);
 	/* get system call number from stack */
 	/* Current, esp indicates to system call numer */
 
-	int syscall_number = (*esp);
+	int syscall_number = *(int*) esp;
 	/* check if the address in the esp refer to right location */
   // printf (">> syscall_handler: esp -> %d\n", esp);
   printf (">> syscall_handler: *esp -> %d\n", *esp);
