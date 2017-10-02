@@ -28,7 +28,7 @@ check_ptr_validation (void *ptr)
     printf ('>> check_ptr_validation: start');
   printf ('>> check_ptr_validation: ptr -> 0x%x', ptr);
   if (((unsigned int) ptr) <= 0x8048000 ||
-        ((unsigned int) ptr) > 0xc0000000)
+        ((unsigned int) ptr) >= 0xc0000000)
     exit(-1);
 }
 
@@ -44,7 +44,7 @@ syscall_handler (struct intr_frame *f)
 
   printf (">> syscall_handler: 0x%x\n", f);
   printf (">> syscall_handler: 0x%x\n", f->esp);
-	check_ptr_validation(esp);
+	// check_ptr_validation(esp);
 
   printf (">> syscall_handler: syscall_number get\n");
 	unsigned int syscall_number = *esp;
