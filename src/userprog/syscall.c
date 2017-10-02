@@ -71,7 +71,7 @@ syscall_handler (struct intr_frame *f)
       	break;
   	}
 
-  printf (">> system call!\n");
+  printf (">> system call! : syscall_number -> %d\n", syscall_number);
   thread_exit ();
 }
 
