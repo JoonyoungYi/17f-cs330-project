@@ -24,11 +24,9 @@ void
 check_ptr_validation (void *ptr)
 {
   printf(">> check_ptr_validation: start\n");
-  char *ptr_curr = ptr;
-  // printf ('>> check_ptr_validation: ptr_curr -> %d', ptr_curr == NULL);
-  if (((unsigned int) ptr) <= 0x8048000 ||
-        ((unsigned int) ptr) >= 0xc0000000)
-    exit(-1);
+  if (((unsigned int) ptr) <= 0x08048000 ||
+      ((unsigned int) ptr) >= 0xc0000000)
+    exit (-1);
   printf(">> check_ptr_validation: end\n");
 }
 
@@ -129,14 +127,15 @@ exit (int status)
 	struct thread *t = thread_current ();
 	printf ("%s: exit(%d)\n", t->name, status);
 	// Should we change any struct's component here?
-	thread_exit();
+	thread_exit ();
 }
 
 /* */
 bool
 create (const char *file, unsigned initial_size)
 {
-  printf (">> create start\n");
+  printf (">> create: start\n");
+  printf (">> create: file -> 0x%x\n", file);
   check_ptr_validation (file);
   return filesys_create (file, initial_size);
 }
