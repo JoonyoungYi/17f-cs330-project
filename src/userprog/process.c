@@ -138,13 +138,14 @@ process_wait (tid_t child_tid)
   struct thread *chld = get_child_thread (child_tid);
   if (chld == NULL)
     return -1;
+  printf(">> process_wait () child thread find success.\n");
 
   while (chld->status != THREAD_DYING)
     {
       if (chld->status != 1 && chld->status != 2)
         printf(">> process_wait: chld->status -> %d\n", chld->status);
+      thread_yield ();
     }
-    // thread_yield ();
 
   printf(">> process_wait () end.\n");
   return chld->exit_status;
