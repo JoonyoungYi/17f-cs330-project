@@ -160,7 +160,7 @@ remove (const char *file)
 }
 
 /* */
-pid_t jy (const char *file)
+bool jy (const char *file)
 {
   // pid_t pid = process_execute (file);
   // return pid;
