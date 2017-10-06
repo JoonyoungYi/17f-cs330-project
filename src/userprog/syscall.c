@@ -73,9 +73,10 @@ syscall_handler (struct intr_frame *f)
         exit ((int) read_argument (esp + 1));
       	break;
       case SYS_EXEC:                   /* Start another process. */
-        // f->eax = exec ((const char*) read_argument (esp + 1));
+        f->eax = exec ((const char*) read_argument (esp + 1));
       	break;
       case SYS_WAIT:                   /* Wait for a child process to die. */
+        f->eax = wait ((tid_t) read_argument (esp + 1));
       	break;
       case SYS_CREATE:                 /* Create a file. */
       	f->eax = create ((const char*) read_argument (esp + 1),
