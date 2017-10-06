@@ -5,7 +5,7 @@
 #include "threads/interrupt.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
-#include "userporg/process.h"
+#include "userprog/process.h"
 #include "userprog/pagedir.h"
 
 static void syscall_handler (struct intr_frame *);
