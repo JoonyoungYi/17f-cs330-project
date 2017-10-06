@@ -140,7 +140,10 @@ process_wait (tid_t child_tid)
     return -1;
 
   while (chld->status != THREAD_DYING)
-    thread_yield ();
+    {
+      printf(">> process_wait: chld->status -> %d\n", chld->status);
+    }
+    // thread_yield ();
 
   printf(">> process_wait () end.\n");
   return chld->exit_status;
