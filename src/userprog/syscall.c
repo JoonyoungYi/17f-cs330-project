@@ -165,6 +165,7 @@ remove (const char *file)
 tid_t
 exec (const char *file)
 {
+  printf (">> exec: start\n");
   tid_t tid = process_execute (file);
   return tid;
 }

@@ -31,6 +31,7 @@ static bool load (const char *cmdline,
 tid_t
 process_execute (const char *file_name)
 {
+  printf (">> process_execute: start\n");
   char *fn_copy;
   tid_t tid;
   char *token, *save_ptr;
@@ -142,8 +143,8 @@ process_wait (tid_t child_tid)
 
   while (chld->status != THREAD_DYING)
     {
-      if (chld->status != 1 && chld->status != 2)
-        printf(">> process_wait: chld->status -> %d\n", chld->status);
+      // if (chld->status != 1 && chld->status != 2)
+      //   printf(">> process_wait: chld->status -> %d\n", chld->status);
       thread_yield ();
     }
 
