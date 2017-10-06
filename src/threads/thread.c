@@ -402,7 +402,7 @@ thread_exit (void)
      We will be destroyed during the call to schedule_tail(). */
   intr_disable ();
   thread_current ()->status = THREAD_DYING;
-  printf(">> thread_exit -> dying\n");
+  // printf(">> thread_exit -> dying\n");
   schedule ();
   NOT_REACHED ();
 }
