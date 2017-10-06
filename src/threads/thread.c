@@ -171,7 +171,7 @@ tid_t
 thread_create (const char *name, int priority,
                thread_func *function, void *aux)
 {
-  // printf (">> thread_create () start.\n");
+  printf (">> thread_create () start.\n");
 
   struct thread *t;
   struct kernel_thread_frame *kf;
@@ -212,7 +212,7 @@ thread_create (const char *name, int priority,
   /* Add to run queue. */
   thread_unblock (t);
 
-  // printf (">> thread_create () end.\n");
+  printf (">> thread_create () end.\n");
   return tid;
 }
 
@@ -402,7 +402,7 @@ thread_exit (void)
      We will be destroyed during the call to schedule_tail(). */
   intr_disable ();
   thread_current ()->status = THREAD_DYING;
-  // // printf (">> thread_exit -> dying\n");
+  // printf (">> thread_exit -> dying\n");
   schedule ();
   NOT_REACHED ();
 }
