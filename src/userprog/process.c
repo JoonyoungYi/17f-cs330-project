@@ -102,6 +102,9 @@ start_process (void *f_name)
 /* */
 struct thread*
 get_child_thread (tid_t child_tid) {
+  printf(">> get_child_thread: start\n");
+  printf(">> get_child_thread: child_tid -> %d\n", child_tid);
+
   struct thread* curr = thread_current ();
   struct list *child_threads = &curr->child_threads;
   struct list_elem *e;
@@ -112,6 +115,8 @@ get_child_thread (tid_t child_tid) {
       if (t->tid == child_tid)
         return t;
     }
+
+  printf(">> get_child_thread: error end\n");
   return NULL;
 }
 
