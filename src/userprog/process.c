@@ -112,6 +112,7 @@ get_child_thread (tid_t child_tid) {
        e = list_next (e))
     {
       struct thread *t = list_entry (e, struct thread, child_elem);
+      printf(">> get_child_thread: in loop, tid -> %d\n", t->tid);
       if (t->tid == child_tid)
         return t;
     }
