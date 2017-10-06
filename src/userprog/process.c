@@ -35,13 +35,16 @@ process_execute (const char *file_name)
   char *fn_copy;
   tid_t tid;
   char *token, *save_ptr;
+  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
+  printf (">> process_execute: start palloc\n");
   fn_copy = palloc_get_page (0);
   if (fn_copy == NULL)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
+  printf (">> process_execute: end palloc\n");
 
   /* */
   file_name = strtok_r (file_name, " ", &save_ptr);
