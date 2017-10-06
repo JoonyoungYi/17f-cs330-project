@@ -92,7 +92,7 @@ syscall_handler (struct intr_frame *f)
       case SYS_READ:                   /* Read from a file. */
       	break;
       case SYS_WRITE:                  /* Write to a file. */
-        int fd = (int) read_argument (esp + 1);
+        int fd = read_argument (esp + 1);
         void *buffer = (void*) read_argument (esp + 2);
         unsigned length = (unsigned) read_argument (esp + 3);
         f->eax = write (fd, buffer, length);
