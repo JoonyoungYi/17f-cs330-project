@@ -141,6 +141,13 @@ get_child_thread (tid_t child_tid) {
   return NULL;
 }
 
+void
+thread_remove (struct thread *t)
+{
+  list_remove (&t->child_elem);
+  palloc_free_page (t);
+}
+
 /* Waits for thread TID to die and returns its exit status.  If
    it was terminated by the kernel (i.e. killed due to an
    exception), returns -1.  If TID is invalid or if it was not a
@@ -168,7 +175,9 @@ process_wait (tid_t child_tid)
     }
 
   // printf (">> process_wait () end.\n");
-  return chld->exit_status;
+  int exit_status = chld->exit_status;
+  thread_remove (chld);
+  return exit_status;
 }
 
 /* Free the current process's resources. */
