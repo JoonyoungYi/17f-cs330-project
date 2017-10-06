@@ -99,6 +99,22 @@ start_process (void *f_name)
   printf(">> start_process end.");
 }
 
+/* */
+struct thread*
+get_child_thread (tid_t child_tid) {
+  struct thread* curr = current_thread ();
+  struct list *child_list = &curr->child_list;
+  struct list_elem *e;
+  for (e = list_begin (&child_list); e != list_end (&child_list);
+       e = list_next (e))
+    {
+      struct thread *t = list_entry (e, struct thread, child_elem);
+      if (t->tid == child_tid)
+        return t;
+    }
+  return NULL;
+}
+
 /* Waits for thread TID to die and returns its exit status.  If
    it was terminated by the kernel (i.e. killed due to an
    exception), returns -1.  If TID is invalid or if it was not a
@@ -109,12 +125,19 @@ start_process (void *f_name)
    This function will be implemented in problem 2-2.  For now, it
    does nothing. */
 int
-process_wait (tid_t child_tid UNUSED)
+process_wait (tid_t child_tid)
 {
   printf(">> process_wait () start.\n");
-  while (1);
+
+  struct thread *chld = get_child_thread (child_tid);
+  if (chld == NULL)
+    return -1;
+
+  while (chld->status != THREAD_DYING)
+    thread_yield ();
+
   printf(">> process_wait () end.\n");
-  return -1;
+  return chld->exit_status;
 }
 
 /* Free the current process's resources. */

@@ -139,7 +139,7 @@ exit (int status)
 {
 	struct thread *t = thread_current ();
 	printf ("%s: exit(%d)\n", t->name, status);
-	// Should we change any struct's component here?
+  t->exit_status = status;
 	thread_exit ();
 }
 

@@ -101,6 +101,7 @@ struct thread
     struct thread *parent_thread;       /* Added by JY */
     struct list child_threads;          /* Added by JY */
     struct list_elem child_elem;        /* Added by JY */
+    int exit_status;                    /* Added by JY. system call handling */
 #endif
 
     /* Owned by thread.c. */
