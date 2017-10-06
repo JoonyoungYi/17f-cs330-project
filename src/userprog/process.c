@@ -102,7 +102,7 @@ start_process (void *f_name)
 /* */
 struct thread*
 get_child_thread (tid_t child_tid) {
-  struct thread* curr = current_thread ();
+  struct thread* curr = thread_current ();
   struct list *child_threads = &curr->child_threads;
   struct list_elem *e;
   for (e = list_begin (&child_threads); e != list_end (&child_threads);
