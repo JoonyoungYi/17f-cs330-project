@@ -28,14 +28,14 @@ syscall_init (void)
 void
 check_ptr_validation (void *ptr)
 {
-  // printf (">> check_ptr_validation: start\n");
+  // // printf (">> check_ptr_validation: start\n");
   if (((unsigned int) ptr) <= 0x08048000 || is_kernel_vaddr(ptr))
     exit (-1);
-  printf (">> check_ptr_validation: end\n");
+  // printf (">> check_ptr_validation: end\n");
 
   if (pagedir_get_page (thread_current()->pagedir, ptr) == NULL)
     {
-      printf (">> check_user_ptr_validation: exit\n");
+      // printf (">> check_user_ptr_validation: exit\n");
       exit (-1);
     }
 }
@@ -44,24 +44,24 @@ check_ptr_validation (void *ptr)
 static void
 syscall_handler (struct intr_frame *f)
 {
-  printf (">> syscall_handler: start\n");
+  // printf (">> syscall_handler: start\n");
 	/* get stack pointer from interrupt */
 	unsigned int *esp = (unsigned int*) (f->esp);
 	/* get system call number from stack */
 	/* Current, esp indicates to system call numer */
 
-  printf (">> syscall_handler: 0x%x\n", f);
-  printf (">> syscall_handler: 0x%x\n", f->esp);
+  // printf (">> syscall_handler: 0x%x\n", f);
+  // printf (">> syscall_handler: 0x%x\n", f->esp);
 	check_ptr_validation (esp);
 
-  printf (">> syscall_handler: syscall_number get\n");
+  // printf (">> syscall_handler: syscall_number get\n");
 	unsigned int syscall_number = *esp;
 	/* check if the address in the esp refer to right location */
-  // printf (">> syscall_handler: esp -> %d\n", esp);
-  printf (">> syscall_handler: *esp -> %d\n", *esp);
+  // // printf (">> syscall_handler: esp -> %d\n", esp);
+  // printf (">> syscall_handler: *esp -> %d\n", *esp);
 
-  printf (">> syscall_handler: start switch\n");
-  printf (">> syscall_handler: syscall_number -> %d\n", syscall_number);
+  // printf (">> syscall_handler: start switch\n");
+  // printf (">> syscall_handler: syscall_number -> %d\n", syscall_number);
 	/* connect each system call by its number
 		number is defined in syscall-nr.h */
 	switch (syscall_number)
@@ -93,13 +93,13 @@ syscall_handler (struct intr_frame *f)
       	break;
       case SYS_WRITE:                  /* Write to a file. */
         {
-          // ; // printf (">> syscall_handler: case SYS_WRITE\n");
+          // // printf (">> syscall_handler: case SYS_WRITE\n");
           int fd = (int) read_argument (esp + 1);
-          // printf (">> syscall_handler: case SYS_WRITE fd -> %d\n", fd);
+          // // printf (">> syscall_handler: case SYS_WRITE fd -> %d\n", fd);
           void *buffer = (void*) read_argument (esp + 2);
-          // printf (">> syscall_handler: case SYS_WRITE buffer\n");
+          // // printf (">> syscall_handler: case SYS_WRITE buffer\n");
           unsigned length = (unsigned) read_argument (esp + 3);
-          // printf (">> syscall_handler: case SYS_WRITE length -> %d\n", length);
+          // // printf (">> syscall_handler: case SYS_WRITE length -> %d\n", length);
           f->eax = write (fd, buffer, length);
           break;
         }
@@ -111,8 +111,8 @@ syscall_handler (struct intr_frame *f)
       	break;
   	}
 
-  // printf (">> system call! : syscall_number(SYS_EXIT) -> %d\n", SYS_EXIT);
-  // printf (">> system call! : syscall_number(SYS_WRITE) -> %d\n", SYS_WRITE);
+  // // printf (">> system call! : syscall_number(SYS_EXIT) -> %d\n", SYS_EXIT);
+  // // printf (">> system call! : syscall_number(SYS_WRITE) -> %d\n", SYS_WRITE);
   // thread_exit ();
 }
 
@@ -130,9 +130,9 @@ read_argument (const unsigned int *esp)
 void
 halt (void)
 {
-  printf (">> halt: start\n");
+  // printf (">> halt: start\n");
   power_off ();
-  printf (">> halt: end\n");
+  // printf (">> halt: end\n");
 }
 
 /* */
@@ -149,8 +149,8 @@ exit (int status)
 bool
 create (const char *file, unsigned initial_size)
 {
-  printf (">> create: start\n");
-  // printf (">> create: file -> 0x%x\n", file);
+  // printf (">> create: start\n");
+  // // printf (">> create: file -> 0x%x\n", file);
   check_ptr_validation (file);
   return filesys_create (file, initial_size);
 }
@@ -167,7 +167,7 @@ remove (const char *file)
 tid_t
 exec (const char *file)
 {
-  printf (">> exec: start\n");
+  // printf (">> exec: start\n");
   check_ptr_validation (file);
   tid_t tid = process_execute (file);
   return tid;
@@ -187,7 +187,7 @@ write (int fd, const void *buffer, unsigned length)
   ASSERT (fd == 1);
   check_ptr_validation (buffer);
 
-  printf (">> write: fd -> %d\n", fd);
+  // printf (">> write: fd -> %d\n", fd);
   putbuf (buffer, length);
   return length;
 }
