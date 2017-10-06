@@ -141,7 +141,8 @@ process_wait (tid_t child_tid)
 
   while (chld->status != THREAD_DYING)
     {
-      printf(">> process_wait: chld->status -> %d\n", chld->status);
+      if (chld->status != 1 && child->status != 2)
+        printf(">> process_wait: chld->status -> %d\n", chld->status);
     }
     // thread_yield ();
 
