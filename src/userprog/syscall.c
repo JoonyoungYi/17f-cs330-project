@@ -12,6 +12,7 @@ static void syscall_handler (struct intr_frame *);
 void halt (void);
 void exit (int status);
 tid_t exec (const char *file);
+int wait (tid_t tid);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
 int read_argument(const unsigned int *esp);
@@ -165,6 +166,13 @@ exec (const char *file)
 {
   tid_t tid = process_execute (file);
   return tid;
+}
+
+/* */
+int
+wait (tid_t tid)
+{
+  return process_wait(tid);
 }
 
 /* */
