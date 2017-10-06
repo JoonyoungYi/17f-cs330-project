@@ -15,6 +15,7 @@ git pull && make clean && make
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-none -a args-none -- -q   -f run args-none
 
 ## tests/userprog/args-single
+### make tests/userprog/args-single.result
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/args-single -a args-single -- -q   -f run 'args-single onearg'
 
 ## tests/userprog/args-multiple

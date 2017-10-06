@@ -34,7 +34,6 @@ process_execute (const char *file_name)
   printf (">> process_execute: start\n");
   char *fn_copy;
   tid_t tid;
-  char *token, *save_ptr;
   printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
@@ -47,7 +46,8 @@ process_execute (const char *file_name)
   printf (">> process_execute: end palloc\n");
 
   /* */
-  file_name = strtok_r (file_name, " ", &save_ptr);
+  char *save_ptr;
+  file_name = strtok_r (fn_copy, " ", &save_ptr);
   printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Create a new thread to execute FILE_NAME. */

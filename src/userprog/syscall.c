@@ -15,7 +15,7 @@ tid_t exec (const char *file);
 int wait (tid_t tid);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
-int read_argument(const unsigned int *esp);
+int read_argument (const unsigned int *esp);
 
 /* */
 void
