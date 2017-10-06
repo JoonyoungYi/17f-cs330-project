@@ -11,6 +11,7 @@ static void syscall_handler (struct intr_frame *);
 /* Projects 2 and later. */
 void halt (void);
 void exit (int status);
+pid_t exec (const char *file);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
 int read_argument(const unsigned int *esp);
