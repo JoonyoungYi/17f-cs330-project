@@ -205,8 +205,9 @@ thread_create (const char *name, int priority,
   sf->eip = switch_entry;
 
   /* add parent child info with parent struct */
-  t->parent_thread = thread_current ();
-  list_push_back (thread_current ()->child_threads, &t->child_elem);
+  struct thread *curr = thread_current ();
+  t->parent_thread = curr;
+  list_push_back (&curr->child_threads, &t->child_elem);
 
   /* Add to run queue. */
   thread_unblock (t);
