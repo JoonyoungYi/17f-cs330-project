@@ -31,15 +31,15 @@ static bool load (const char *cmdline,
 tid_t
 process_execute (const char *file_name)
 {
-  //$ printf (">> process_execute: start\n");
+  printf (">> process_execute: start\n");
   char *fn_copy;
   char *fn_copy_1; // file_name with new page block.
   tid_t tid;
-  //$ printf (">> process_execute: file_name -> %s\n", file_name);
+  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
-  //$ printf (">> process_execute: start palloc\n");
+  printf (">> process_execute: start palloc\n");
   fn_copy = palloc_get_page (0);
   if (fn_copy == NULL)
     return TID_ERROR;
@@ -49,16 +49,16 @@ process_execute (const char *file_name)
   if (fn_copy_1 == NULL)
     return TID_ERROR;
   strlcpy (fn_copy_1, file_name, PGSIZE);
-  //$ printf (">> process_execute: end palloc\n");
+  printf (">> process_execute: end palloc\n");
 
   /* */
   char *save_ptr;
   file_name = strtok_r (fn_copy_1, " ", &save_ptr);
-  //$ printf (">> process_execute: file_name -> %s\n", file_name);
+  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
-  //$ printf (">> process_execute: tid -> %d\n", tid);
+  printf (">> process_execute: tid -> %d\n", tid);
   if (tid == TID_ERROR)
     {
       palloc_free_page (fn_copy);
@@ -79,9 +79,9 @@ start_process (void *f_name)
   /* */
   char *save_ptr;
   file_name = strtok_r (file_name, " ", &save_ptr);
-  // //$ printf(">> start_process: save_ptr -> ");
+  // printf (">> start_process: save_ptr -> ");
 
-  //$ printf(">> start_process: file_name -> %s\n", file_name);
+  printf (">> start_process: file_name -> %s\n", file_name);
 
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
@@ -90,11 +90,11 @@ start_process (void *f_name)
   if_.eflags = FLAG_IF | FLAG_MBS;
 
   success = load (file_name, &save_ptr, &if_.eip, &if_.esp);
-  //$ printf(">> start_process: success -> %d.\n", success);
+  printf (">> start_process: success -> %d.\n", success);
 
   /* If load failed, quit. */
   palloc_free_page (file_name);
-  //$ printf(">> palloc_free_page success!\n");
+  printf (">> palloc_free_page success!\n");
   if (!success)
     thread_exit ();
 
@@ -109,14 +109,14 @@ start_process (void *f_name)
   asm volatile ("movl %0, %%esp; jmp intr_exit" : : "g" (&if_) : "memory");
   NOT_REACHED ();
 
-  //$ printf(">> start_process end.");
+  printf (">> start_process end.");
 }
 
 /* */
 struct thread*
 get_child_thread (tid_t child_tid) {
-  //$ printf(">> get_child_thread: start\n");
-  //$ printf(">> get_child_thread: child_tid -> %d\n", child_tid);
+  printf (">> get_child_thread: start\n");
+  printf (">> get_child_thread: child_tid -> %d\n", child_tid);
 
   struct thread* curr = thread_current ();
   struct list *child_threads = &curr->child_threads;
@@ -125,12 +125,12 @@ get_child_thread (tid_t child_tid) {
        e = list_next (e))
     {
       struct thread *t = list_entry (e, struct thread, child_elem);
-      //$ printf(">> get_child_thread: in loop, tid -> %d\n", t->tid);
+      printf (">> get_child_thread: in loop, tid -> %d\n", t->tid);
       if (t->tid == child_tid)
         return t;
     }
 
-  //$ printf(">> get_child_thread: error end\n");
+  printf (">> get_child_thread: error end\n");
   return NULL;
 }
 
@@ -146,21 +146,21 @@ get_child_thread (tid_t child_tid) {
 int
 process_wait (tid_t child_tid)
 {
-  //$ printf(">> process_wait () start.\n");
+  printf (">> process_wait () start.\n");
 
   struct thread *chld = get_child_thread (child_tid);
   if (chld == NULL)
     return -1;
-  //$ printf(">> process_wait () child thread find success.\n");
+  printf (">> process_wait () child thread find success.\n");
 
   while (chld->status != THREAD_DYING)
     {
       // if (chld->status != 1 && chld->status != 2)
-      //   //$ printf(">> process_wait: chld->status -> %d\n", chld->status);
+      //   printf (">> process_wait: chld->status -> %d\n", chld->status);
       thread_yield ();
     }
 
-  //$ printf(">> process_wait () end.\n");
+  printf (">> process_wait () end.\n");
   return chld->exit_status;
 }
 
@@ -506,14 +506,14 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   int null = 0;
 
   /* TEST */
-  // //$ printf (">> init_stack: file_name -> %s\n", file_name);
+  // printf (">> init_stack: file_name -> %s\n", file_name);
   // char *token = strtok_r (NULL, " ", save_ptr);
   // while (token != NULL)
   //   {
-  //     //$ printf (">> init_stack: token -> %s\n", token);
+  //     printf (">> init_stack: token -> %s\n", token);
   //     token = strtok_r (NULL, " ", save_ptr);
   //   }
-  // //$ printf(">> init_stack: token == NULL -> %d\n", (token == NULL));
+  // printf (">> init_stack: token == NULL -> %d\n", (token == NULL));
 
   /* push stack with query data */
   int argc = 0;
@@ -522,11 +522,11 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   char *token;
   char *query = malloc (1 * sizeof(char));
   int *query_lens = malloc (1 * sizeof(int));
-  //$ printf (">> init_stack: for loop start\n");
+  printf (">> init_stack: for loop start\n");
   for (token = file_name; token != NULL;
        token = strtok_r (NULL, " ", save_ptr))
     {
-      //$ printf (">> init_stack: token -> %s\n", token);
+      printf (">> init_stack: token -> %s\n", token);
       len = strlen (token) + 1;
       query = realloc (query, (query_len + len) * sizeof(char));
       query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
@@ -535,7 +535,7 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
       query_len += len;
       argc++;
     }
-  // //$ printf (">> init_stack: len -> %d\n", len);
+  // printf (">> init_stack: len -> %d\n", len);
   *esp -= query_len;
   char *argv = *esp;
   memcpy (*esp, query, query_len);
@@ -597,9 +597,9 @@ setup_stack (const char *file_name, char **save_ptr, void **esp)
         palloc_free_page (kpage);
     }
 
-  //$ printf(">> setup_stack before: success -> %d\n", success);
+  printf (">> setup_stack before: success -> %d\n", success);
   success &= init_stack(file_name, save_ptr, esp);
-  //$ printf(">> setup_stack after: success -> %d\n", success);
+  printf (">> setup_stack after: success -> %d\n", success);
   return success;
 }
 
