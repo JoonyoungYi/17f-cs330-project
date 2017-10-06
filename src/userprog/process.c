@@ -106,9 +106,9 @@ get_child_thread (tid_t child_tid) {
   printf(">> get_child_thread: child_tid -> %d\n", child_tid);
 
   struct thread* curr = thread_current ();
-  struct list *child_threads = curr->child_threads;
+  struct list *child_threads = &curr->child_threads;
   struct list_elem *e;
-  for (e = list_begin (&child_threads); e != list_end (&child_threads);
+  for (e = list_begin (child_threads); e != list_end (child_threads);
        e = list_next (e))
     {
       struct thread *t = list_entry (e, struct thread, child_elem);
