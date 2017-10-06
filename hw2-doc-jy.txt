@@ -72,3 +72,8 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/exec-arg -a exec-arg -p 
 ## exec bad-ptr
 ### make tests/userprog/exec-bad-ptr.result
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/exec-bad-ptr -a exec-bad-ptr -- -q   -f run exec-bad-ptr
+
+
+## wait twice
+### make tests/userprog/wait-twice.result
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/wait-twice -a wait-twice -p tests/userprog/child-simple -a child-simple -- -q   -f run wait-twice

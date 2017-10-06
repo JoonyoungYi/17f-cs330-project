@@ -47,7 +47,10 @@ process_execute (const char *file_name)
 
   fn_copy_1 = palloc_get_page (0);
   if (fn_copy_1 == NULL)
-    return TID_ERROR;
+    {
+      palloc_free_page (fn_copy);
+      return TID_ERROR;
+    }
   strlcpy (fn_copy_1, file_name, PGSIZE);
   // printf (">> process_execute: end palloc\n");
 
@@ -91,6 +94,10 @@ start_process (void *f_name)
 
   success = load (file_name, &save_ptr, &if_.eip, &if_.esp);
   // printf (">> start_process: success -> %d.\n", success);
+  if (success)
+    thread_current ()->load_status = 1;
+  else
+    thread_current ()->load_status = -1;
 
   /* If load failed, quit. */
   palloc_free_page (file_name);

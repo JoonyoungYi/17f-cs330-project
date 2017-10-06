@@ -208,6 +208,7 @@ thread_create (const char *name, int priority,
   struct thread *curr = thread_current ();
   t->parent_thread = curr;
   list_push_back (&curr->child_threads, &t->child_elem);
+  t->load_status = 0;
 
   /* Add to run queue. */
   thread_unblock (t);

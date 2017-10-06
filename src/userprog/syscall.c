@@ -5,6 +5,7 @@
 #include "threads/interrupt.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
+#include "userporg/process.h"
 #include "userprog/pagedir.h"
 
 static void syscall_handler (struct intr_frame *);
@@ -170,6 +171,19 @@ exec (const char *file)
   // printf (">> exec: start\n");
   check_ptr_validation (file);
   tid_t tid = process_execute (file);
+  struct thread* chld = get_child_thread (tid);
+  if (chld == NULL)
+    return -1;
+
+  while (chld->load_status == 0)
+    {
+      // if (chld->status != 1 && chld->status != 2)
+      //   // printf (">> process_wait: chld->status -> %d\n", chld->status);
+      thread_yield ();
+    }
+
+  if (chld->load_status != 1)
+    return -1;
   return tid;
 }
 
