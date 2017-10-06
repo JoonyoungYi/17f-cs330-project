@@ -89,15 +89,18 @@ struct thread
     char name[16];                      /* Name (for debugging purposes). */
     uint8_t *stack;                     /* Saved stack pointer. */
     int priority;                       /* Priority. */
-    
+
     int time_to_wake_up;                   /* To save what time is remained to wake*/
-    
+
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */
+    struct thread *parent_thread;       /* Added by JY */
+    struct list child_threads;          /* Added by JY */
+    struct list_elem child_elem;        /* Added by JY */
 #endif
 
     /* Owned by thread.c. */
