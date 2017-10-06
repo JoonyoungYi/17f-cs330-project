@@ -160,12 +160,11 @@ remove (const char *file)
 }
 
 /* */
-pid_t
-exec (const char *file)
-{
-  pid_t pid = process_execute (file);
-  return pid;
-}
+// pid_t exec (const char *file)
+// {
+//   pid_t pid = process_execute (file);
+//   return pid;
+// }
 
 /* */
 int
