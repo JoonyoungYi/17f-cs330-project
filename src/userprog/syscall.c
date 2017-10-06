@@ -166,6 +166,7 @@ tid_t
 exec (const char *file)
 {
   printf (">> exec: start\n");
+  check_ptr_validation (file);
   tid_t tid = process_execute (file);
   return tid;
 }
