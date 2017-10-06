@@ -103,9 +103,9 @@ start_process (void *f_name)
 struct thread*
 get_child_thread (tid_t child_tid) {
   struct thread* curr = current_thread ();
-  struct list *child_list = &curr->child_list;
+  struct list *child_threads = &curr->child_threads;
   struct list_elem *e;
-  for (e = list_begin (&child_list); e != list_end (&child_list);
+  for (e = list_begin (&child_threads); e != list_end (&child_threads);
        e = list_next (e))
     {
       struct thread *t = list_entry (e, struct thread, child_elem);
