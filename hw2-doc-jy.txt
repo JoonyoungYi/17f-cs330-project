@@ -1,5 +1,5 @@
 http://egloos.zum.com/YSocks/v/501670
- 
+
 처음 테스팅 참고
 http://dcclab.sogang.ac.kr/index.php?document_srl=3124&mid=os2014
 http://thinkpro.tistory.com/120
@@ -54,3 +54,8 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-null -a create-nu
 
 ## bad ptr
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/create-bad-ptr -a create-bad-ptr -- -q   -f run create-bad-ptr
+
+
+## exec once
+make tests/userprog/exec-once.result
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/exec-once -a exec-once -p tests/userprog/child-simple -a child-simple -- -q   -f run exec-once
