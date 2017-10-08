@@ -281,6 +281,8 @@ filesize (int fd)
 int
 read (int fd, void *buffer, unsigned length)
 {
+  check_ptr_validation (buffer);
+
   ASSERT (fd > 1);
 
   struct file *f = thread_get_file (fd);
