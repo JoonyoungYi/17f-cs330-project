@@ -114,13 +114,13 @@ struct thread
     unsigned magic;                     /* Detects stack overflow. */
   };
 
-/* Added by JY. */
-struct thread_file
-  {
-    int fd;
-    struct file *f;
-    struct list_elem elem;
-  };
+// /* Added by JY. */
+// struct thread_file
+//   {
+//     int fd;
+//     struct file *f;
+//     struct list_elem elem;
+//   };
 
 /* If false (default), use round-robin scheduler.
    If true, use multi-level feedback queue scheduler.
