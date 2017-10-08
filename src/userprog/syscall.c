@@ -302,9 +302,7 @@ read (int fd, void *buffer, unsigned length)
   if (f == NULL)
     return -1;
 
-  int length = file_read (f, buffer, length);
-  // printf(">> read: size -> %d\n", length);
-  return length;
+  return file_read (f, buffer, length);
 }
 
 /* */
