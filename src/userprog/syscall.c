@@ -271,6 +271,7 @@ read (int fd, void *buffer, unsigned length)
     return -1;
 
   int size = file_read (f, buffer, length);
+  printf(">> read: size -> %d\n", size);
   return size;
 }
 
