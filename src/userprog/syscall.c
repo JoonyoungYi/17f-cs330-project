@@ -18,6 +18,9 @@ int open (const char *file);
 void close (int fd);
 int filesize (int fd);
 int read (int fd, void *buffer, unsigned length);
+void seek (int fd, unsigned position);
+unsigned tell (int fd);
+int write (int fd, const void *buffer, unsigned length)
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
 int read_argument (const unsigned int *esp);
@@ -139,10 +142,14 @@ syscall_handler (struct intr_frame *f)
         }
       case SYS_SEEK:                   /* Change position in a file. */
       	{
+          fd = (int) read_argument (esp + 1);
+          f->eax = seek (fd, (unsigned) read_argument (esp + 2));
           break;
         }
       case SYS_TELL:                   /* Report current position in a file. */
       	{
+          fd = (int) read_argument (esp + 1);
+          f->eax = tell (fd);
           break;
         }
       case SYS_CLOSE:                  /* Close a file. */
@@ -321,4 +328,33 @@ write (int fd, const void *buffer, unsigned length)
 
   int length = file_write (f, buffer, length);
   return length;
+}
+
+/* */
+void
+seek (int fd, unsigned position)
+{
+  if (fd <= 1) // stdin or stdout or negative int do nothing.
+    return;
+
+  struct file *f = thread_get_file (fd);
+  if (f == NULL)
+    return;
+
+  file_seek (f, position);
+}
+
+/* */
+unsigned
+tell (int fd)
+{
+  if (fd <= 1) // stdin or stdout or negative int return error
+    return -1;
+
+  struct file *f = thread_get_file (fd);
+  if (f == NULL)
+    return -1;
+
+  off_t offset = file_tell (f);
+  return (unsigned) offset;
 }
