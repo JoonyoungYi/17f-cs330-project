@@ -124,3 +124,7 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/read-normal -a read-norm
 
 ## bad-write
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/bad-write -a bad-write -- -q   -f run bad-write
+
+##
+### make tests/userprog/no-vm/multi-oom.result
+pintos -v -k -T 360 --qemu  --fs-disk=2 -p tests/userprog/no-vm/multi-oom -a multi-oom -- -q   -f run multi-oom
