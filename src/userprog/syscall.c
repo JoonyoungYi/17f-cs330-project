@@ -224,7 +224,7 @@ exit (int status)
 int
 open (const char *file)
 {
-  open_count ++;
+  // open_count ++;
   // printf (">> open : %d\n", open_count);
   if (file == NULL)
     return -1;
