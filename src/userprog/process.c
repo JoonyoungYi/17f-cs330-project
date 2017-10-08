@@ -186,8 +186,7 @@ process_wait (tid_t child_tid)
 void
 process_exit (void)
 {
-  printf(">> process_exit: called\n");
-  
+  // printf(">> process_exit: called\n");
   struct thread *curr = thread_current ();
   uint32_t *pd;
 
@@ -198,7 +197,10 @@ process_exit (void)
 
   /* file allow write with souce code */
   if (curr->running_file)
-    file_allow_write (curr->running_file);
+    {
+      file_allow_write (curr->running_file);
+      file_close (curr->running_file);
+    }
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
