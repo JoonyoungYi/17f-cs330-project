@@ -120,3 +120,7 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/read-normal -a read-norm
 
 ## read-stdout
 ### make tests/userprog/read-stdout.result
+
+
+## bad-write
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/bad-write -a bad-write -- -q   -f run bad-write

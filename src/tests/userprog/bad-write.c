@@ -7,8 +7,6 @@
 void
 test_main (void)
 {
-  msg ('hi2');
-  *(int *)NULL = 42;
-  msg ('hi');
+  // *(int *)NULL = 42;
   fail ("should have exited with -1");
 }

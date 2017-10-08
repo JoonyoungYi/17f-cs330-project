@@ -309,7 +309,7 @@ read (int fd, void *buffer, unsigned length)
 int
 write (int fd, const void *buffer, unsigned length)
 {
-  printf (">> write: -> fd: %d\n", fd);
+  // printf (">> write: -> fd: %d\n", fd);
   check_ptr_validation (buffer);
 
   if (fd <= 0) // stdin or negative int return error
@@ -317,8 +317,8 @@ write (int fd, const void *buffer, unsigned length)
 
   if (fd == 1) // handle stdout
     {
-      printf (">> write: length -> %u\n", length);
-      printf (">> write: buffer -> 0x%x\n", buffer);
+      // printf (">> write: length -> %u\n", length);
+      // printf (">> write: buffer -> 0x%x\n", buffer);
       putbuf (buffer, length);
       return length;
     }
