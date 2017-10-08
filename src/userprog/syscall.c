@@ -47,7 +47,7 @@ check_ptr_validation (void *ptr)
 static void
 syscall_handler (struct intr_frame *f)
 {
-  // printf (">> syscall_handler: start\n");
+  printf (">> syscall_handler: start\n");
 	/* get stack pointer from interrupt */
 	unsigned int *esp = (unsigned int*) (f->esp);
 	/* get system call number from stack */
@@ -178,7 +178,7 @@ exit (int status)
 int
 open (const char *file)
 {
-  printf (">> open: start\n");
+  // printf (">> open: start\n");
   if (file == NULL)
     return -1;
   check_ptr_validation (file);
