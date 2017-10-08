@@ -77,18 +77,13 @@ process_execute (const char *file_name)
 static void
 start_process (void *f_name)
 {
-  char *file_name;
+  char *file_name = f_name;
   struct intr_frame if_;
   bool success;
 
   /* */
-  file_name = palloc_get_page (0);
-  if (file_name == NULL)
-    return TID_ERROR;
-  strlcpy (file_name, f_name, PGSIZE);
-
   char *save_ptr;
-  char *token = strtok_r (file_name, " ", &save_ptr);
+  file_name = strtok_r (file_name, " ", &save_ptr);
   // // printf (">> start_process: save_ptr -> ");
 
   // printf (">> start_process: file_name -> %s\n", file_name);
@@ -99,7 +94,7 @@ start_process (void *f_name)
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
 
-  success = load (token, &save_ptr, &if_.eip, &if_.esp);
+  success = load (file_name, &save_ptr, &if_.eip, &if_.esp);
   // printf (">> start_process: success -> %d.\n", success);
   if (success)
     thread_current ()->load_status = 1;

@@ -9,6 +9,10 @@ http://blog.naver.com/PostView.nhn?blogId=jkpops&logNo=10036756666&redirect=Dlog
 디버깅참고
 https://web.stanford.edu/class/cs140/projects/pintos/pintos_10.html
 
+마지막테스트
+http://thinkpro.tistory.com/119
+http://leven.tistory.com/entry/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-2-%EB%B0%95%EC%82%B4%EC%99%84%EB%A3%8C
+
 git pull && make clean && make
 
 ## tests/userprog/args-none
