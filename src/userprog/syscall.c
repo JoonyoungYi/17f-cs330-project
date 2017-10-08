@@ -218,11 +218,14 @@ exit (int status)
 	thread_exit ();
 }
 
+int open_count = 0;
+
 /* */
 int
 open (const char *file)
 {
-  // printf (">> open: start\n");
+  open_count ++;
+  printf (">> open : %d\n", open_count);
   if (file == NULL)
     return -1;
   check_ptr_validation (file);
@@ -247,6 +250,8 @@ open (const char *file)
 void
 close (int fd)
 {
+  open_count --;
+  printf (">> close : %d\n", open_count);
   if (fd >= 0)
     {
       fl_acquire ();
