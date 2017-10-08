@@ -268,8 +268,10 @@ wait (tid_t tid)
 int
 filesize (int fd)
 {
-  if (fd <= 1)
+  if (fd < 0 || fd == 1)
     return -1;
+
+  //TODO: stdin
 
   struct file *f = thread_get_file (fd);
   if (f == NULL)
@@ -284,26 +286,39 @@ read (int fd, void *buffer, unsigned length)
 {
   check_ptr_validation (buffer);
 
-  if (fd <= 1)
+  if (fd < 0 || fd == 1) // stdout or negative int return error
     return -1;
+
+  //TODO: stdin
 
   struct file *f = thread_get_file (fd);
   if (f == NULL)
     return -1;
 
-  int size = file_read (f, buffer, length);
-  // printf(">> read: size -> %d\n", size);
-  return size;
+  int length = file_read (f, buffer, length);
+  // printf(">> read: size -> %d\n", length);
+  return length;
 }
 
 /* */
 int
 write (int fd, const void *buffer, unsigned length)
 {
-  ASSERT (fd == 1);
   check_ptr_validation (buffer);
 
-  // printf (">> write: fd -> %d\n", fd);
-  putbuf (buffer, length);
+  if (fd <= 0) // stdin or negative int return error
+    return -1;
+
+  if (fd == 1) // handle stdout
+    {
+      putbuf (buffer, length);
+      return length;
+    }
+
+  struct file *f = thread_get_file (fd);
+  if (f == NULL)
+    return -1;
+
+  int length = file_write (f, buffer, length);
   return length;
 }
