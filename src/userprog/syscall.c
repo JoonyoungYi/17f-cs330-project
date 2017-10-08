@@ -326,7 +326,7 @@ write (int fd, const void *buffer, unsigned length)
   if (f == NULL)
     return -1;
 
-  int length = file_write (f, buffer, length);
+  length = file_write (f, buffer, length);
   return length;
 }
 
@@ -355,6 +355,5 @@ tell (int fd)
   if (f == NULL)
     return -1;
 
-  off_t offset = file_tell (f);
-  return (unsigned) offset;
+  return (unsigned) file_tell (f);
 }
