@@ -115,10 +115,13 @@ syscall_handler (struct intr_frame *f)
         }
       case SYS_READ:                   /* Read from a file. */
       	{
+          printf(">> SYS_READ!!\n");
           fd = (int) read_argument (esp + 1);
           buffer = (void*) read_argument (esp + 2);
           length = (unsigned) read_argument (esp + 3);
-          f->eax = read (fd, buffer, length);
+          int size = read (fd, buffer, length);
+          printf(">> SYS_READ: size -> %d\n", size);
+          f->eax = size;
           break;
         }
       case SYS_WRITE:                  /* Write to a file. */
@@ -269,6 +272,7 @@ read (int fd, void *buffer, unsigned length)
   struct file *f = thread_get_file (fd);
   if (f == NULL)
     return -1;
+  check_ptr_validation (f);
 
   int size = file_read (f, buffer, length);
   printf(">> read: size -> %d\n", size);
