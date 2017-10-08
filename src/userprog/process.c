@@ -11,6 +11,7 @@
 #include "filesys/directory.h"
 #include "filesys/file.h"
 #include "filesys/filesys.h"
+#include "threads/malloc.h"
 #include "threads/flags.h"
 #include "threads/init.h"
 #include "threads/interrupt.h"
@@ -243,7 +244,7 @@ process_add_file (struct file *f)
 void
 process_remove_file (int fd)
 {
-  
+
 }
 
 /* We load ELF binaries.  The following definitions are taken
