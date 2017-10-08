@@ -176,6 +176,9 @@ exit (int status)
 int
 open (const char *file)
 {
+  if (file == NULL)
+    return -1;
+    
   struct file *f = filesys_open (file);
   if (f == NULL)
     return -1;
