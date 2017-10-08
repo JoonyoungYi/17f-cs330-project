@@ -226,8 +226,24 @@ int
 process_add_file (struct file *f)
 {
   int fd = thread_current ()->fd_max + 1;
-  thread_current ()->fd_max = fd;
+
+  struct thread_file *tf = malloc (sizeof (struct thread_file));
+  if (tf == NULL)
+    return -1;
+  tf->fd = fd;
+  tf->f = f;
+
+  struct thread *curr = thread_current ();
+  list_push_back (&curr->thread_files, &tf->elem);
+  curr->fd_max = fd;
   return fd;
+}
+
+/* */
+void
+process_remove_file (int fd)
+{
+  
 }
 
 /* We load ELF binaries.  The following definitions are taken

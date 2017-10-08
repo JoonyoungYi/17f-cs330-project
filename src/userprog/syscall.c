@@ -15,6 +15,7 @@ void exit (int status);
 tid_t exec (const char *file);
 int wait (tid_t tid);
 int open (const char *file);
+void close (int fd);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
 int read_argument (const unsigned int *esp);
@@ -134,6 +135,7 @@ syscall_handler (struct intr_frame *f)
         }
       case SYS_CLOSE:                  /* Close a file. */
       	{
+          close ((const char*) read_argument (esp + 1));
           break;
         }
   	}
@@ -189,6 +191,16 @@ open (const char *file)
     return fd;
 
   return -1;
+}
+
+/* */
+void
+close (int fd)
+{
+  if (fd >= 0)
+    process_remove_file (fd);
+  else
+    exit (-1);
 }
 
 /* */

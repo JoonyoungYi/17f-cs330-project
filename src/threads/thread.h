@@ -98,17 +98,28 @@ struct thread
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */
+
     struct thread *parent_thread;       /* Added by JY */
     struct list child_threads;          /* Added by JY */
     struct list_elem child_elem;        /* Added by JY */
     int exit_status;                    /* Added by JY. system call handling */
     int load_status;                    /* Added by JY. load handling */
                                         /* 1: success, 0: default, -1:fail */
+
     int fd_max;                         /* Added by JY. */
+    struct list thread_files;           /* Added by JY. */
 #endif
 
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
+  };
+
+/* Added by JY. */
+struct thread_file
+  {
+    int fd;
+    struct file *f;
+    struct list_elem elem;
   };
 
 /* If false (default), use round-robin scheduler.

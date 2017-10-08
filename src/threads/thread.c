@@ -205,12 +205,14 @@ thread_create (const char *name, int priority,
   sf->eip = switch_entry;
 
   /* add parent child info with parent struct */
+  list_init (&t->child_threads);
   struct thread *curr = thread_current ();
   t->parent_thread = curr;
   list_push_back (&curr->child_threads, &t->child_elem);
   t->load_status = 0;
 
   /* file descriptor */
+  list_init (&t->thread_files);
   t->fd_max = 1;
 
   /* Add to run queue. */
@@ -559,9 +561,6 @@ init_thread (struct thread *t, const char *name, int priority)
   t->stack = (uint8_t *) t + PGSIZE;
   t->priority = priority;
   t->magic = THREAD_MAGIC;
-
-  /* init child list */
-  list_init (&t->child_threads);
 }
 
 /* Allocates a SIZE-byte frame at the top of thread T's stack and
