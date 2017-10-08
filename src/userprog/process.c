@@ -257,6 +257,18 @@ get_thread_file (struct list **thread_files, int fd)
 }
 
 /* */
+struct file*
+thread_get_file (int fd)
+{
+  struct thread *curr = thread_current ();
+  struct thread_file *tf = get_thread_file (&curr->thread_files, fd);
+  if (tf == NULL)
+    return NULL;
+
+  return tf->f;
+}
+
+/* */
 void
 process_remove_file (int fd)
 {

@@ -266,11 +266,7 @@ read (int fd, void *buffer, unsigned length)
 {
   ASSERT (fd > 1);
 
-  struct thread_file *tf = get_thread_file (fd);
-  if (tf == NULL)
-    return -1;
-
-  struct file *f = tf->f;
+  struct file *f = thread_get_file (fd);
   if (f == NULL)
     return -1;
 
