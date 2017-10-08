@@ -14,6 +14,7 @@ void halt (void);
 void exit (int status);
 tid_t exec (const char *file);
 int wait (tid_t tid);
+int open (const char *file);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
 int read_argument (const unsigned int *esp);
@@ -68,30 +69,49 @@ syscall_handler (struct intr_frame *f)
 	switch (syscall_number)
     {
   		case SYS_HALT:                   /* Halt the operating system. */
-  			halt ();
-  			break;
+        {
+          halt ();
+    			break;
+        }
       case SYS_EXIT:					         /* Terminate this process. */
-        exit ((int) read_argument (esp + 1));
-      	break;
+        {
+          exit ((int) read_argument (esp + 1));
+      	  break;
+        }
       case SYS_EXEC:                   /* Start another process. */
-        f->eax = exec ((const char*) read_argument (esp + 1));
-      	break;
+        {
+          f->eax = exec ((const char*) read_argument (esp + 1));
+        	break;
+        }
       case SYS_WAIT:                   /* Wait for a child process to die. */
-        f->eax = wait ((tid_t) read_argument (esp + 1));
-      	break;
+        {
+          f->eax = wait ((tid_t) read_argument (esp + 1));
+      	  break;
+        }
       case SYS_CREATE:                 /* Create a file. */
-      	f->eax = create ((const char*) read_argument (esp + 1),
-                         (unsigned) read_argument (esp + 2));
-      	break;
+        {
+          f->eax = create ((const char*) read_argument (esp + 1),
+                           (unsigned) read_argument (esp + 2));
+        	break;
+        }
       case SYS_REMOVE:                 /* Delete a file. */
-      	f->eax = remove ((const char*) read_argument (esp + 1));
-      	break;
+        {
+          f->eax = remove ((const char*) read_argument (esp + 1));
+        	break;
+        }
       case SYS_OPEN:                   /* Open a file. */
-      	break;
+        {
+          f->eax = open ((const char*) read_argument (esp + 1));
+          break;
+        }
       case SYS_FILESIZE:               /* Obtain a file's size. */
-      	break;
+      	{
+          break;
+        }
       case SYS_READ:                   /* Read from a file. */
-      	break;
+      	{
+          break;
+        }
       case SYS_WRITE:                  /* Write to a file. */
         {
           // // printf (">> syscall_handler: case SYS_WRITE\n");
@@ -105,11 +125,17 @@ syscall_handler (struct intr_frame *f)
           break;
         }
       case SYS_SEEK:                   /* Change position in a file. */
-      	break;
+      	{
+          break;
+        }
       case SYS_TELL:                   /* Report current position in a file. */
-      	break;
+      	{
+          break;
+        }
       case SYS_CLOSE:                  /* Close a file. */
-      	break;
+      	{
+          break;
+        }
   	}
 
   // // printf (">> system call! : syscall_number(SYS_EXIT) -> %d\n", SYS_EXIT);
@@ -144,6 +170,14 @@ exit (int status)
 	printf ("%s: exit(%d)\n", t->name, status);
   t->exit_status = status;
 	thread_exit ();
+}
+
+/* */
+int
+open (const char *file)
+{
+  
+  return -1;
 }
 
 /* */
