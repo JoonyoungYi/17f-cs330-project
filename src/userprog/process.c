@@ -241,11 +241,30 @@ process_add_file (struct file *f)
   return fd;
 }
 
+struct thread_file
+get_thread_file (sturct list **thread_files, int fd)
+{
+  for (e = list_begin (thread_files); e != list_end (thread_files);
+       e = list_next (e))
+    {
+      struct thread_file *tf = list_entry (e, struct thread_file, elem);
+      if (tf->fd == fd)
+        return tf;
+    }
+  return NULL;
+}
+
 /* */
 void
 process_remove_file (int fd)
 {
+  struct thread *curr = thread_current ();
+  struct thread_file *tf = get_thread_file (&curr->thread_files, fd);
+  if (tf == NULL)
+    return;
 
+  list_remove (&tf->elem);
+  free (tf);
 }
 
 /* We load ELF binaries.  The following definitions are taken

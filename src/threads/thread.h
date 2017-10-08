@@ -114,6 +114,7 @@ struct thread
     unsigned magic;                     /* Detects stack overflow. */
   };
 
+#ifdef USERPROG
 /* Added by JY. */
 struct thread_file
   {
@@ -121,6 +122,7 @@ struct thread_file
     struct file *f;
     struct list_elem elem;
   };
+#endif
 
 /* If false (default), use round-robin scheduler.
    If true, use multi-level feedback queue scheduler.
