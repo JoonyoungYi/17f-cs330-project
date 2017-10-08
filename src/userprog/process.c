@@ -220,7 +220,15 @@ process_activate (void)
      interrupts. */
   tss_update ();
 }
-
+
+/* */
+int
+processs_add_file (struct file *f)
+{
+  
+  return -1;
+}
+
 /* We load ELF binaries.  The following definitions are taken
    from the ELF specification, [ELF1], more-or-less verbatim.  */
 

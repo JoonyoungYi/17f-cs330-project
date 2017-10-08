@@ -176,7 +176,14 @@ exit (int status)
 int
 open (const char *file)
 {
-  
+  struct file *f = filesys_open (file);
+  if (f == NULL)
+    return -1;
+
+  fd = processs_add_file (f);
+  if (fd != -1)
+    return fd;
+
   return -1;
 }
 
