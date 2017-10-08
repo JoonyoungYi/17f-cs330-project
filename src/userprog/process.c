@@ -223,9 +223,9 @@ process_activate (void)
 
 /* */
 int
-processs_add_file (struct file *f)
+process_add_file (struct file *f)
 {
-  
+
   return -1;
 }
 

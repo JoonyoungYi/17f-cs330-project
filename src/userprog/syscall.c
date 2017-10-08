@@ -180,7 +180,7 @@ open (const char *file)
   if (f == NULL)
     return -1;
 
-  fd = processs_add_file (f);
+  fd = process_add_file (f);
   if (fd != -1)
     return fd;
 
