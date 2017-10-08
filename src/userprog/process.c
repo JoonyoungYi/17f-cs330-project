@@ -241,7 +241,8 @@ process_add_file (struct file *f)
   return fd;
 }
 
-struct thread_file
+/* */
+struct thread_file*
 get_thread_file (sturct list **thread_files, int fd)
 {
   for (e = list_begin (thread_files); e != list_end (thread_files);
