@@ -16,6 +16,7 @@ tid_t exec (const char *file);
 int wait (tid_t tid);
 int open (const char *file);
 void close (int fd);
+int filesize (int fd);
 int read (int fd, void *buffer, unsigned length);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
@@ -111,17 +112,17 @@ syscall_handler (struct intr_frame *f)
         }
       case SYS_FILESIZE:               /* Obtain a file's size. */
       	{
+          fd = (int) read_argument (esp + 1);
+          f->eax = filesize (fd);
           break;
         }
       case SYS_READ:                   /* Read from a file. */
       	{
-          printf(">> SYS_READ!!\n");
+          // printf(">> SYS_READ!!\n");
           fd = (int) read_argument (esp + 1);
           buffer = (void*) read_argument (esp + 2);
           length = (unsigned) read_argument (esp + 3);
-          int size = read (fd, buffer, length);
-          printf(">> SYS_READ: size -> %d\n", size);
-          f->eax = size;
+          f->eax = read (fd, buffer, length);
           break;
         }
       case SYS_WRITE:                  /* Write to a file. */
@@ -265,6 +266,19 @@ wait (tid_t tid)
 
 /* */
 int
+filesize (int fd)
+{
+  ASSERT (fd > 1);
+
+  struct file *f = thread_get_file (fd);
+  if (f == NULL)
+    return -1;
+
+  return file_length (f);
+}
+
+/* */
+int
 read (int fd, void *buffer, unsigned length)
 {
   ASSERT (fd > 1);
@@ -272,10 +286,9 @@ read (int fd, void *buffer, unsigned length)
   struct file *f = thread_get_file (fd);
   if (f == NULL)
     return -1;
-  // check_ptr_validation (f);
 
   int size = file_read (f, buffer, length);
-  printf(">> read: size -> %d\n", size);
+  // printf(">> read: size -> %d\n", size);
   return size;
 }
 
