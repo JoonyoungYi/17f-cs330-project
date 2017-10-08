@@ -195,7 +195,7 @@ process_free (struct thread* t)
   //     process_free (t);
   //   }
 
-  palloc_free_page (t);
+  // palloc_free_page (t->);
 }
 
 /* Free the current process's resources. */
