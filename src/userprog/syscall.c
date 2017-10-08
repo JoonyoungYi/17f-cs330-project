@@ -340,7 +340,19 @@ read (int fd, void *buffer, unsigned length)
   if (fd < 0 || fd == 1) // stdout or negative int return error
     return -1;
 
-  //TODO: stdin
+  if (fd == 0)
+    {
+      unsigned i;
+      for (i = 0; i < length; i++)
+        {
+          uint8_t b = input_getc();
+          if (b != '\0')
+            ((char *) buffer)[i] = b;
+          else
+            break;
+        }
+      return i + 1;
+    }
 
   fl_acquire ();
   struct file *f = thread_get_file (fd);
