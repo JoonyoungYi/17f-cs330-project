@@ -225,7 +225,7 @@ int
 open (const char *file)
 {
   open_count ++;
-  printf (">> open : %d\n", open_count);
+  // printf (">> open : %d\n", open_count);
   if (file == NULL)
     return -1;
   check_ptr_validation (file);
