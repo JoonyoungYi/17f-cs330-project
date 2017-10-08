@@ -211,15 +211,15 @@ process_exit (void)
   for (fd = 2; fd <= curr->fd_max; fd++)
     process_remove_file (fd);
 
-  /* free this and free all childrens */
-  process_free (curr);
-
   /* file allow write with souce code */
   if (curr->running_file)
     {
       file_allow_write (curr->running_file);
       file_close (curr->running_file);
     }
+
+  /* free this and free all childrens */
+  process_free (curr);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
