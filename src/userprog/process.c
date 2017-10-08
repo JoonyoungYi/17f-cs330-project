@@ -186,16 +186,16 @@ process_wait (tid_t child_tid)
 void
 process_free (struct thread* t)
 {
-  struct list *child_threads = &t->child_threads;
-  struct list_elem *e;
-  for (e = list_begin (child_threads); e != list_end (child_threads);
-       e = list_next (e))
-    {
-      struct thread *t = list_entry (e, struct thread, child_elem);
-      process_free (t);
-    }
+  // struct list *child_threads = &t->child_threads;
+  // struct list_elem *e;
+  // for (e = list_begin (child_threads); e != list_end (child_threads);
+  //      e = list_next (e))
+  //   {
+  //     struct thread *t = list_entry (e, struct thread, child_elem);
+  //     process_free (t);
+  //   }
 
-  palloc_free_page (t);
+  // palloc_free_page (t);
 }
 
 /* Free the current process's resources. */
