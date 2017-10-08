@@ -143,7 +143,7 @@ syscall_handler (struct intr_frame *f)
       case SYS_SEEK:                   /* Change position in a file. */
       	{
           fd = (int) read_argument (esp + 1);
-          f->eax = seek (fd, (unsigned) read_argument (esp + 2));
+          seek (fd, (unsigned) read_argument (esp + 2));
           break;
         }
       case SYS_TELL:                   /* Report current position in a file. */
