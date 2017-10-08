@@ -268,7 +268,8 @@ wait (tid_t tid)
 int
 filesize (int fd)
 {
-  ASSERT (fd > 1);
+  if (fd <= 1)
+    return -1;
 
   struct file *f = thread_get_file (fd);
   if (f == NULL)
@@ -283,7 +284,8 @@ read (int fd, void *buffer, unsigned length)
 {
   check_ptr_validation (buffer);
 
-  ASSERT (fd > 1);
+  if (fd <= 1)
+    return -1;
 
   struct file *f = thread_get_file (fd);
   if (f == NULL)
