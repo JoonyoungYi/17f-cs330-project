@@ -120,7 +120,7 @@ syscall_handler (struct intr_frame *f)
           buffer = (void*) read_argument (esp + 2);
           length = (unsigned) read_argument (esp + 3);
           int size = read (fd, buffer, length);
-          // printf(">> SYS_READ: size -> %d\n", size);
+          printf(">> SYS_READ: size -> %d\n", size);
           f->eax = size;
           break;
         }
