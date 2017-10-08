@@ -182,6 +182,22 @@ process_wait (tid_t child_tid)
   return exit_status;
 }
 
+/* */
+void
+process_free (struct thread* t)
+{
+  struct list *child_threads = &t->child_threads;
+  struct list_elem *e;
+  for (e = list_begin (child_threads); e != list_end (child_threads);
+       e = list_next (e))
+    {
+      struct thread *t = list_entry (e, struct thread, child_elem);
+      process_free (t);
+    }
+
+  palloc_free_page (t);
+}
+
 /* Free the current process's resources. */
 void
 process_exit (void)
@@ -194,6 +210,9 @@ process_exit (void)
   int fd;
   for (fd = 2; fd <= curr->fd_max; fd++)
     process_remove_file (fd);
+
+  /* free this and free all childrens */
+  process_free (curr);
 
   /* file allow write with souce code */
   if (curr->running_file)
