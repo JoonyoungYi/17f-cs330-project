@@ -16,6 +16,7 @@ tid_t exec (const char *file);
 int wait (tid_t tid);
 int open (const char *file);
 void close (int fd);
+int read (int fd, void *buffer, unsigned length);
 bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
 int read_argument (const unsigned int *esp);
@@ -67,6 +68,9 @@ syscall_handler (struct intr_frame *f)
   // printf (">> syscall_handler: syscall_number -> %d\n", syscall_number);
 	/* connect each system call by its number
 		number is defined in syscall-nr.h */
+  int fd;
+  void *buffer;
+  unsigned length;
 	switch (syscall_number)
     {
   		case SYS_HALT:                   /* Halt the operating system. */
@@ -111,16 +115,20 @@ syscall_handler (struct intr_frame *f)
         }
       case SYS_READ:                   /* Read from a file. */
       	{
+          fd = (int) read_argument (esp + 1);
+          buffer = (void*) read_argument (esp + 2);
+          length = (unsigned) read_argument (esp + 3);
+          f->eax = read (fd, buffer, length);
           break;
         }
       case SYS_WRITE:                  /* Write to a file. */
         {
           // // printf (">> syscall_handler: case SYS_WRITE\n");
-          int fd = (int) read_argument (esp + 1);
+          fd = (int) read_argument (esp + 1);
           // // printf (">> syscall_handler: case SYS_WRITE fd -> %d\n", fd);
-          void *buffer = (void*) read_argument (esp + 2);
+          buffer = (void*) read_argument (esp + 2);
           // // printf (">> syscall_handler: case SYS_WRITE buffer\n");
-          unsigned length = (unsigned) read_argument (esp + 3);
+          length = (unsigned) read_argument (esp + 3);
           // // printf (">> syscall_handler: case SYS_WRITE length -> %d\n", length);
           f->eax = write (fd, buffer, length);
           break;
@@ -250,6 +258,24 @@ int
 wait (tid_t tid)
 {
   return process_wait(tid);
+}
+
+/* */
+int
+read (int fd, void *buffer, unsigned length)
+{
+  ASSERT (fd > 1);
+
+  struct thread_file *tf = get_thread_file (fd);
+  if (tf == NULL)
+    return -1;
+
+  struct file *f = tf->f;
+  if (f == NULL)
+    return -1;
+
+  int size = file_read (f, buffer, length);
+  return size;
 }
 
 /* */
