@@ -234,8 +234,8 @@ process_add_file (struct file *f)
   tf->fd = fd;
   tf->f = f;
 
-  struct thread *curr = thread_current ();
-  list_push_back (&curr->thread_files, &tf->elem);
+  // struct thread *curr = thread_current ();
+  // list_push_back (&curr->thread_files, &tf->elem);
   curr->fd_max = fd;
   return fd;
 }
