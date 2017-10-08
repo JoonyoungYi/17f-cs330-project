@@ -228,7 +228,7 @@ process_add_file (struct file *f)
 {
   int fd = thread_current ()->fd_max + 1;
 
-  printf(">> process_add_file start\n");
+  // printf(">> process_add_file start\n");
   struct thread_file *tf = malloc (sizeof (struct thread_file));
   if (tf == NULL)
     return -1;
