@@ -225,8 +225,9 @@ process_activate (void)
 int
 process_add_file (struct file *f)
 {
-
-  return -1;
+  int fd = thread_current ()->fd_max + 1;
+  thread_current ()->fd_max = fd;
+  return fd;
 }
 
 /* We load ELF binaries.  The following definitions are taken

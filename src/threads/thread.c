@@ -210,6 +210,9 @@ thread_create (const char *name, int priority,
   list_push_back (&curr->child_threads, &t->child_elem);
   t->load_status = 0;
 
+  /* file descriptor */
+  t->fd_max = 1;
+
   /* Add to run queue. */
   thread_unblock (t);
 

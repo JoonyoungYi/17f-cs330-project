@@ -104,6 +104,7 @@ struct thread
     int exit_status;                    /* Added by JY. system call handling */
     int load_status;                    /* Added by JY. load handling */
                                         /* 1: success, 0: default, -1:fail */
+    int fd_max;                         /* Added by JY. */
 #endif
 
     /* Owned by thread.c. */
