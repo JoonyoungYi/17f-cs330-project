@@ -108,6 +108,8 @@ struct thread
 
     int fd_max;                         /* Added by JY. */
     struct list thread_files;           /* Added by JY. */
+
+    struct file *running_file;          /* Added by JY. Current running file. */
 #endif
 
     /* Owned by thread.c. */

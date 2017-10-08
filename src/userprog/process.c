@@ -8,6 +8,7 @@
 #include "userprog/gdt.h"
 #include "userprog/pagedir.h"
 #include "userprog/tss.h"
+#include "userprog/syscall.h"
 #include "filesys/directory.h"
 #include "filesys/file.h"
 #include "filesys/filesys.h"
@@ -193,6 +194,9 @@ process_exit (void)
   for (fd = 2; fd <= curr->fd_max; fd++)
     process_remove_file (fd);
 
+  /* file allow write with souce code */
+  file_allow_write (curr->running_file);
+
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
   pd = curr->pagedir;
@@ -376,6 +380,7 @@ load (const char *file_name, char **save_ptr, void (**eip) (void), void **esp)
   process_activate ();
 
   /* Open executable file. */
+  fl_acquire ();
   file = filesys_open (file_name);
   if (file == NULL)
     {
@@ -464,9 +469,18 @@ load (const char *file_name, char **save_ptr, void (**eip) (void), void **esp)
 
   success = true;
 
- done:
+done:
   /* We arrive here whether the load is successful or not. */
-  file_close (file);
+  if (success)
+    {
+      thread_current ()->running_file = file;
+      file_deny_write (file);
+    }
+  else
+    {
+      file_close (file);
+    }
+  fl_release ();
   return success;
 }
 
