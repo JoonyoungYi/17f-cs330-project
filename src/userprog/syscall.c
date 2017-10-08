@@ -69,7 +69,7 @@ syscall_handler (struct intr_frame *f)
   // printf (">> syscall_handler: *esp -> %d\n", *esp);
 
   // printf (">> syscall_handler: start switch\n");
-  // printf (">> syscall_handler: syscall_number -> %d\n", syscall_number);
+  printf (">> syscall_handler: syscall_number -> %d\n", syscall_number);
 	/* connect each system call by its number
 		number is defined in syscall-nr.h */
   int fd;
