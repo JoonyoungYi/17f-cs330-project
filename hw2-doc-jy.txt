@@ -77,3 +77,46 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/exec-bad-ptr -a exec-bad
 ## wait twice
 ### make tests/userprog/wait-twice.result
 pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/wait-twice -a wait-twice -p tests/userprog/child-simple -a child-simple -- -q   -f run wait-twice
+
+
+
+## open normal
+### make tests/userprog/open-normal.result
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/open-normal -a open-normal -p ../../tests/userprog/sample.txt -a sample.txt -- -q   -f run open-normal
+
+## open missing
+### make tests/userprog/open-missing.result
+
+## open boundary
+### make tests/userprog/open-boundary.result
+
+## open empty
+### make tests/userprog/open-empty.result
+
+## open null
+### make tests/userprog/open-null.result
+
+## open bad ptr
+### make tests/userprog/open-bad-ptr.result
+
+## open bad twice
+### make tests/userprog/open-twice.result
+
+## read normal
+### make tests/userprog/read-normal.result
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/read-normal -a read-normal -p ../../tests/userprog/sample.txt -a sample.txt -- -q   -f run read-normal
+
+## read bad-ptr
+### make tests/userprog/read-bad-ptr.result
+
+## read boundary
+### make tests/userprog/read-boundary.result
+
+## read-zero
+### make tests/userprog/read-zero.result
+
+## read-bad-fd
+### make tests/userprog/read-bad-fd.result
+
+## read-stdout
+### make tests/userprog/read-stdout.result

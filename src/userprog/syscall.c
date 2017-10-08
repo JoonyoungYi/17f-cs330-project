@@ -326,8 +326,7 @@ write (int fd, const void *buffer, unsigned length)
   if (f == NULL)
     return -1;
 
-  length = file_write (f, buffer, length);
-  return length;
+  return file_write (f, buffer, length);
 }
 
 /* */
