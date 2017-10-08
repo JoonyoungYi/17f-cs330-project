@@ -195,7 +195,8 @@ process_exit (void)
     process_remove_file (fd);
 
   /* file allow write with souce code */
-  file_allow_write (curr->running_file);
+  if (curr->running_file)
+    file_allow_write (curr->running_file);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
