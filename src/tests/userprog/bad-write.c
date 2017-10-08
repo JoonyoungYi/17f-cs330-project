@@ -5,8 +5,10 @@
 #include "tests/main.h"
 
 void
-test_main (void) 
+test_main (void)
 {
+  msg ('hi2');
   *(int *)NULL = 42;
+  msg ('hi');
   fail ("should have exited with -1");
 }
