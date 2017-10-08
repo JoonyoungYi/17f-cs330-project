@@ -309,6 +309,7 @@ read (int fd, void *buffer, unsigned length)
 int
 write (int fd, const void *buffer, unsigned length)
 {
+  printf (">> write: -> fd: %d\n", fd);
   check_ptr_validation (buffer);
 
   if (fd <= 0) // stdin or negative int return error
