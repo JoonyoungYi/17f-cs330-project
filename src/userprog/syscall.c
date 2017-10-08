@@ -178,6 +178,7 @@ exit (int status)
 int
 open (const char *file)
 {
+  printf (">> open: start\n");
   if (file == NULL)
     return -1;
   check_ptr_validation (file);
