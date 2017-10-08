@@ -212,7 +212,7 @@ thread_create (const char *name, int priority,
   t->load_status = 0;
 
   /* file descriptor */
-  list_init (&t->thread_files);
+  // list_init (&t->thread_files);
   t->fd_max = 1;
 
   /* Add to run queue. */

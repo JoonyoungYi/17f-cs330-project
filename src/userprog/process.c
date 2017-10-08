@@ -229,11 +229,11 @@ process_add_file (struct file *f)
   int fd = thread_current ()->fd_max + 1;
 
   printf(">> process_add_file start\n");
-  struct thread_file *tf = malloc (sizeof (struct thread_file));
-  if (tf == NULL)
-    return -1;
-  tf->fd = fd;
-  tf->f = f;
+  // struct thread_file *tf = malloc (sizeof (struct thread_file));
+  // if (tf == NULL)
+  //   return -1;
+  // tf->fd = fd;
+  // tf->f = f;
 
   struct thread *curr = thread_current ();
   // list_push_back (&curr->thread_files, &tf->elem);
