@@ -8,6 +8,8 @@
 #include "userprog/process.h"
 #include "userprog/pagedir.h"
 
+static struct lock fl; /* lock related to file. */
+
 static void syscall_handler (struct intr_frame *);
 /* Projects 2 and later. */
 void halt (void);
@@ -25,11 +27,33 @@ bool create (const char *file, unsigned initial_size);
 bool remove (const char *file);
 int read_argument (const unsigned int *esp);
 
+/* file lock acquire */
+void
+fl_init ()
+{
+  lock_init (&fl);
+}
+
+/* file lock acquire */
+void
+fl_acquire ()
+{
+  lock_acquire (&fl);
+}
+
+/* file lock release */
+void
+fl_release ()
+{
+  lock_release (&fl);
+}
+
 /* */
 void
 syscall_init (void)
 {
   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
+  fl_init ();
 }
 
 /* Check if the ptr(address) is right address to prevent the page falut. */
@@ -202,11 +226,16 @@ open (const char *file)
     return -1;
   check_ptr_validation (file);
 
+  fl_acquire ();
   struct file *f = filesys_open (file);
   if (f == NULL)
-    return -1;
+    {
+      fl_release ();
+      return -1;
+    }
 
   int fd = process_add_file (f);
+  fl_release ();
   if (fd != -1)
     return fd;
 
@@ -218,7 +247,11 @@ void
 close (int fd)
 {
   if (fd >= 0)
-    process_remove_file (fd);
+    {
+      fl_acquire ();
+      process_remove_file (fd);
+      fl_release ();
+    }
   else
     exit (-1);
 }
@@ -230,7 +263,10 @@ create (const char *file, unsigned initial_size)
   // printf (">> create: start\n");
   // // printf (">> create: file -> 0x%x\n", file);
   check_ptr_validation (file);
-  return filesys_create (file, initial_size);
+  fl_acquire ();
+  bool is_success = filesys_create (file, initial_size);
+  fl_release ();
+  return is_success;
 }
 
 /* */
@@ -238,7 +274,10 @@ bool
 remove (const char *file)
 {
   check_ptr_validation (file);
-  return filesys_remove (file);
+  fl_acquire ();
+  bool is_success = filesys_remove (file);
+  fl_release ();
+  return is_success;
 }
 
 /* */
@@ -275,16 +314,20 @@ wait (tid_t tid)
 int
 filesize (int fd)
 {
-  if (fd < 0 || fd == 1)
+  if (fd <= 1) // stdin or stdout or negative int do nothing.
     return -1;
 
-  //TODO: stdin
-
+  fl_acquire ();
   struct file *f = thread_get_file (fd);
   if (f == NULL)
-    return -1;
+    {
+      fl_release ();
+      return -1;
+    }
 
-  return file_length (f);
+  int length = file_length (f);
+  fl_release ();
+  return length;
 }
 
 /* */
@@ -298,11 +341,17 @@ read (int fd, void *buffer, unsigned length)
 
   //TODO: stdin
 
+  fl_acquire ();
   struct file *f = thread_get_file (fd);
   if (f == NULL)
-    return -1;
+    {
+      fl_release ();
+      return -1;
+    }
 
-  return file_read (f, buffer, length);
+  int length_ = file_read (f, buffer, length);
+  fl_release ();
+  return length_;
 }
 
 /* */
@@ -323,11 +372,17 @@ write (int fd, const void *buffer, unsigned length)
       return length;
     }
 
+  fl_acquire ();
   struct file *f = thread_get_file (fd);
   if (f == NULL)
-    return -1;
+    {
+      fl_release ();
+      return -1;
+    }
 
-  return file_write (f, buffer, length);
+  int length_ = file_write (f, buffer, length);
+  fl_release ();
+  return length_;
 }
 
 /* */
@@ -337,11 +392,16 @@ seek (int fd, unsigned position)
   if (fd <= 1) // stdin or stdout or negative int do nothing.
     return;
 
+  fl_acquire ();
   struct file *f = thread_get_file (fd);
   if (f == NULL)
-    return;
+    {
+      fl_release ();
+      return;
+    }
 
   file_seek (f, position);
+  fl_release ();
 }
 
 /* */
@@ -351,9 +411,15 @@ tell (int fd)
   if (fd <= 1) // stdin or stdout or negative int return error
     return -1;
 
+  fl_acquire ();
   struct file *f = thread_get_file (fd);
   if (f == NULL)
-    return -1;
+    {
+      fl_release ();
+      return -1;
+    }
 
-  return (unsigned) file_tell (f);
+  unsigned length = (unsigned) file_tell (f);
+  fl_release ();
+  return length;
 }
