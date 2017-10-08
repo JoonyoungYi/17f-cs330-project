@@ -218,7 +218,7 @@ exit (int status)
 	thread_exit ();
 }
 
-int open_count = 0;
+// int open_count = 0;
 
 /* */
 int
@@ -250,8 +250,8 @@ open (const char *file)
 void
 close (int fd)
 {
-  open_count --;
-  printf (">> close : %d\n", open_count);
+  // open_count --;
+  // printf (">> close : %d\n", open_count);
   if (fd >= 0)
     {
       fl_acquire ();
