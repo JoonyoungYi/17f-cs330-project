@@ -265,6 +265,7 @@ process_add_file (struct file *f)
 
   // printf(">> process_add_file start\n");
   struct thread_file *tf = malloc (sizeof (struct thread_file));
+  printf(">> process_add_file start: tf -> 0x%x\n", tf);
   if (tf == NULL)
     return -1;
   tf->fd = fd;
