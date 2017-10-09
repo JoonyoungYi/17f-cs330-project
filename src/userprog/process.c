@@ -649,8 +649,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   char *token;
   // char *query = malloc (1 * sizeof(char));
   // int *query_lens = malloc (1 * sizeof(int));
-  char *query = palloc_get_page (0);
-  int *query_lens = palloc_get_page (0);
+  char *query = palloc_get_multiple (0, 2);
+  int *query_lens = palloc_get_multiple (0, 2);
 
   // printf(">> init_stack: query -> 0x%x\n", query);
   // printf(">> init_stack: query_lens -> 0x%x\n", query_lens);
@@ -700,8 +700,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   /* free */
   // printf (">> init_stack: free query -> 0x%x\n", query);
   // printf (">> init_stack: free query_lens -> 0x%x\n", query_lens);
-  palloc_free_page (query);
-  palloc_free_page (query_lens);
+  palloc_free_multiple (query, 2);
+  palloc_free_multiple (query_lens, 2);
   // free (query);
   // free (query_lens);
 
