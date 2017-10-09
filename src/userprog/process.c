@@ -649,8 +649,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   char *token;
   // char *query = malloc (1 * sizeof(char));
   // int *query_lens = malloc (1 * sizeof(int));
-  char *query = palloc_get_multiple (0, 2);
-  int *query_lens = palloc_get_multiple (0, 2);
+  char *query = palloc_get_multiple (0, 3);
+  int *query_lens = palloc_get_multiple (0, 3);
 
   // printf(">> init_stack: query -> 0x%x\n", query);
   // printf(">> init_stack: query_lens -> 0x%x\n", query_lens);
@@ -660,7 +660,6 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
     {
       // printf (">> init_stack: token -> %s\n", token);
       len = strlen (token) + 1;
-      //TODO: activate
       // query = realloc (query, (query_len + len) * sizeof(char));
       // query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
       memcpy (query + query_len, token, len);
@@ -700,8 +699,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   /* free */
   // printf (">> init_stack: free query -> 0x%x\n", query);
   // printf (">> init_stack: free query_lens -> 0x%x\n", query_lens);
-  palloc_free_multiple (query, 2);
-  palloc_free_multiple (query_lens, 2);
+  palloc_free_multiple (query, 3);
+  palloc_free_multiple (query_lens, 3);
   // free (query);
   // free (query_lens);
 
