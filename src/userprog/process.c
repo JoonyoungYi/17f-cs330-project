@@ -184,7 +184,7 @@ process_wait (tid_t child_tid)
 
 /* */
 void
-process_remove_children (struct thread* t)
+children_process_notify_die (struct thread* t)
 {
   struct list *child_threads = &t->child_threads;
   struct list_elem *e;
@@ -192,10 +192,8 @@ process_remove_children (struct thread* t)
        e = list_next (e))
     {
       struct thread *chld = list_entry (e, struct thread, child_elem);
-      process_remove (chld);
+      chld->status = THREAD_DYING;
     }
-
-  // palloc_free_page (t->);
 }
 
 /* Free the current process's resources. */
@@ -214,12 +212,12 @@ process_exit (void)
   /* file allow write with souce code */
   if (curr->running_file)
     {
-      file_allow_write (curr->running_file);
+      // file_allow_write (curr->running_file);
       file_close (curr->running_file);
     }
 
-  /* free this and free all childrens */
-  process_remove_children (curr);
+  /* */
+  children_process_notify_die (curr);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
