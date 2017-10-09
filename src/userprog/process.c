@@ -647,6 +647,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   char *token;
   char *query = malloc (1 * sizeof(char));
   int *query_lens = malloc (1 * sizeof(int));
+  printf(">> init_stack: query -> 0x%x\n", query);
+  printf(">> init_stack: query_lens -> 0x%x\n", query_lens);
   // printf (">> init_stack: for loop start\n");
   for (token = file_name; token != NULL;
        token = strtok_r (NULL, " ", save_ptr))
@@ -690,6 +692,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   memcpy (*esp, &argv, 4);
 
   /* free */
+  printf(">> init_stack: free query -> 0x%x\n", query);
+  printf(">> init_stack: free query_lens -> 0x%x\n", query_lens);
   free(query);
   free(query_lens);
 
