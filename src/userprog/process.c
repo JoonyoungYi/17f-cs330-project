@@ -219,20 +219,20 @@ process_exit (void)
   uint32_t *pd;
 
   /* file allow write with souce code */
-  printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
+  // printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
   // if (curr->running_file)
   //   file_close (curr->running_file);
-  printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
+  // printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
 
   /* close all files */
   int fd;
   for (fd = 2; fd <= curr->fd_max; fd++)
     process_remove_file (fd);
 
-  printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
+  // printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
   /* */
   children_process_remove (curr);
-  printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
+  // printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
