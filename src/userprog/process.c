@@ -37,19 +37,19 @@ process_execute (const char *file_name)
   char *fn_copy;
   char *fn_copy_1; // file_name with new page block.
   tid_t tid;
-  printf (">> process_execute: file_name -> %s\n", file_name);
+  // printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
   // printf (">> process_execute: start palloc\n");
   fn_copy = palloc_get_page (0);
-  printf (">> process_execute: fn_copy -> 0x%x\n", fn_copy);
+  // printf (">> process_execute: fn_copy -> 0x%x\n", fn_copy);
   if (fn_copy == NULL)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
 
   fn_copy_1 = palloc_get_page (0);
-  printf (">> process_execute: fn_copy_1 -> 0x%x\n", fn_copy_1);
+  // printf (">> process_execute: fn_copy_1 -> 0x%x\n", fn_copy_1);
   // printf (">> process_execute: palloc_get_page\n");
   if (fn_copy_1 == NULL)
     {
@@ -266,7 +266,7 @@ process_add_file (struct file *f)
   // printf(">> process_add_file start\n");
   // struct thread_file *tf = malloc (sizeof (struct thread_file));
   struct thread_file *tf = palloc_get_page (0);
-  printf(">> process_add_file start: tf -> 0x%x\n", tf);
+  // printf(">> process_add_file start: tf -> 0x%x\n", tf);
   if (tf == NULL)
     return -1;
   tf->fd = fd;
@@ -309,14 +309,14 @@ thread_get_file (int fd)
 void
 process_remove_file (int fd)
 {
-  printf(">> process_remove_file start: fd -> %d\n", fd);
+  // printf(">> process_remove_file start: fd -> %d\n", fd);
   struct thread *curr = thread_current ();
   struct thread_file *tf = get_thread_file (&curr->thread_files, fd);
   if (tf == NULL)
     return;
 
   list_remove (&tf->elem);
-  printf(">> process_remove_file end: tf -> 0x%x\n", tf);
+  // printf(">> process_remove_file end: tf -> 0x%x\n", tf);
   palloc_free_page (tf);
 }
 
