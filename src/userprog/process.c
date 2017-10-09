@@ -38,9 +38,6 @@ process_execute (const char *file_name)
   char *fn_copy_1; // file_name with new page block.
   tid_t tid;
   printf (">> process_execute: file_name -> %s\n", file_name);
-  fn_copy = palloc_get_page (0);
-  printf (">> process_execute: fn_copy -> 0x%x\n", fn_copy);
-  palloc_free_page (fn_copy);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
@@ -51,6 +48,7 @@ process_execute (const char *file_name)
   strlcpy (fn_copy, file_name, PGSIZE);
 
   fn_copy_1 = palloc_get_page (0);
+  printf (">> process_execute: palloc_get_page\n");
   if (fn_copy_1 == NULL)
     {
       palloc_free_page (fn_copy);
@@ -71,6 +69,7 @@ process_execute (const char *file_name)
     {
       palloc_free_page (fn_copy);
     }
+  printf (">> process_execute: palloc_free_page\n");
   palloc_free_page (fn_copy_1);
   return tid;
 }
