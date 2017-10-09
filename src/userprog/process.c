@@ -201,6 +201,7 @@ children_process_remove (struct thread* t)
       // printf (">> children_process_remove: chld->status -> %d\n", chld->status);
       // children_process_remove (chld);
 
+      printf (">> chld -> 0x%x\n", chld);
       process_remove (chld);
       // if (chld->running_file)
       //   file_close (chld->running_file);
