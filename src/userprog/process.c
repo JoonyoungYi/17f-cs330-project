@@ -62,7 +62,7 @@ process_execute (const char *file_name)
   /* */
   char *save_ptr;
   file_name = strtok_r (fn_copy_1, " ", &save_ptr);
-  // printf (">> process_execute: file_name -> %s\n", file_name);
+  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
@@ -90,7 +90,7 @@ start_process (void *f_name)
   file_name = strtok_r (file_name, " ", &save_ptr);
   // // printf (">> start_process: save_ptr -> ");
 
-  printf (">> start_process: file_name -> %s\n", f_name);
+  // printf (">> start_process: file_name -> %s\n", f_name);
 
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
