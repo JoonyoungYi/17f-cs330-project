@@ -109,7 +109,7 @@ start_process (void *f_name)
   palloc_free_page (f_name);
   printf (">> start_process: f_name -> 0x%x\n", f_name);
   if (!success)
-    thread_exit ();
+    exit (-1);
 
   // hex_dump (if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
 
