@@ -105,9 +105,9 @@ palloc_get_multiple (enum palloc_flags flags, size_t page_cnt)
     }
 
   if (pages == 0xc018b000)
-  {
-    printf(">>>>>> page get -> 0x%x\n", pages);
-  }
+    {
+      printf(">>>>>> page get -> 0x%x\n", pages);
+    }
   return pages;
 }
 
