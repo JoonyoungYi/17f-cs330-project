@@ -266,7 +266,7 @@ process_add_file (struct file *f)
   // printf(">> process_add_file start\n");
   // struct thread_file *tf = malloc (sizeof (struct thread_file));
   struct thread_file *tf = palloc_get_page (0);
-  // printf(">> process_add_file start: tf -> 0x%x\n", tf);
+  printf(">> process_add_file start: tf -> 0x%x\n", tf);
   if (tf == NULL)
     return -1;
   tf->fd = fd;
@@ -309,14 +309,14 @@ thread_get_file (int fd)
 void
 process_remove_file (int fd)
 {
-  // printf(">> process_remove_file start: fd -> %d\n", fd);
+  printf(">> process_remove_file start: fd -> %d\n", fd);
   struct thread *curr = thread_current ();
   struct thread_file *tf = get_thread_file (&curr->thread_files, fd);
   if (tf == NULL)
     return;
 
   list_remove (&tf->elem);
-  // printf(">> process_remove_file end: tf -> 0x%x\n", tf);
+  printf(">> process_remove_file end: tf -> 0x%x\n", tf);
   palloc_free_page (tf);
 }
 
