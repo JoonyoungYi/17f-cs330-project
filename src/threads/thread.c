@@ -634,7 +634,7 @@ schedule_tail (struct thread *prev)
   if (prev != NULL && prev->status == THREAD_DYING && prev != initial_thread)
     {
       ASSERT (prev != curr);
-      palloc_free_page (prev);
+      // palloc_free_page (prev);
     }
 }
 
