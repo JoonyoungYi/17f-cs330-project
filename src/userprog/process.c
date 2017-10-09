@@ -264,7 +264,8 @@ process_add_file (struct file *f)
   int fd = thread_current ()->fd_max + 1;
 
   // printf(">> process_add_file start\n");
-  struct thread_file *tf = malloc (sizeof (struct thread_file));
+  // struct thread_file *tf = malloc (sizeof (struct thread_file));
+  struct thread_file *tf = palloc_get_page (0);
   printf(">> process_add_file start: tf -> 0x%x\n", tf);
   if (tf == NULL)
     return -1;
@@ -316,7 +317,7 @@ process_remove_file (int fd)
 
   list_remove (&tf->elem);
   printf(">> process_remove_file end: tf -> 0x%x\n", tf);
-  free (tf);
+  palloc_free_page (tf);
 }
 
 /* We load ELF binaries.  The following definitions are taken
@@ -647,8 +648,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   char *token;
   char *query = malloc (1 * sizeof(char));
   int *query_lens = malloc (1 * sizeof(int));
-  printf(">> init_stack: query -> 0x%x\n", query);
-  printf(">> init_stack: query_lens -> 0x%x\n", query_lens);
+  // printf(">> init_stack: query -> 0x%x\n", query);
+  // printf(">> init_stack: query_lens -> 0x%x\n", query_lens);
   // printf (">> init_stack: for loop start\n");
   for (token = file_name; token != NULL;
        token = strtok_r (NULL, " ", save_ptr))
@@ -692,8 +693,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   memcpy (*esp, &argv, 4);
 
   /* free */
-  printf(">> init_stack: free query -> 0x%x\n", query);
-  printf(">> init_stack: free query_lens -> 0x%x\n", query_lens);
+  // printf(">> init_stack: free query -> 0x%x\n", query);
+  // printf(">> init_stack: free query_lens -> 0x%x\n", query_lens);
   free(query);
   free(query_lens);
 
