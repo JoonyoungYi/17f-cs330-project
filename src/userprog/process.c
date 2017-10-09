@@ -43,12 +43,14 @@ process_execute (const char *file_name)
      Otherwise there's a race between the caller and load(). */
   // printf (">> process_execute: start palloc\n");
   fn_copy = palloc_get_page (0);
+  printf (">> process_execute: fn_copy -> 0x%x\n", fn_copy);
   if (fn_copy == NULL)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
 
   fn_copy_1 = palloc_get_page (0);
-  printf (">> process_execute: palloc_get_page\n");
+  printf (">> process_execute: fn_copy_1 -> 0x%x\n", fn_copy);
+  // printf (">> process_execute: palloc_get_page\n");
   if (fn_copy_1 == NULL)
     {
       palloc_free_page (fn_copy);
@@ -69,7 +71,7 @@ process_execute (const char *file_name)
     {
       palloc_free_page (fn_copy);
     }
-  printf (">> process_execute: palloc_free_page\n");
+  // printf (">> process_execute: palloc_free_page\n");
   palloc_free_page (fn_copy_1);
   return tid;
 }
@@ -590,6 +592,7 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
 
       /* Get a page of memory. */
       uint8_t *kpage = palloc_get_page (PAL_USER);
+      printf (">> process_execute: kapge -> 0x%x\n", kpage);
       if (kpage == NULL)
         return false;
 
@@ -707,6 +710,7 @@ setup_stack (const char *file_name, char **save_ptr, void **esp)
   bool success = false;
 
   kpage = palloc_get_page (PAL_USER | PAL_ZERO);
+  printf (">> setup_stack: kpage -> 0x%x\n", kpage);
   if (kpage != NULL)
     {
       success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
