@@ -171,7 +171,7 @@ tid_t
 thread_create (const char *name, int priority,
                thread_func *function, void *aux)
 {
-  // printf (">> thread_create () start.\n");
+  printf (">> thread_create () start.\n");
 
   struct thread *t;
   struct kernel_thread_frame *kf;
@@ -397,6 +397,7 @@ thread_tid (void)
 void
 thread_exit (void)
 {
+  printf(">> thread_exit\n");
   ASSERT (!intr_context ());
 
 #ifdef USERPROG
