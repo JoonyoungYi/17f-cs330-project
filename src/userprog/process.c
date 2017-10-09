@@ -206,7 +206,9 @@ children_process_remove (struct thread* t)
       // printf (">> chld -> 0x%x\n", chld);
       // process_remove (chld);
       e = list_next (e);
+
       list_remove (&chld->child_elem);
+      palloc_free_page (chld);
 
       // if (chld->running_file)
       //   file_close (chld->running_file);
