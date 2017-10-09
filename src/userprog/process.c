@@ -204,7 +204,7 @@ process_wait (tid_t child_tid)
 void
 process_exit (void)
 {
-  // printf(">> process_exit: called\n");
+  printf(">> process_exit: called\n");
   struct thread *curr = thread_current ();
   uint32_t *pd;
 
@@ -308,12 +308,14 @@ thread_get_file (int fd)
 void
 process_remove_file (int fd)
 {
+  printf(">> process_remove_file start: fd -> %d\n", fd);
   struct thread *curr = thread_current ();
   struct thread_file *tf = get_thread_file (&curr->thread_files, fd);
   if (tf == NULL)
     return;
 
   list_remove (&tf->elem);
+  printf(">> process_remove_file end: tf -> 0x%x\n", tf);
   free (tf);
 }
 
