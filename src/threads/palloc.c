@@ -106,7 +106,7 @@ palloc_get_multiple (enum palloc_flags flags, size_t page_cnt)
 
   if (pages == 0xc018b000)
   {
-    printf(">> pages -> 0x%x\n", pages);
+    printf(">>>>>> page get -> 0x%x\n", pages);
   }
   return pages;
 }
@@ -150,6 +150,11 @@ palloc_free_multiple (void *pages, size_t page_cnt)
 
   ASSERT (bitmap_all (pool->used_map, page_idx, page_cnt));
   bitmap_set_multiple (pool->used_map, page_idx, page_cnt, false);
+
+  if (pages == 0xc018b000)
+  {
+    printf(">>>>>> page free -> 0x%x\n", pages);
+  }
 }
 
 /* Frees the page at PAGE. */
