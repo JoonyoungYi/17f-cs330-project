@@ -266,8 +266,8 @@ process_add_file (struct file *f)
   // printf(">> process_add_file start\n");
   // struct thread_file *tf = malloc (sizeof (struct thread_file));
   struct thread_file *tf = palloc_get_page (0);
-  if (fd == 127 || fd <= 2)
-    printf(">> process_add_file start: tf -> 0x%x\n", tf);
+  // if (fd == 127 || fd <= 2)
+    // printf(">> process_add_file start: tf -> 0x%x\n", tf);
   if (tf == NULL)
     return -1;
   tf->fd = fd;
@@ -317,8 +317,7 @@ process_remove_file (int fd)
     return;
 
   list_remove (&tf->elem);
-  if (fd == 127 || fd <= 2)
-    printf(">> process_remove_file end: tf -> 0x%x\n", tf);
+  // printf(">> process_remove_file end: tf -> 0x%x\n", tf);
   palloc_free_page (tf);
 }
 
@@ -648,8 +647,11 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   size_t query_len = 0;
   size_t len = 0;
   char *token;
-  char *query = malloc (1 * sizeof(char));
-  int *query_lens = malloc (1 * sizeof(int));
+  // char *query = malloc (1 * sizeof(char));
+  // int *query_lens = malloc (1 * sizeof(int));
+  char *query = palloc_get_page (0);
+  int *query_lens = palloc_get_page (0);
+
   // printf(">> init_stack: query -> 0x%x\n", query);
   // printf(">> init_stack: query_lens -> 0x%x\n", query_lens);
   // printf (">> init_stack: for loop start\n");
@@ -658,8 +660,9 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
     {
       // printf (">> init_stack: token -> %s\n", token);
       len = strlen (token) + 1;
-      query = realloc (query, (query_len + len) * sizeof(char));
-      query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
+      //TODO: activate
+      // query = realloc (query, (query_len + len) * sizeof(char));
+      // query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
       memcpy (query + query_len, token, len);
       query_lens[argc] = query_len;
       query_len += len;
@@ -695,10 +698,12 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   memcpy (*esp, &argv, 4);
 
   /* free */
-  // printf(">> init_stack: free query -> 0x%x\n", query);
-  // printf(">> init_stack: free query_lens -> 0x%x\n", query_lens);
-  free(query);
-  free(query_lens);
+  // printf (">> init_stack: free query -> 0x%x\n", query);
+  // printf (">> init_stack: free query_lens -> 0x%x\n", query_lens);
+  palloc_free_page (query);
+  palloc_free_page (query_lens);
+  // free (query);
+  // free (query_lens);
 
   /* push argc */
   *esp -= 4;
