@@ -183,18 +183,18 @@ process_wait (tid_t child_tid)
 }
 
 /* */
-void
-children_process_notify_die (struct thread* t)
-{
-  struct list *child_threads = &t->child_threads;
-  struct list_elem *e;
-  for (e = list_begin (child_threads); e != list_end (child_threads);
-       e = list_next (e))
-    {
-      struct thread *chld = list_entry (e, struct thread, child_elem);
-      chld->status = THREAD_DYING;
-    }
-}
+// void
+// children_process_notify_die (struct thread* t)
+// {
+//   struct list *child_threads = &t->child_threads;
+//   struct list_elem *e;
+//   for (e = list_begin (child_threads); e != list_end (child_threads);
+//        e = list_next (e))
+//     {
+//       struct thread *chld = list_entry (e, struct thread, child_elem);
+//       chld->status = THREAD_DYING;
+//     }
+// }
 
 /* Free the current process's resources. */
 void
@@ -212,12 +212,12 @@ process_exit (void)
   /* file allow write with souce code */
   if (curr->running_file)
     {
-      // file_allow_write (curr->running_file);
+      file_allow_write (curr->running_file);
       file_close (curr->running_file);
     }
 
   /* */
-  children_process_notify_die (curr);
+  // children_process_notify_die (curr);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
