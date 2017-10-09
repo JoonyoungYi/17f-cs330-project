@@ -188,6 +188,22 @@ process_wait (tid_t child_tid)
 
 /* */
 void
+process_remove_files (struct thread *t)
+{
+  int fd;
+  for (fd = 0; fd < t->fd_max; fd++)
+    {
+      struct thread_file *tf = get_thread_file (&t->thread_files, fd);
+      if (tf == NULL)
+        continue;
+
+      list_remove (&tf->elem);
+      palloc_free_page (tf);
+    }
+}
+
+/* */
+void
 children_process_remove (struct thread* t)
 {
   // printf (">> current_thread() -> 0x%x\n", thread_current ());
@@ -207,8 +223,8 @@ children_process_remove (struct thread* t)
       // process_remove (chld);
       e = list_next (e);
 
-      list_remove (&chld->child_elem);
-      palloc_free_page (chld);
+      process_remove (chld);
+      process_remove_files (chld);
 
       // if (chld->running_file)
       //   file_close (chld->running_file);
