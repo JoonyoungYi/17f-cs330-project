@@ -144,7 +144,7 @@ get_child_thread (tid_t child_tid) {
 }
 
 void
-thread_remove (struct thread *t)
+process_remove (struct thread *t)
 {
   list_remove (&t->child_elem);
   palloc_free_page (t);
@@ -178,22 +178,22 @@ process_wait (tid_t child_tid)
 
   // printf (">> process_wait () end.\n");
   int exit_status = chld->exit_status;
-  thread_remove (chld);
+  process_remove (chld);
   return exit_status;
 }
 
 /* */
 void
-process_free (struct thread* t)
+process_remove_children (struct thread* t)
 {
-  // struct list *child_threads = &t->child_threads;
-  // struct list_elem *e;
-  // for (e = list_begin (child_threads); e != list_end (child_threads);
-  //      e = list_next (e))
-  //   {
-  //     struct thread *t = list_entry (e, struct thread, child_elem);
-  //     process_free (t);
-  //   }
+  struct list *child_threads = &t->child_threads;
+  struct list_elem *e;
+  for (e = list_begin (child_threads); e != list_end (child_threads);
+       e = list_next (e))
+    {
+      struct thread *chld = list_entry (e, struct thread, child_elem);
+      process_remove (chld);
+    }
 
   // palloc_free_page (t->);
 }
@@ -219,7 +219,7 @@ process_exit (void)
     }
 
   /* free this and free all childrens */
-  process_free (curr);
+  process_remove_children (curr);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
