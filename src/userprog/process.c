@@ -196,19 +196,11 @@ children_process_remove (struct thread* t)
        e = list_next (e))
     {
       struct thread *chld = list_entry (e, struct thread, child_elem);
-      chld->status = THREAD_DYING;
-      // process_remove (chld);
       printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
-
+      printf (">> children_process_remove: chld->status -> %d\n", chld->status);
       children_process_remove (chld);
+      // process_remove (chld);
     }
-
-    // if (prev != NULL && prev->status == THREAD_DYING && prev != initial_thread)
-    //   {
-    //     ASSERT (prev != curr);
-    //     printf (">> schedule_tail: %s\n", );
-    //     //
-    //   }
 }
 
 /* Free the current process's resources. */
