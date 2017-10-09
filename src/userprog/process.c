@@ -37,7 +37,7 @@ process_execute (const char *file_name)
   char *fn_copy;
   char *fn_copy_1; // file_name with new page block.
   tid_t tid;
-  // printf (">> process_execute: file_name -> %s\n", file_name);
+  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
