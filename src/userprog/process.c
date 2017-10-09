@@ -192,6 +192,7 @@ children_process_remove (struct thread* t)
 {
   struct list *child_threads = &t->child_threads;
   struct list_elem *e;
+  int fd;
   for (e = list_begin (child_threads); e != list_end (child_threads);
        e = list_next (e))
     {
@@ -199,7 +200,13 @@ children_process_remove (struct thread* t)
       printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
       printf (">> children_process_remove: chld->status -> %d\n", chld->status);
       children_process_remove (chld);
+
       process_remove (chld);
+      // if (chld->running_file)
+      //   file_close (chld->running_file);
+
+      // for (fd = 2; fd <= chld->fd_max; fd++)
+      //   process_remove_file (fd);
     }
 }
 
@@ -213,8 +220,8 @@ process_exit (void)
 
   /* file allow write with souce code */
   printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
-  if (curr->running_file)
-    file_close (curr->running_file);
+  // if (curr->running_file)
+  //   file_close (curr->running_file);
   printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
 
   /* close all files */
@@ -226,7 +233,7 @@ process_exit (void)
   /* */
   children_process_remove (curr);
   printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
-  
+
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
   pd = curr->pagedir;
