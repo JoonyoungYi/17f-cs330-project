@@ -647,12 +647,12 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   size_t query_len = 0;
   size_t len = 0;
   char *token;
-  // char *query = malloc (1 * sizeof(char));
-  // int *query_lens = malloc (1 * sizeof(int));
-  char *query = palloc_get_multiple (0, 1);
-  int *query_lens = palloc_get_multiple (0, 1);
-  printf (">> init_stack: query -> 0x%x\n", query);
-  printf (">> init_stack: query_lens -> 0x%x\n", query_lens);
+  char *query = malloc (1 * sizeof(char));
+  int *query_lens = malloc (1 * sizeof(int));
+  // char *query = palloc_get_multiple (0, 1);
+  // int *query_lens = palloc_get_multiple (0, 1);
+  // printf (">> init_stack: query -> 0x%x\n", query);
+  // printf (">> init_stack: query_lens -> 0x%x\n", query_lens);
 
   // printf(">> init_stack: query -> 0x%x\n", query);
   // printf(">> init_stack: query_lens -> 0x%x\n", query_lens);
@@ -662,9 +662,9 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
     {
       // printf (">> init_stack: token -> %s\n", token);
       len = strlen (token) + 1;
-      // query = realloc (query, (query_len + len) * sizeof(char));
-      // query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
-      printf (">> init_stack: len -> %d\n", len);
+      query = realloc (query, (query_len + len) * sizeof(char));
+      query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
+      // printf (">> init_stack: len -> %d\n", len);
       memcpy (query + query_len, token, len);
       query_lens[argc] = query_len;
       query_len += len;
@@ -702,10 +702,10 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   /* free */
   // printf (">> init_stack: free query -> 0x%x\n", query);
   // printf (">> init_stack: free query_lens -> 0x%x\n", query_lens);
-  palloc_free_multiple (query, 1);
-  palloc_free_multiple (query_lens, 1);
-  // free (query);
-  // free (query_lens);
+  // palloc_free_multiple (query, 1);
+  // palloc_free_multiple (query_lens, 1);
+  free (query);
+  free (query_lens);
 
   /* push argc */
   *esp -= 4;
