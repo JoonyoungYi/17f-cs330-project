@@ -37,7 +37,7 @@ process_execute (const char *file_name)
   char *fn_copy;
   char *fn_copy_1; // file_name with new page block.
   tid_t tid;
-  printf (">> process_execute: file_name -> %s\n", file_name);
+  // printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
@@ -65,7 +65,7 @@ process_execute (const char *file_name)
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
-  printf (">> fn_copy -> 0x%x\n", fn_copy);
+  // printf (">> fn_copy -> 0x%x\n", fn_copy);
   if (tid == TID_ERROR)
     {
       palloc_free_page (fn_copy);
@@ -89,8 +89,8 @@ start_process (void *f_name)
   file_name = strtok_r (file_name, " ", &save_ptr);
   // // printf (">> start_process: save_ptr -> ");
 
-  printf (">> start_process: file_name -> %s\n", f_name);
-  printf (">> start_process: fn_copy -> 0x%x\n", f_name);
+  // printf (">> start_process: file_name -> %s\n", f_name);
+  // printf (">> start_process: fn_copy -> 0x%x\n", f_name);
 
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
@@ -201,7 +201,7 @@ children_process_remove (struct thread* t)
       printf (">> children_process_remove: chld->status -> %d\n", chld->status);
       children_process_remove (chld);
 
-      // process_remove (chld);
+      process_remove (chld);
       // if (chld->running_file)
       //   file_close (chld->running_file);
 
