@@ -196,8 +196,7 @@ children_process_remove (struct thread* t)
   struct list *child_threads = &t->child_threads;
   struct list_elem *e;
   int fd;
-  for (e = list_begin (child_threads); e != list_end (child_threads);
-       e = list_next (e))
+  for (e = list_begin (child_threads); e != list_end (child_threads);)
     {
       struct thread *chld = list_entry (e, struct thread, child_elem);
       // printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
@@ -206,6 +205,7 @@ children_process_remove (struct thread* t)
 
       // printf (">> chld -> 0x%x\n", chld);
       // process_remove (chld);
+      e = list_next (e);
       list_remove (&chld->child_elem);
 
       // if (chld->running_file)
