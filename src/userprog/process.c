@@ -197,7 +197,8 @@ children_process_remove (struct thread* t)
     {
       struct thread *chld = list_entry (e, struct thread, child_elem);
       chld->status = THREAD_DYING;
-      process_remove (chld);
+      // process_remove (chld);
+      printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
     }
 
     // if (prev != NULL && prev->status == THREAD_DYING && prev != initial_thread)
