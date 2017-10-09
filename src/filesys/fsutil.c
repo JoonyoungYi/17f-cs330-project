@@ -42,7 +42,6 @@ fsutil_cat (char **argv)
   if (file == NULL)
     PANIC ("%s: open failed", file_name);
   buffer = palloc_get_page (PAL_ASSERT);
-  printf (">>hi\n");
   for (;;)
     {
       off_t pos = file_tell (file);

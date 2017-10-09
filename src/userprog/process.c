@@ -37,7 +37,7 @@ process_execute (const char *file_name)
   char *fn_copy;
   char *fn_copy_1; // file_name with new page block.
   tid_t tid;
-  // printf (">> process_execute: file_name -> %s\n", file_name);
+  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
@@ -62,7 +62,6 @@ process_execute (const char *file_name)
   /* */
   char *save_ptr;
   file_name = strtok_r (fn_copy_1, " ", &save_ptr);
-  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
