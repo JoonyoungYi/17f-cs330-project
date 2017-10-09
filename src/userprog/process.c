@@ -521,8 +521,8 @@ done:
     }
   else
     {
-      thread_current ()->running_file = NULL;
-      file_close (file);
+      // thread_current ()->running_file = NULL;
+      // file_close (file);
     }
   fl_release ();
   return success;
