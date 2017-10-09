@@ -183,7 +183,7 @@ thread_create (const char *name, int priority,
 
   /* Allocate thread. */
   t = palloc_get_page (PAL_ZERO);
-  printf (">> thread_execute: t -> 0x%x\n", t);
+  // printf (">> thread_execute: t -> 0x%x\n", t);
   if (t == NULL)
     return TID_ERROR;
 
@@ -398,7 +398,7 @@ thread_tid (void)
 void
 thread_exit (void)
 {
-  // printf(">> thread_exit\n");
+  // printf (">> thread_exit\n");
   ASSERT (!intr_context ());
 
 #ifdef USERPROG

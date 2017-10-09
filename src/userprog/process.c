@@ -33,23 +33,23 @@ static bool load (const char *cmdline,
 tid_t
 process_execute (const char *file_name)
 {
-  printf (">> process_execute: start\n");
+  // printf (">> process_execute: start\n");
   char *fn_copy;
   char *fn_copy_1; // file_name with new page block.
   tid_t tid;
-  printf (">> process_execute: file_name -> %s\n", file_name);
+  // printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
   // printf (">> process_execute: start palloc\n");
   fn_copy = palloc_get_page (0);
-  printf (">> process_execute: fn_copy -> 0x%x\n", fn_copy);
+  // printf (">> process_execute: fn_copy -> 0x%x\n", fn_copy);
   if (fn_copy == NULL)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
 
   fn_copy_1 = palloc_get_page (0);
-  printf (">> process_execute: fn_copy_1 -> 0x%x\n", fn_copy_1);
+  // printf (">> process_execute: fn_copy_1 -> 0x%x\n", fn_copy_1);
   // printf (">> process_execute: palloc_get_page\n");
   if (fn_copy_1 == NULL)
     {
@@ -107,7 +107,7 @@ start_process (void *f_name)
 
   /* If load failed, quit. */
   palloc_free_page (f_name);
-  printf (">> start_process: f_name -> 0x%x\n", f_name);
+  // printf (">> start_process: f_name -> 0x%x\n", f_name);
   if (!success)
     thread_exit ();
 
@@ -197,8 +197,8 @@ children_process_remove (struct thread* t)
        e = list_next (e))
     {
       struct thread *chld = list_entry (e, struct thread, child_elem);
-      printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
-      printf (">> children_process_remove: chld->status -> %d\n", chld->status);
+      // printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
+      // printf (">> children_process_remove: chld->status -> %d\n", chld->status);
       children_process_remove (chld);
 
       process_remove (chld);
@@ -214,25 +214,25 @@ children_process_remove (struct thread* t)
 void
 process_exit (void)
 {
-  printf(">> process_exit: called\n");
+  // printf (">> process_exit: called\n");
   struct thread *curr = thread_current ();
   uint32_t *pd;
 
   /* file allow write with souce code */
-  // printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
+  // printf (">> process_exit: thread_current () -> 0x%x\n", thread_current ());
   // if (curr->running_file)
   //   file_close (curr->running_file);
-  // printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
+  // printf (">> process_exit: thread_current () -> 0x%x\n", thread_current ());
 
   /* close all files */
   int fd;
   for (fd = 2; fd <= curr->fd_max; fd++)
     process_remove_file (fd);
 
-  // printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
+  // printf (">> process_exit: thread_current () -> 0x%x\n", thread_current ());
   /* */
   children_process_remove (curr);
-  // printf(">> process_exit: thread_current () -> 0x%x\n", thread_current ());
+  // printf (">> process_exit: thread_current () -> 0x%x\n", thread_current ());
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
@@ -274,11 +274,11 @@ process_add_file (struct file *f)
 {
   int fd = thread_current ()->fd_max + 1;
 
-  // printf(">> process_add_file start\n");
+  // printf (">> process_add_file start\n");
   // struct thread_file *tf = malloc (sizeof (struct thread_file));
   struct thread_file *tf = palloc_get_page (0);
   // if (fd == 127 || fd <= 2)
-    // printf(">> process_add_file start: tf -> 0x%x\n", tf);
+    // printf (">> process_add_file start: tf -> 0x%x\n", tf);
   if (tf == NULL)
     return -1;
   tf->fd = fd;
@@ -321,14 +321,14 @@ thread_get_file (int fd)
 void
 process_remove_file (int fd)
 {
-  // printf(">> process_remove_file start: fd -> %d\n", fd);
+  // printf (">> process_remove_file start: fd -> %d\n", fd);
   struct thread *curr = thread_current ();
   struct thread_file *tf = get_thread_file (&curr->thread_files, fd);
   if (tf == NULL)
     return;
 
   list_remove (&tf->elem);
-  // printf(">> process_remove_file end: tf -> 0x%x\n", tf);
+  // printf (">> process_remove_file end: tf -> 0x%x\n", tf);
   palloc_free_page (tf);
 }
 
@@ -665,8 +665,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
   // printf (">> init_stack: query -> 0x%x\n", query);
   // printf (">> init_stack: query_lens -> 0x%x\n", query_lens);
 
-  // printf(">> init_stack: query -> 0x%x\n", query);
-  // printf(">> init_stack: query_lens -> 0x%x\n", query_lens);
+  // printf (">> init_stack: query -> 0x%x\n", query);
+  // printf (">> init_stack: query_lens -> 0x%x\n", query_lens);
   // printf (">> init_stack: for loop start\n");
   for (token = file_name; token != NULL;
        token = strtok_r (NULL, " ", save_ptr))

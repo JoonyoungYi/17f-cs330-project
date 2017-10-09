@@ -146,7 +146,7 @@ syscall_handler (struct intr_frame *f)
         }
       case SYS_READ:                   /* Read from a file. */
       	{
-          // printf(">> SYS_READ!!\n");
+          // printf (">> SYS_READ!!\n");
           fd = (int) read_argument (esp + 1);
           buffer = (void*) read_argument (esp + 2);
           length = (unsigned) read_argument (esp + 3);
@@ -291,7 +291,7 @@ tid_t
 exec (const char *file)
 {
   // printf (">> exec: start\n");
-  // printf(">> exec() : file -> %s\n", file);
+  // printf (">> exec() : file -> %s\n", file);
   check_ptr_validation (file);
   tid_t tid = process_execute (file);
   struct thread* chld = get_child_thread (tid);
