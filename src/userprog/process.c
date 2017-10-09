@@ -90,7 +90,7 @@ start_process (void *f_name)
   file_name = strtok_r (file_name, " ", &save_ptr);
   // // printf (">> start_process: save_ptr -> ");
 
-  printf (">> start_process: file_name -> %s\n", file_name);
+  printf (">> start_process: file_name -> %s\n", f_name);
 
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
@@ -197,8 +197,8 @@ children_process_remove (struct thread* t)
        e = list_next (e))
     {
       struct thread *chld = list_entry (e, struct thread, child_elem);
-      // printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
-      // printf (">> children_process_remove: chld->status -> %d\n", chld->status);
+      printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
+      printf (">> children_process_remove: chld->status -> %d\n", chld->status);
       children_process_remove (chld);
 
       // process_remove (chld);
