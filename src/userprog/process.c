@@ -33,23 +33,23 @@ static bool load (const char *cmdline,
 tid_t
 process_execute (const char *file_name)
 {
-  // printf (">> process_execute: start\n");
+  printf (">> process_execute: start\n");
   char *fn_copy;
   char *fn_copy_1; // file_name with new page block.
   tid_t tid;
-  // printf (">> process_execute: file_name -> %s\n", file_name);
+  printf (">> process_execute: file_name -> %s\n", file_name);
 
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
   // printf (">> process_execute: start palloc\n");
   fn_copy = palloc_get_page (0);
-  // printf (">> process_execute: fn_copy -> 0x%x\n", fn_copy);
+  printf (">> process_execute: fn_copy -> 0x%x\n", fn_copy);
   if (fn_copy == NULL)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
 
   fn_copy_1 = palloc_get_page (0);
-  // printf (">> process_execute: fn_copy_1 -> 0x%x\n", fn_copy_1);
+  printf (">> process_execute: fn_copy_1 -> 0x%x\n", fn_copy_1);
   // printf (">> process_execute: palloc_get_page\n");
   if (fn_copy_1 == NULL)
     {
@@ -107,7 +107,7 @@ start_process (void *f_name)
 
   /* If load failed, quit. */
   palloc_free_page (f_name);
-  printf (">> palloc_free_page -> 0x%x\n", f_name);
+  printf (">> start_process: f_name -> 0x%x\n", f_name);
   if (!success)
     thread_exit ();
 
