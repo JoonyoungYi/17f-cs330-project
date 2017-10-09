@@ -65,7 +65,7 @@ process_execute (const char *file_name)
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
-  // printf (">> process_execute: tid -> %d\n", tid);
+  printf (">> fn_copy -> 0x%x\n", fn_copy);
   if (tid == TID_ERROR)
     {
       palloc_free_page (fn_copy);
@@ -89,7 +89,8 @@ start_process (void *f_name)
   file_name = strtok_r (file_name, " ", &save_ptr);
   // // printf (">> start_process: save_ptr -> ");
 
-  // printf (">> start_process: file_name -> %s\n", f_name);
+  printf (">> start_process: file_name -> %s\n", f_name);
+  printf (">> start_process: fn_copy -> 0x%x\n", f_name);
 
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
