@@ -190,7 +190,7 @@ process_wait (tid_t child_tid)
 void
 children_process_remove (struct thread* t)
 {
-  ASSERT (t == thread_current ());
+  printf(">> children_process_remove: t -> 0x%x\n", t);
   struct list *child_threads = &t->child_threads;
   struct list_elem *e;
   for (e = list_begin (child_threads); e != list_end (child_threads);
@@ -201,7 +201,7 @@ children_process_remove (struct thread* t)
       printf (">> children_process_remove: chld->status -> %d\n", chld->status);
       children_process_remove (chld);
       // process_remove (chld);
-      process_wait (chld->tid);
+
     }
 }
 
