@@ -220,8 +220,8 @@ process_exit (void)
 
   /* file allow write with souce code */
   // printf (">> process_exit: thread_current () -> 0x%x\n", thread_current ());
-  // if (curr->running_file)
-  //   file_close (curr->running_file);
+  if (curr->running_file)
+    file_close (curr->running_file);
   // printf (">> process_exit: thread_current () -> 0x%x\n", thread_current ());
 
   /* close all files */
