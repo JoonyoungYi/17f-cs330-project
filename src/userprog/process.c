@@ -107,7 +107,7 @@ start_process (void *f_name)
 
   /* If load failed, quit. */
   palloc_free_page (f_name);
-  // printf (">> palloc_free_page success!\n");
+  printf (">> palloc_free_page -> 0x%x\n", f_name);
   if (!success)
     thread_exit ();
 
