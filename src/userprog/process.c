@@ -109,7 +109,7 @@ start_process (void *f_name)
   palloc_free_page (f_name);
   printf (">> start_process: f_name -> 0x%x\n", f_name);
   if (!success)
-    exit (-1);
+    thread_exit ();
 
   // hex_dump (if_.esp, if_.esp, PHYS_BASE - if_.esp, true);
 
@@ -187,18 +187,26 @@ process_wait (tid_t child_tid)
 }
 
 /* */
-// void
-// children_process_notify_die (struct thread* t)
-// {
-//   struct list *child_threads = &t->child_threads;
-//   struct list_elem *e;
-//   for (e = list_begin (child_threads); e != list_end (child_threads);
-//        e = list_next (e))
-//     {
-//       struct thread *chld = list_entry (e, struct thread, child_elem);
-//       chld->status = THREAD_DYING;
-//     }
-// }
+void
+children_process_remove (struct thread* t)
+{
+  struct list *child_threads = &t->child_threads;
+  struct list_elem *e;
+  for (e = list_begin (child_threads); e != list_end (child_threads);
+       e = list_next (e))
+    {
+      struct thread *chld = list_entry (e, struct thread, child_elem);
+      chld->status = THREAD_DYING;
+      process_remove (chld);
+    }
+
+    // if (prev != NULL && prev->status == THREAD_DYING && prev != initial_thread)
+    //   {
+    //     ASSERT (prev != curr);
+    //     printf (">> schedule_tail: %s\n", );
+    //     //
+    //   }
+}
 
 /* Free the current process's resources. */
 void
@@ -221,7 +229,7 @@ process_exit (void)
     }
 
   /* */
-  // children_process_notify_die (curr);
+  children_process_remove (curr);
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */
