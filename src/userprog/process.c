@@ -220,7 +220,7 @@ children_process_remove (struct thread* t)
       struct thread *chld = list_entry (e, struct thread, child_elem);
       // printf (">> children_process_remove: chld->exit_status -> %d\n", chld->exit_status);
       // printf (">> children_process_remove: chld->status -> %d\n", chld->status);
-      // children_process_remove (chld);
+      children_process_remove (chld);
 
       // printf (">> chld -> 0x%x\n", chld);
       // process_remove (chld);
