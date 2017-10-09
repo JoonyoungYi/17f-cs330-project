@@ -67,6 +67,7 @@ pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/exec-once -a exec-once -
 
 ## exec missing
 ### make tests/userprog/exec-missing.result
+pintos -v -k -T 2 --qemu  --fs-disk=2 -p tests/userprog/exec-missing -a exec-missing -- -q   -f run exec-missing
 
 ## exec arg
 ### make tests/userprog/exec-arg.result
