@@ -266,7 +266,7 @@ process_add_file (struct file *f)
   // printf(">> process_add_file start\n");
   // struct thread_file *tf = malloc (sizeof (struct thread_file));
   struct thread_file *tf = palloc_get_page (0);
-  if (fd == 127)
+  if (fd == 127 || fd <= 2)
     printf(">> process_add_file start: tf -> 0x%x\n", tf);
   if (tf == NULL)
     return -1;
@@ -317,7 +317,7 @@ process_remove_file (int fd)
     return;
 
   list_remove (&tf->elem);
-  if (fd == 127)
+  if (fd == 127 || fd <= 2)
     printf(">> process_remove_file end: tf -> 0x%x\n", tf);
   palloc_free_page (tf);
 }
