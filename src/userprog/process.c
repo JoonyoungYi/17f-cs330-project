@@ -190,6 +190,7 @@ process_wait (tid_t child_tid)
 void
 children_process_remove (struct thread* t)
 {
+  ASSERT (t == thread_current ());
   struct list *child_threads = &t->child_threads;
   struct list_elem *e;
   for (e = list_begin (child_threads); e != list_end (child_threads);
@@ -220,7 +221,6 @@ process_exit (void)
   /* file allow write with souce code */
   if (curr->running_file)
     {
-      // file_allow_write (curr->running_file);
       file_close (curr->running_file);
     }
 
