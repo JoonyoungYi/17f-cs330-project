@@ -705,6 +705,8 @@ init_stack (const char *file_name, char **save_ptr, void **esp)
       len = strlen (token) + 1;
       query = realloc (query, (query_len + len) * sizeof(char));
       query_lens = realloc (query_lens, (argc + 1) * sizeof(int));
+      ASSERT (query != NULL);
+      ASSERT (query_lens != NULL);
       // printf (">> init_stack: len -> %d\n", len);
       memcpy (query + query_len, token, len);
       query_lens[argc] = query_len;
