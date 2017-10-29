@@ -10,6 +10,8 @@
 void
 test_main (void)
 {
+  printf("hi\n");
+  
   char stack_obj[4096];
   struct arc4 arc4;
 
