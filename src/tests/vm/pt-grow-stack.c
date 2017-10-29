@@ -14,7 +14,10 @@ test_main (void)
   struct arc4 arc4;
 
   arc4_init (&arc4, "foobar", 6);
+  msg("1");
   memset (stack_obj, 0, sizeof stack_obj);
+  msg("2");
   arc4_crypt (&arc4, stack_obj, sizeof stack_obj);
+  msg("3");
   msg ("cksum: %lu", cksum (stack_obj, sizeof stack_obj));
 }
