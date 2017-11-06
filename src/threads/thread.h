@@ -112,6 +112,10 @@ struct thread
     struct file *running_file;          /* Added by JY. Current running file. */
 #endif
 
+#ifdef VM
+    struct spte *spte;                  /* supplemenatry page table entry */
+#endif
+
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
   };
