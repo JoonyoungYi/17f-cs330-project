@@ -113,7 +113,7 @@ struct thread
 #endif
 
 #ifdef VM
-    struct spte *spte;                  /* supplemenatry page table entry */
+    struct spt *spt;                    /* supplemenatry page table */
 #endif
 
     /* Owned by thread.c. */
