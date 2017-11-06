@@ -2,6 +2,7 @@
 #include "vm/frame.h"
 #include "vm/page.h"
 
+
 /* Initializes the vm allocator. */
 void
 frame_init (void)
@@ -18,7 +19,7 @@ frame_init (void)
    FLAGS, in which case the kernel panics.
    frame_flags equals to palloc_flags */
 void *
-frame_get_page (enum frame_flags flags)
+frame_get_page (enum palloc_flags flags)
 {
   return palloc_get_page (flags);
 }

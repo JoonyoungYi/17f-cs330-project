@@ -1,4 +1,5 @@
 #include <list.h>
+#include "threads/palloc.h"
 
 // supplemenatry page table entry
 struct frame
@@ -9,5 +10,5 @@ struct frame
   };
 
 void frame_init (void);
-void *frame_get_page (enum frame_flags flags);
+void *frame_get_page (enum palloc_flags flags);
 void frame_free_page (void *page);
