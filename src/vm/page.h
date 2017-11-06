@@ -13,7 +13,7 @@ struct spt
   {
     struct hash hash;
     struct list list;
-  }
+  };
 
 // supplemenatry page table entry
 struct spte
