@@ -1,11 +1,12 @@
 #include <list.h>
 #include "lib/kernel/hash.h"
 
-enum spte_status {
-  INITIAL,
-  ON_MEMORY,
-  ON_DISK
-};
+enum spte_status
+  {
+    INITIAL,
+    ON_MEMORY,
+    ON_DISK
+  };
 
 // supplemenatry page table
 struct spt
