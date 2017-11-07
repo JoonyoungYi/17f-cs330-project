@@ -50,16 +50,16 @@ frame_get_page (enum palloc_flags flags)
       return NULL;
     }
 
-  // struct frame *frame = malloc(sizeof(struct frame));
-  // if (frame == NULL)
-  //   {
-  //     palloc_free_page (kpage);
-  //     return NULL;
-  //   }
-  //
-  // frame->kpage = kpage;
-  // hash_insert (&frame_hash, &frame->hash_elem);
-  // // list_push_back (&frame_list, &frame->list_elem);
+  struct frame *frame = malloc(sizeof(struct frame));
+  if (frame == NULL)
+    {
+      palloc_free_page (kpage);
+      return NULL;
+    }
+
+  frame->kpage = kpage;
+  hash_insert (&frame_hash, &frame->hash_elem);
+  list_push_back (&frame_list, &frame->list_elem);
 
   return kpage;
 }
@@ -79,15 +79,15 @@ frame_lookup (const void *page)
 void
 frame_free_page (void *page)
 {
-  // struct frame *frame = frame_lookup (page);
-  // if (frame == NULL)
-  //   {
-  //     PANIC ("frame correspond to the page pointer doesn't exist.");
-  //   }
-  //
-  // hash_delete (&frame_hash, &frame->hash_elem);
-  // // list_remove (&frame->list_elem);
-  // free (frame);
+  struct frame *frame = frame_lookup (page);
+  if (frame == NULL)
+    {
+      PANIC ("frame correspond to the page pointer doesn't exist.");
+    }
+
+  hash_delete (&frame_hash, &frame->hash_elem);
+  list_remove (&frame->list_elem);
+  free (frame);
 
   palloc_free_page (page);
 }
