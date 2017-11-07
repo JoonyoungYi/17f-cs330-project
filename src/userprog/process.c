@@ -19,8 +19,9 @@
 #include "threads/thread.h"
 #include "threads/vaddr.h"
 #include "threads/palloc.h"
+#ifdef VM
 #include "vm/frame.h"
-
+#endif 
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline,

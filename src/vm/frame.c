@@ -64,6 +64,7 @@ frame_get_page (enum palloc_flags flags)
   return kpage;
 }
 
+/* */
 struct frame *
 frame_lookup (const void *page)
 {

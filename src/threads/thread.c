@@ -14,6 +14,9 @@
 #ifdef USERPROG
 #include "userprog/process.h"
 #endif
+#ifdef VM
+#include "vm/page.h"
+#endif
 
 /* Random value for struct thread's `magic' member.
    Used to detect stack overflow.  See the big comment at the top
@@ -215,6 +218,10 @@ thread_create (const char *name, int priority,
   list_init (&t->thread_files);
   t->fd_max = 1;
 
+#ifdef VM
+  t->spt = malloc (sizeof (struct spt));
+#endif
+
   /* Add to run queue. */
   thread_unblock (t);
 
@@ -403,6 +410,10 @@ thread_exit (void)
 
 #ifdef USERPROG
   process_exit ();
+#endif
+
+#ifdef VM
+  free (thread_current()->spt);
 #endif
 
   /* Just set our status to dying and schedule another process.
