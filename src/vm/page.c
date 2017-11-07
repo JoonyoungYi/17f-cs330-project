@@ -2,6 +2,7 @@
 #include "vm/frame.h"
 #include "vm/page.h"
 #include "lib/kernel/hash.h"
+#include "threads/malloc.h"
 
 /* */
 static unsigned spte_hash_func (const struct hash_elem *e_, void *aux UNUSED)
