@@ -1,5 +1,6 @@
 #include <list.h>
 #include "threads/palloc.h"
+#include "threads/malloc.h"
 #include "vm/frame.h"
 #include "vm/page.h"
 
