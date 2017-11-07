@@ -21,9 +21,9 @@ static bool spte_less_func (const struct hash_elem *a_,
 }
 
 /* */
-struct* spt page_create_spt (struct thread* t)
+struct spt* page_create_spt (struct thread* t)
 {
-  struct *spt = malloc (sizeof (struct spt));
+  struct spt *spt = malloc (sizeof (struct spt));
   if (spt == NULL)
     {
       return NULL;

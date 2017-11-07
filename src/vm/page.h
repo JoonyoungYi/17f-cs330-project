@@ -27,5 +27,5 @@ struct spte
     struct thread *thread;
   };
 
-struct* spt page_create_spt (struct thread* t);
+struct spt* page_create_spt (struct thread* t);
 void page_remove_spt (struct *spt);
