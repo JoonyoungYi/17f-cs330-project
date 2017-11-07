@@ -28,8 +28,8 @@ static bool frame_less (const struct hash_elem *a_,
 void
 frame_init (void)
 {
-  hash_init (&frame_hash, frame_hash, frame_less, NULL);
-  list_init (&frame_list);
+  // hash_init (&frame_hash, frame_hash, frame_less, NULL);
+  // list_init (&frame_list);
 }
 
 /* Obtains a single free page and returns its kernel virtual
