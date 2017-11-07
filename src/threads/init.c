@@ -92,7 +92,7 @@ main (void)
   paging_init ();
 #ifdef VM
   frame_init ();
-#else
+#endif
 
   /* Segmentation. */
 #ifdef USERPROG
