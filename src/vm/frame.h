@@ -1,5 +1,6 @@
 #include <list.h>
 #include "threads/palloc.h"
+#include "lib/kernel/hash.h"
 
 // frame entry
 struct frame
