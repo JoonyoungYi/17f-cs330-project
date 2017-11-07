@@ -29,7 +29,7 @@ void
 frame_init (void)
 {
   // hash_init (&frame_hash, frame_hash, frame_less, NULL);
-  // list_init (&frame_list);
+  list_init (&frame_list);
 }
 
 /* Obtains a single free page and returns its kernel virtual
