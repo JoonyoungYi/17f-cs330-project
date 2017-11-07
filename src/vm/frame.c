@@ -28,8 +28,8 @@ static bool frame_less (const struct hash_elem *a_,
 void
 frame_init (void)
 {
-  // hash_init (&frame_hash, frame_hash, frame_less, NULL);
-  // list_init (&frame_list);
+  hash_init (&frame_hash, frame_hash, frame_less, NULL);
+  list_init (&frame_list);
 }
 
 /* Obtains a single free page and returns its kernel virtual
@@ -44,12 +44,12 @@ void *
 frame_get_page (enum palloc_flags flags)
 {
   void* kpage = palloc_get_page (flags);
-  // if (kpage == NULL)
-  //   {
-  //     //TODO: swapping
-  //     return NULL;
-  //   }
-  //
+  if (kpage == NULL)
+    {
+      //TODO: swapping
+      return NULL;
+    }
+
   // struct frame *frame = malloc(sizeof(struct frame));
   // if (frame == NULL)
   //   {
