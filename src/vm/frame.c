@@ -30,7 +30,6 @@ frame_init (void)
 {
   hash_init (&frame_hash, frame_hash, frame_less, NULL);
   list_init (&frame_list);
-  palloc_init ();
 }
 
 /* Obtains a single free page and returns its kernel virtual
