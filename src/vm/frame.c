@@ -4,20 +4,20 @@
 #include "vm/frame.h"
 #include "vm/page.h"
 
-static struct hash frams_hash;
+static struct hash frame_hash;
 static struct list frame_list;
 
 /* */
-static unsigned frame_hash (const struct hash_elem *f_, void *aux UNUSED)
+static unsigned frame_hash_func (const struct hash_elem *f_, void *aux UNUSED)
 {
   const struct frame *f = hash_entry (f_, struct frame, hash_elem);
   return hash_bytes (&f->kpage, sizeof f->kpage);
 }
 
 /* */
-static bool frame_less (const struct hash_elem *a_,
-                        const struct hash_elem *b_,
-                        void *aux UNUSED)
+static bool frame_less_func (const struct hash_elem *a_,
+                             const struct hash_elem *b_,
+                             void *aux UNUSED)
 {
   const struct frame *a = hash_entry (a_, struct frame, hash_elem);
   const struct frame *b = hash_entry (b_, struct frame, hash_elem);
@@ -28,7 +28,7 @@ static bool frame_less (const struct hash_elem *a_,
 void
 frame_init (void)
 {
-  // hash_init (&frame_hash, frame_hash, frame_less, NULL);
+  hash_init (&frame_hash, frame_hash_func, frame_less_func, NULL);
   list_init (&frame_list);
 }
 
