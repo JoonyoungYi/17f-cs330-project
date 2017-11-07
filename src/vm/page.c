@@ -21,7 +21,7 @@ static bool spte_less_func (const struct hash_elem *a_,
 }
 
 /* */
-struct spt* page_create_spt (struct thread* t)
+struct spt* page_create_spt ()
 {
   struct spt *spt = malloc (sizeof (struct spt));
   if (spt == NULL)
@@ -31,7 +31,6 @@ struct spt* page_create_spt (struct thread* t)
 
   hash_init (&spt->hash, spte_hash_func, spte_less_func, NULL);
   list_init (&spt->list);
-  spt->thread = t;
   return spt;
 }
 

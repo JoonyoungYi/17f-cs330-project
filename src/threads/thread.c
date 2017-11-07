@@ -219,7 +219,7 @@ thread_create (const char *name, int priority,
   t->fd_max = 1;
 
 #ifdef VM
-  t->spt = page_create_spt (t);
+  t->spt = page_create_spt ();
 #endif
 
   /* Add to run queue. */
