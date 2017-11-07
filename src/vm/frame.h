@@ -1,12 +1,13 @@
 #include <list.h>
 #include "threads/palloc.h"
 
-// supplemenatry page table entry
+// frame entry
 struct frame
   {
     void *kpage;
     struct spte *spte;
     struct list_elem list_elem;
+    struct hash_elem hash_elem;
   };
 
 void frame_init (void);
