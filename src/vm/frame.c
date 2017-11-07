@@ -8,16 +8,16 @@ static struct hash frams_hash;
 static struct list frame_list;
 
 /* */
-unsigned frame_hash (const struct hash_elem *f_, void *aux UNUSED)
+static unsigned frame_hash (const struct hash_elem *f_, void *aux UNUSED)
 {
   const struct frame *f = hash_entry (f_, struct frame, hash_elem);
   return hash_bytes (&f->kpage, sizeof f->kpage);
 }
 
 /* */
-bool frame_less (const struct hash_elem *a_,
-                 const struct hash_elem *b_,
-                 void *aux UNUSED)
+static bool frame_less (const struct hash_elem *a_,
+                        const struct hash_elem *b_,
+                        void *aux UNUSED)
 {
   const struct frame *a = hash_entry (a_, struct frame, hash_elem);
   const struct frame *b = hash_entry (b_, struct frame, hash_elem);
@@ -29,7 +29,7 @@ void
 frame_init (void)
 {
   hash_init (&frame_hash, frame_hash, frame_less, NULL);
-  list_init (&frame_list);
+  // list_init (&frame_list);
 }
 
 /* Obtains a single free page and returns its kernel virtual
@@ -59,7 +59,7 @@ frame_get_page (enum palloc_flags flags)
 
   frame->kpage = kpage;
   hash_insert (&frame_hash, &frame->hash_elem);
-  list_push_back (&frame_list, &frame->list_elem);
+  // list_push_back (&frame_list, &frame->list_elem);
 
   return kpage;
 }
@@ -86,7 +86,7 @@ frame_free_page (void *page)
     }
 
   hash_delete (&frame_hash, &frame->hash_elem);
-  list_remove (&frame->list_elem);
+  // list_remove (&frame->list_elem);
   free (frame);
 
   palloc_free_page (page);
