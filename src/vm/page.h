@@ -20,8 +20,12 @@ struct spte
   {
     void* upage;
     void* kpage;
-    struct hash_elem elem;
+    struct hash_elem hash_elem;
+    struct list_elem list_elem;
     enum spte_status status;
     bool dirty;
     struct thread *thread;
   };
+
+struct* spt page_create_spt (struct thread* t);
+void page_remove_spt (struct *spt);

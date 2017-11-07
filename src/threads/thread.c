@@ -219,7 +219,7 @@ thread_create (const char *name, int priority,
   t->fd_max = 1;
 
 #ifdef VM
-  t->spt = malloc (sizeof (struct spt));
+  t->spt = page_create_spt (t);
 #endif
 
   /* Add to run queue. */
@@ -413,7 +413,7 @@ thread_exit (void)
 #endif
 
 #ifdef VM
-  free (thread_current()->spt);
+  page_remove_spt (thread_current()->spt);
 #endif
 
   /* Just set our status to dying and schedule another process.
